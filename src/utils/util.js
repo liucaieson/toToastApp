@@ -1,0 +1,182 @@
+import moment from 'moment';
+
+moment.locale('zh-cn');
+
+// 数组扁平化成list，不保存ids
+export const normalizeData = (data, schema) => {
+  let kvObj = {};
+  let ids = [];
+  if (Array.isArray(data)) {
+    data.forEach(item => {
+      kvObj[item[schema]] = item;
+      ids.push(item[schema]);
+    });
+  } else {
+    kvObj[data[schema]] = data;
+    ids.push(data[schema]);
+  }
+  return kvObj;
+};
+
+export const getQueryString = (name) => {
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  let r = window.location.search.substr(1).match(reg);
+  //获取url中"?"符后的字符串并正则匹配
+  let context = '';
+  if (r != null) {context = r[2]}
+  return (context === null || context === '' || context === undefined) ? undefined : context;
+};
+
+/* 对数组排列组合 */
+export const groupSplit = (arr, size) => {
+  var r = []; //result
+
+  function _(t, a, n) { //tempArr, arr, num
+    if (n === 0) {
+      r[r.length] = t;
+      return;
+    }
+    for (var i = 0, l = a.length - n; i <= l; i++) {
+      var b = t.slice();
+      b.push(a[i]);
+      _(b, a.slice(i + 1), n - 1);
+    }
+  }
+
+  _([], arr, size);
+  return r;
+};
+
+export const dishNameMap = {
+  '1': '主胜',
+  '11': '主主',
+  '1X': '主和',
+  '12': '主客',
+  '2': '客胜',
+  '21': '客主',
+  '2X': '客和',
+  'X2': '和客',
+  'X1': '和主',
+  '22': '客客',
+  'X': '和',
+  'XX': '和和',
+  'Over': '大',
+  'Under': '小',
+  'Exactly': '等',
+  'Home': '主',
+  'Away': '客',
+  'Even': '双',
+  'Odd': '单',
+  '1-0': '1-0',
+  '0-0': '0-0',
+  '0-1': '0-1',
+  '0-2': '0-2',
+  '0-3': '0-3',
+  '0-4': '0-4',
+  '0-5': '0-5',
+  '0-6': '0-6',
+  '0-7': '0-7',
+  '0-8': '0-8',
+  '0-9': '0-9',
+  '1-1': '1-1',
+  '1-2': '1-2',
+  '1-3': '1-3',
+  '1-4': '1-4',
+  '1-5': '1-5',
+  '1-6': '1-6',
+  '1-7': '1-7',
+  '1-8': '1-8',
+  '1-9': '1-9',
+  '1-10': '1-10',
+  '1-11': '1-11',
+  '1-12': '1-12',
+  '2-0': '2-0',
+  '2-1': '2-1',
+  '2-2': '2-2',
+  '2-3': '2-3',
+  '2-4': '2-4',
+  '2-5': '2-5',
+  '2-6': '2-6',
+  '2-7': '2-7',
+  '2-8': '2-8',
+  '2-9': '2-9',
+  '3-0': '3-0',
+  '3-1': '3-1',
+  '3-3': '3-3',
+  '3-2': '3-2',
+  '3-4': '3-4',
+  '3-5': '3-5',
+  '3-6': '3-6',
+  '3-7': '3-7',
+  '3-8': '3-8',
+  '4-0': '4-0',
+  '4-1': '4-1',
+  '4-2': '4-2',
+  '4-3': '4-3',
+  '4-4': '4-4',
+  '4-5': '4-5',
+  '4-6': '4-6',
+  '4-7': '4-7',
+  '5-0': '5-0',
+  '5-1': '5-1',
+  '5-2': '5-2',
+  '5-3': '5-3',
+  '5-4': '5-4',
+  '5-5': '5-5',
+  '5-6': '5-6',
+  '5-7': '5-7',
+  '6-0': '6-0',
+  '6-1': '6-1',
+  '6-2': '6-2',
+  '6-3': '6-3',
+  '6-4': '6-4',
+  '6-5': '6-5',
+  '6-6': '6-6',
+  '7-0': '7-0',
+  '7-1': '7-1',
+  '7-2': '7-2',
+  '7-3': '7-3',
+  '7-4': '7-4',
+  '7-5': '7-5',
+  '8-0': '8-0',
+  '8-1': '8-1',
+  '8-2': '8-2',
+  '8-3': '8-3',
+  '8-4': '8-4',
+  '9-0': '9-0',
+  '9-1': '9-1',
+  '9-2': '9-2',
+  '9-3': '9-3',
+  '10-0': '10-0',
+  '10-1': '10-1',
+  '11-0': '11-0',
+  '11-1': '11-1',
+  '12-0': '12-0',
+  '12-1': '12-1',
+  '13-0': '13-0',
+  '13-1': '13-1',
+  '14-0': '14-0',
+  '15-0': '14-0',
+  '16-0': '14-0',
+  '17-0': '14-0',
+  '18-0': '14-0',
+  '19-0': '14-0',
+
+
+};
+
+export const calcDate2 = (date) => {
+  const cacheDate = moment(date.substring(0, 8), 'YYYYMMDD');
+  const time = cacheDate.format('YYYY年MM月DD日  星期dd');
+  const day = date.substring(8, 10) + ':' + date.substring(10, 12);
+  return time + ' ' + day;
+};
+
+export const calcDateToMonthAndDay = (date) => {
+  let str1 =  date.substring(4, 6) + '-' + date.substring(6, 8)
+  let str2 =   date.substring(8, 10) + ':' +date.substring(10, 12)
+  let str3 = str1 + '<br/>' + str2;
+  return <div dangerouslySetInnerHTML={{__html:str3}} />
+
+};
+

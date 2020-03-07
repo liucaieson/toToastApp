@@ -1,0 +1,19 @@
+@import "../../../../../../styles/common";
+@import "../../../../../../styles/utils";
+
+.dish{
+  font-weight: 600;
+  color: $odds-fz-color;
+  line-height: 1.8;
+  border-radius: 2px;
+  padding: 1px 4px;
+  cursor: pointer;
+  &:hover{
+    background-color: $active-color1;
+    color: $active1-fz;
+  }
+}
+.active{
+  background-color: $active-color1;
+  color: $active1-fz;
+}

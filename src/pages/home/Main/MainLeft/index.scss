@@ -1,0 +1,30 @@
+@import "../../../../styles/common";
+.main-left-box{
+  width: 200px;
+  position: relative;
+  float: left;
+  font-size: 12px;
+  height: 100%;
+  background-color: $main-header-color;
+  .tabs-header{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .tab{
+      width: 33.3333%;
+      line-height: 40px;
+      background-color: $menu-tab-bg-color;
+      color: $menu-tab-fz-color;
+      text-align: center;
+      cursor: pointer;
+      &:hover{
+        color: $menu-header-active-color!important;
+      }
+    }
+    .active{
+      color: $menu-header-active-color!important;
+    }
+  }
+}

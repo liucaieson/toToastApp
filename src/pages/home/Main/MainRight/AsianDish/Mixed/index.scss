@@ -1,0 +1,98 @@
+@import "../../../../../../styles/common";
+@import "../../../../../../styles/utils";
+.mixed {
+  .header{
+    @include game-header();
+  }
+  .date-select{
+    @include game-date();
+  }
+  .match-box{
+    border: 1px solid $border-color1;
+    background-color: $bg-color;
+    .table{
+      @include game-table();
+    }
+    .match{
+      background-color: white;
+      height: calc(100vh - 184px);
+      @include scrollBar();
+      .competitions-name{
+        @include competition-layout();
+        .arrow{
+          text-align: center;
+        }
+        .name{
+          padding-left: 10px;
+        }
+      }
+      .match-info{
+        width: 100%;
+        background-color: white;
+        color: #232323;
+        font-size: 12px;
+        .match-line-box{
+          background-color: white;
+          &:nth-child(even){
+            background-color:$match-line-even;
+          }
+          .match-line{
+            line-height: 26px;
+            height: $height7;
+            text-align: center;
+            font-size: 12px;
+            .match-time{
+              padding-top: 20px;
+              height: $height7;
+              border-right: 1px solid $border-color2;
+            }
+            .match-team{
+              padding-left: 10px;
+              height: $height7;
+              text-align: left;
+              border-right: 1px solid $border-color2;
+            }
+            .match-odds{
+              text-align: center;
+              height: $height7;
+              border-right: 1px solid $border-color2;
+              .match-odds-list{
+                position: relative;
+                .home-item{
+                  @include match-odds-layout();
+                }
+                .away-item{
+                  top: 25px;
+                  @include match-odds-layout();
+                }
+                .pie-item{
+                  top: 50px;
+                  @include match-odds-layout();
+                }
+              }
+            }
+          }
+          .play-btn{
+            position: relative;
+            width: 100%;
+            top: -24px;
+            height: 0;
+            .btn{
+              margin: 0 auto;
+              font-size: 12px;
+              width: 80px;
+              height: 24px;
+              line-height: 22px;
+              border: 1px solid;
+              color: $btn-color;
+              border-radius: 10px;
+              text-align: center;
+              cursor: pointer;
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

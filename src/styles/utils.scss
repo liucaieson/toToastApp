@@ -1,0 +1,177 @@
+$pageWith:375;
+$pageHeight: 667;
+
+
+
+@mixin textOverflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+@mixin loading {
+  text-align: center;
+  height: 90px;
+  line-height: 90px;
+  width: 100%;
+  color: #315e51;
+  background-color: #fff;
+}
+
+@mixin scrollBar{
+  overflow: -moz-scrollbars-none;
+  overflow-y:overlay;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width:4px;
+    height:4px;
+    background-color:#F5F5F5;
+  }
+  &::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius:4px;
+    background-color:#F5F5F5;
+  }
+  &::-webkit-scrollbar-thumb
+  {
+    border-radius:4px;
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+    background-color:#555;
+  }
+}
+
+@mixin up($right:3px , $top: 2px){
+  width: 11px;
+  height: 10px;
+  background-image: url("@/assets/liebiao-zhang.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: $right;
+  top: $top;
+  color: #FF1E1E;
+  opacity: 0;
+  -webkit-animation: flash 1s linear 7 alternate;
+  animation: flash 1s linear 7 alternate;
+}
+@mixin down($right:3px , $top: 2px){
+  width: 11px;
+  height: 10px;
+  background-image: url("@/assets/liebiao-jiang.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: $right;
+  top: $top;
+  color: #27ff33;
+  opacity: 0;
+  -webkit-animation: flash 1s linear 7 alternate;
+  animation: flash 1s linear 7 alternate;
+}
+
+@function px2vw($px) {
+  @return $px / $pageWith * 100vw;
+}
+
+@function px2vh($px) {
+  @return $px / $pageHeight * 100vh;
+}
+
+@mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount;
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: $bgColor;
+  }
+}
+
+
+@mixin textOverflowMulti($line: 3, $bg: #fff) {
+  position: relative;
+  max-height: $line * 1.5em;
+  margin-right: -1em;
+  padding-right: 1em;
+  overflow: hidden;
+  line-height: 1.5em;
+  text-align: justify;
+  &:before{
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  padding: 0 1px;
+  background: $bg;
+  content: '...';
+  }
+  &:after {
+    position: absolute;
+    right: 14px;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: white;
+    content: '';
+  }
+}
+// mixins for clearfix
+// ------------------------
+@mixin clearfix {
+  zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: ' ';
+  }
+  &:after {
+    clear: both;
+    height: 0;
+    font-size: 0;
+    visibility: hidden;
+  }
+}
+
+/*换行*/
+@mixin wrapBreak {
+  &:after {
+    content: '\A';
+    white-space: pre;
+  }
+}
+
+@mixin borderCommon {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 200%;
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+  pointer-events: none; /* 防止点击触发 */
+  box-sizing: border-box;
+}
+
+
+
+
+

@@ -1,0 +1,88 @@
+@import "../../../../styles/common";
+.menuColumn{
+  width: 100%;
+  .inPlay-list{
+    color: $menu-header-fz-color;
+    .item{
+      color: $menu-content-fz-color;
+      background-color: $menu-content-color;
+      height: 32px;
+      line-height: 32px;
+      cursor: pointer;
+      :hover{
+        color: $menu-content-active-color;
+      }
+      &.active{
+        color: $menu-content-active-color;
+      }
+      .left{
+        float: left;
+        margin-left: 16px;
+      }
+      .right{
+        float: right;
+        margin-right: 10px;
+      }
+    }
+  }
+  .dish-list{
+    width: 100%;
+    background-color: $menu-content-color;
+    .item{
+      color: #232324;
+      height: 30px;
+      line-height: 30px;
+      cursor: pointer;
+      :hover{
+        color: $menu-content-active-color;
+      }
+      &.active{
+        color: $menu-content-active-color;
+      }
+      .left{
+        float: left;
+        margin-left: 16px;
+      }
+      .right{
+        float: right;
+        margin-right: 10px;
+      }
+    }
+  }
+  .dish-load{
+    width: 100%;
+    height: 200px;
+  }
+  .gg-box{
+    width: 100%;
+    height: 36px;
+    color: $menu-header-fz-color;
+    background-color: $menu-header-bg-color;
+    position: relative;
+    .left{
+      float: left;
+      line-height: 36px;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+  }
+  .gg-tab{
+    width: 100%;
+    height: 34px;
+    color: $menu-tab-fz-color;
+    background-color: $menu-header-bg-color;
+    .item{
+      float: left;
+      text-align: center;
+      width: 33.3333%;
+      line-height: 34px;
+      cursor: pointer;
+      &:hover{
+        color: $menu-header-active-color!important;
+      }
+    }
+    .active{
+      color: $menu-header-active-color
+    }
+  }
+}

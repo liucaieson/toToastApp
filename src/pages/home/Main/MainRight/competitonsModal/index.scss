@@ -1,0 +1,71 @@
+@import "../../../../../styles/common";
+@import "../../../../../styles/utils";
+.box{
+  width: 100%;
+  margin: 0 auto;
+  .submit-line{
+    width: 100%;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    .submit{
+      float: left;
+      width: 50px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 12px;
+      text-align: center;
+      color: white;
+      background-color: $active-color3;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .cancel{
+      float: left;
+      width: 50px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 12px;
+      text-align: center;
+      color: white;
+      background-color: $line-bg2;
+      border-radius: 12px;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+  }
+  .area-box{
+    width: 100%;
+    @include clearfix();
+    .area-name{
+      width: 100%;
+      height: 29px;
+      line-height: 28px;
+      padding-left: 26px;
+      color: white;
+      font-size: 13px;
+      background-color: $line-bg2;
+      border-bottom: 1px solid $line-bg3;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      flex-direction: row;
+      .arrow{
+
+      }
+      .name{
+        margin-left: 10px;
+      }
+    }
+    .list-item{
+      background-color: $modal-bg;
+      float: left;
+      width: 47%;
+      padding-left: 40px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      @include clearfix();
+    }
+  }
+
+}

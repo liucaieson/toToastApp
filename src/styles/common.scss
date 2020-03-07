@@ -1,0 +1,657 @@
+@import "./theme4.scss";
+@import "./utils";
+
+@mixin loading {
+  text-align: center;
+  height: 90px;
+  line-height: 90px;
+  width: 100%;
+  color: #315e51;
+  background-color: #fff;
+}
+/*1 让分栏目比赛赔率布局*/
+@mixin pointSpread-matchInfo-layout {
+  width: 100%;
+  color: #232323;
+  .match-line-box {
+    &:nth-child(even) {
+      background-color: $match-line-even;
+    }
+    .match-line {
+      line-height: 22px;
+      font-size: 12px;
+      height: $height7;
+      .match-time {
+        height: $height7;
+        padding-top: 20px;
+        text-align: center;
+        border-right: 1px solid $match-cell-border;
+      }
+      .match-team {
+        padding-top: 6px;
+        height: $height7;
+        padding-left: 10px;
+        border-right: 1px solid $match-cell-border;
+      }
+      .match-odds {
+        text-align: center;
+        border-right: 1px solid $match-cell-border;
+        height: $height7;
+        padding-top: 3px;
+        .match-odds-list {
+          position: relative;
+          .home-item {
+            @include match-odds-layout();
+          }
+          .away-item {
+            top: 25px;
+            @include match-odds-layout();
+          }
+          .pie-item {
+            top: 50px;
+            @include match-odds-layout();
+          }
+        }
+      }
+    }
+    .play-btn {
+      position: relative;
+      width: 100%;
+      top: -25px;
+      height: 0;
+      .btn {
+        cursor: pointer;
+        margin: 0 auto;
+        font-size: 12px;
+        width: 80px;
+        height: 24px;
+        line-height: 20px;
+        border: 1px solid;
+        color: $btn-color;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .all-odds-box {
+        background-color: $bg-color;
+        @include clearfix();
+        .loading {
+          text-align: center;
+          height: 50px;
+          line-height: 50px;
+          width: 100%;
+          color: #fcf7ed;
+          float: left;
+          margin: 4px;
+        }
+        .single-odds {
+          float: left;
+          margin: 4px;
+          @include clearfix();
+          .oddsName {
+            background-color: $bg-color2;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+            color: white;
+            padding-left: 10px;
+            @include clearfix();
+          }
+          .oddsDish {
+            float: left;
+            background-color: white;
+            @include clearfix();
+            .dish-box {
+              width: 102px;
+              float: left;
+              text-align: center;
+              @include clearfix();
+              .dishName {
+                line-height: 30px;
+                text-align: center;
+                font-size: 13px;
+                border-right: 1px solid $match-cell-border;
+                border-bottom: 1px solid $match-cell-border;
+                font-weight: 700;
+                overflow: hidden;
+                background-color: $bg-color3;
+                .choicehandicap {
+                  padding-left: 2px;
+                }
+              }
+              .dish {
+                line-height: 30px;
+                padding: 0 10px;
+                font-size: 12px;
+                border-right: 1px solid $match-cell-border;
+                border-bottom: 1px solid $match-cell-border;
+                cursor: pointer;
+                &:hover {
+                  background-color: $active-color2;
+                }
+              }
+              .active {
+                background-color: $active-color1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/*2 全场半场单双布局 */
+@mixin totalResult-matchInfo-layout{
+  width: 100%;
+  background-color: white;
+  color: #232323;
+  .match-line-box{
+    background-color: white;
+    &:nth-child(even){
+      background-color:#fcf7ed;
+    }
+    .match-line{
+      line-height: 22px;
+      font-size: 12px;
+      height: $height1;
+      .match-time{
+        padding-top: 4px;
+        text-align: center;
+        height: $height1;
+        border-right: 1px solid $match-cell-border;
+      }
+      .match-team{
+        padding-left: 10px;
+        margin-top: 4px;
+      }
+      .match-odds{
+        text-align: center;
+        height: $height1;
+        border-right: 1px solid $match-cell-border;
+        border-left: 1px solid $match-cell-border ;
+        &:nth-child(even){
+          border-left:0 solid transparent ;
+        }
+        .match-odds-list{
+          height: $height1;
+          padding-top: 10px;
+          border-left: 1px solid $match-cell-border;
+          &:nth-child(1){
+            border-left: none;
+          }
+          .odds{
+            color: $odds-fz-color;
+            text-align: center;
+            line-height: 1.8;
+            margin: 0 auto;
+            border-radius: 2px;
+            cursor: pointer;
+            padding: 0 6px;
+            font-weight: 600;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/* 3全场半场进球布局 */
+@mixin totalOver-matchInfo-layout{
+  width: 100%;
+  background-color: white;
+  color: #232323;
+  .match-line-box{
+    background-color: white;
+    &:nth-child(even){
+      background-color:$match-line-even;
+    }
+    .match-line{
+      line-height: 20px;
+      font-size: 12px;
+      height: $height1;
+      .match-time{
+        text-align: center;
+        margin-top: 6px;
+      }
+      .match-team{
+        padding-left: 10px;
+        padding-top: 6px;
+        height: $height1;
+        border-left: 1px solid $match-cell-border;
+      }
+      .match-odds{
+        text-align: center;
+        height: $height1;
+        border-right: 1px solid  $match-cell-border;
+        border-left: 1px solid  $match-cell-border;
+        &:nth-child(even){
+          border-left:0 solid transparent;
+        }
+        .odds-item{
+          height: $height1;
+          line-height: 50px;
+          font-size: 12px;
+          &:nth-child(1){
+            border-left: none;
+          }
+          .odds{
+            font-weight: 600;
+            color: $odds-fz-color;
+            text-align: center;
+            line-height: 1.8;
+            margin: 0 auto;
+            border-radius: 2px;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 1px 3px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/* 4双重机会赔率布局 */
+@mixin double-matchInfo-layout {
+  width: 100%;
+  color: #232323;
+  .match-line-box {
+    background-color: white;
+    &:nth-child(even) {
+      background-color: $match-line-even;
+    }
+    .match-line {
+      line-height: 22px;
+      font-size: 12px;
+      height: $height1;
+      .match-time {
+        padding-top: 2px;
+        height: $height1;
+        text-align: center;
+        border-right: 1px solid $match-cell-border;
+      }
+      .match-team {
+        padding-top: 2px;
+        height: $height1;
+        padding-left: 10px;
+        border-right: 1px solid $match-cell-border;
+      }
+      .match-odds {
+        height: $height1;
+        text-align: center;
+        border-right: 1px solid $match-cell-border;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:last-child {
+          border-left: none;
+        }
+        .match-odds-item {
+          height: $height1;
+          padding-top: 2px;
+          width: 33.33333%;
+          .odds {
+            display: block;
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/* 5波胆的布局 */
+@mixin correctScore-matchInfo-layout{
+  width: 100%;
+  background-color: white;
+  color: #232323;
+  .match-line-box{
+    background-color: white;
+    .match-line{
+      @include competition-layout();
+      .match-time{
+        text-align: center;
+        .left{
+
+        }
+        .right{
+          margin-left: 6px;
+        }
+      }
+      .match-team{
+        padding-left: 100px;
+      }
+    }
+    .match-odds{
+      text-align: center;
+      overflow: hidden;
+      &:last-child{
+        border-left: none;
+      }
+      .match-odds-item{
+        height: 66px;
+        width: 10%;
+        float: left;
+        @include clearfix;
+        .name{
+          width: 100%;
+          height: 34px;
+          line-height: 34px;
+          font-size: 12px;
+          border-bottom: 1px solid $match-cell-border;
+          border-right: 1px solid $match-cell-border;
+          color: #232323;
+          background-color: $bg-color3;
+        }
+        .odds{
+          width: 100%;
+          height: 32px;
+          font-size: 13px;
+          border-bottom: 1px solid $match-cell-border;
+          border-right: 1px solid $match-cell-border;
+        }
+      }
+    }
+  }
+}
+
+/* 6半场全场的布局 */
+@mixin doubleResult-matchInfo-layout{
+  width: 100%;
+  background-color: white;
+  color: #232323;
+  .match-line-box{
+    background-color: white;
+    &:nth-child(even){
+      background-color:$match-line-even;
+    }
+    .match-line{
+      line-height: 22px;
+      font-size: 12px;
+      height: $height4;
+      .match-time{
+        text-align: center;
+        margin-top: 6px;
+      }
+      .match-team{
+        padding-left: 10px;
+        padding-top: 6px;
+        height: $height4;
+        border-left: 1px solid $match-cell-border;
+      }
+      .match-odds{
+        height: $height4;
+        box-sizing: border-box;
+        float: left;
+        text-align: center;
+        flex: 0 0 auto;
+        width: 11.11111%;
+        border-left: 1px solid $match-cell-border;
+        &:last-child{
+          border-right: 1px solid $match-cell-border;
+        }
+        .item{
+          display: block;
+          font-size: 13px;
+          width: 50%;
+          margin: 0 auto;
+          margin-top: 16px;
+          cursor: pointer;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+/* 7最先进球/最后进球 */
+@mixin firstGoal-matchInfo-layout{
+  width: 100%;
+  background-color: white;
+  color: #232323;
+  .match-line-box{
+    background-color: white;
+    &:nth-child(even){
+      background-color:$match-line-even;
+    }
+    .match-line{
+      line-height: 22px;
+      font-size: 12px;
+      height: $height1;
+      .match-time{
+        text-align: center;
+        margin-top: 2px;
+      }
+      .match-team{
+        padding-left: 10px;
+        padding-top: 2px;
+        height: $height1;
+        border-left: 1px solid $match-cell-border;
+        border-right: 1px solid $match-cell-border;
+      }
+      .match-odds{
+        height: $height1;
+        box-sizing: border-box;
+        text-align: center;
+        border-right: 1px solid $match-cell-border;
+        .item{
+          height: $height1;
+          margin: 0 auto;
+          cursor: pointer;
+          text-align: center;
+          padding-top: 12px;
+          .odds{
+            color: $odds-fz-color;
+            font-size: 13px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/* 第一个玩法让球的赔率分区的布局 */
+@mixin match-odds-layout {
+  width: 100%;
+  position: absolute;
+  .handicap {
+    float: left;
+    margin-left: 8px;
+    font-size: 12px;
+    color: #686767;
+  }
+  .odds {
+    cursor: pointer;
+    display: block;
+    float: right;
+    margin-right: 2px;
+    text-align: right;
+    font-size: 12px;
+    position: relative;
+  }
+}
+
+/* 比赛游戏顶部table,date布局 */
+@mixin game-date {
+  width: 100%;
+  height: 30px;
+  background-color: $game-date-bg-color;
+  color: $game-date-fz-color;
+  margin-top: 2px;
+  .item {
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    line-height: 30px;
+    &:hover{
+      color: $active-color2;
+    }
+    &.active {
+      color: $active-color2;
+    }
+  }
+}
+
+@mixin game-table {
+  text-align: center;
+  height: 60px;
+  color: $game-table-fz-color;
+  font-size: 13px;
+  border-bottom: 1px solid $game-table-border-color;
+  background-color: $game-table-bg-color;
+  .big-tb {
+    height: 60px;
+    line-height: 60px;
+    border-right: 1px solid $game-table-border-color;
+    margin-right: -1px;
+  }
+  .middle-tb {
+    height: 60px;
+    border-right: 1px solid $game-table-border-color;
+    margin-right: -1px;
+    .cell-th {
+      height: 30px;
+      line-height: 30px;
+      border-bottom: 1px solid $game-table-border-color;
+    }
+    .cell {
+      height: 30px;
+      line-height: 30px;
+      border-right: 1px solid $game-table-border-color;
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+}
+
+/* 双重机会布局特殊单独拿出来 */
+@mixin game-table-doubleResult{
+  text-align: center;
+  height: 30px;
+  color: $game-table-fz-color;
+  font-size: 13px;
+  border-bottom: 1px solid $game-table-border-color;
+  background-color: $game-table-bg-color;
+  .big-tb{
+    height: 30px;
+    line-height: 30px;
+    border-right: 1px solid $game-table-border-color;
+    margin-right: -1px;
+    .cell{
+      height: 30px;
+      line-height: 30px;
+      box-sizing: border-box;
+      float: left;
+      flex: 0 0 auto;
+      width: 11.11111%;
+      border-right: 1px solid $game-table-border-color;
+      &:last-child{
+        border: none;
+      }
+    }
+  }
+}
+
+/* 玩法界面的header */
+@mixin game-header {
+  width: 100%;
+  background-color: $main-header-color;
+  height: $header-height1;
+  .name {
+    float: left;
+    font-size: 14px;
+    line-height: 40px;
+    margin-left: 30px;
+    font-weight: bold;
+    color: white;
+  }
+  .mixed {
+    float: right;
+    font-size: 12px;
+    width: 60px;
+    height: 24px;
+    line-height: 22px;
+    color: white;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-right: 10px;
+    text-align: center;
+    margin-top: 8px;
+    cursor: pointer;
+    &:hover{
+      background-color: $bg-color2;
+    }
+  }
+  .competitions-select {
+    float: right;
+    font-size: 12px;
+    width: 60px;
+    height: 24px;
+    line-height: 22px;
+    text-align: center;
+    color: white;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-right: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+    &:hover{
+      background-color: $bg-color2;
+    }
+  }
+  .refresh {
+    float: right;
+    font-size: 12px;
+    width: 50px;
+    height: 24px;
+    line-height: 22px;
+    text-align: center;
+    color: white;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-right: 10px;
+    margin-top: 8px;
+    .icon {
+      font-size: 12px;
+      vertical-align: baseline;
+    }
+    .time {
+      padding-left: 4px;
+      vertical-align: top;
+    }
+  }
+}
+
+@mixin noMatch {
+  text-align: center;
+  height: 90px;
+  line-height: 90px;
+  width: 100%;
+  color: #315e51;
+  background-color: #fff;
+}
+
+/* 联赛行的布局 */
+@mixin competition-layout {
+  line-height: 30px;
+  font-size: 12px;
+  color: $competition-fz-color;
+  width: 100%;
+  background-color: $competition-color;
+  border-bottom: 1px solid $competition-fz-border;
+}
+
+
