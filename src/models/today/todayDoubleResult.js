@@ -16,12 +16,9 @@ export default {
       const matchListObj = {};
       data.forEach((item) => {
         if(cptIds.includes(item.cptId)){
-          item.odds[0].chs.list = normalizeData(item.odds[0].chs, 'name');
           matchListObj[item.cptId].push(item)
-
         }else{
           cptIds.push(item.cptId);
-          item.odds[0].chs.list = normalizeData(item.odds[0].chs, 'name');
           matchListObj[item.cptId] = [];
           matchListObj[item.cptId].push(item)
         }

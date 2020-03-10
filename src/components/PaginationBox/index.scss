@@ -1,0 +1,9 @@
+@import "../../styles/common";
+.pagination-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background-color: $bg-color2;
+}

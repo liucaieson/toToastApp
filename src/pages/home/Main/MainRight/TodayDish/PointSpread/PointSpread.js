@@ -5,7 +5,6 @@ import moment from 'moment';
 import styles from './index.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-import { AutoSizer, List } from 'react-virtualized';
 import Item from './item';
 import PageLoading from '../../../../../../components/MbPageLoading';
 
@@ -19,8 +18,6 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 class TodayPointSpread extends PureComponent {
   state = {
     refreshLoading: false,
-    isShowMatch: -1,
-    isShowMatchDetail: false,
     firstLoading: true
   };
 
@@ -168,26 +165,13 @@ class TodayPointSpread extends PureComponent {
     });
   };
 
-  _rowRenderer = ({index, parent, style}) => {
-    /* 这里有一个坑。要让子组件应用上style,否则会出现闪烁 */
-    const {  todayPointSpread: { cptIds,matchListObj }} = this.props;
-    return (
-      <Item style={style} cptData={cptIds[index]} matchData={matchListObj[cptIds[index]]} key={cptIds[index]}/>
-    )
-  };
-
-  _getRowHeight = ({index}) => {
-    const { todayPointSpread: { cptIds,matchListObj }} = this.props;
-    return  30 + 80 * matchListObj[cptIds[index]].length;
-  };
-
   render() {
     const {
       todayPointSpread: {
-        cptIds
+        cptIds, matchListObj
       }
     } = this.props;
-    const {  refreshLoading, isShowMatchDetail, matchInfo, firstLoading } = this.state;
+    const {  refreshLoading, firstLoading } = this.state;
     return (
       <div className={styles.pointSpread}>
         <div className={styles.header}>
@@ -236,28 +220,15 @@ class TodayPointSpread extends PureComponent {
             </Row>
             <div className={styles.match}>
               {firstLoading ? <PageLoading/>  :
-                <AutoSizer disableHeight>
-                  {({width}) => (
-                    <List
-                      ref="List"
-                      height={window.innerHeight-144}
-                      style={{
-                        height: "calc(100vh - 144px)",
-                        lineHeight: "30px",
-                        width: "828px",
-                      }}
-                      overscanRowCount={5}
-                      rowCount={cptIds.length}
-                      rowHeight={
-                        this._getRowHeight
-                      }
-                      rowRenderer={this._rowRenderer}
-                      width={928}
-                    />
-                  )}
-                </AutoSizer>
+                (
+                  cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
+                    cptIds.map((val) => (
+                      <Item  cptData={val} matchData={matchListObj[val]}/>
+                    ))
+                )
               }
             </div>
+
           </div>
         </div>
         <CompetitionsModal params={this.globalParams} fn={this.fetchMatchOddsWithCompetitions}/>

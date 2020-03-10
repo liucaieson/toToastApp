@@ -20,6 +20,7 @@ class TotalResultItem extends Component {
   render() {
     const {
       cptData, matchData,
+      chsDB:{ chsDB }
     } = this.props;
     return (
       <div key={cptData} style={this.props.style} >
@@ -51,8 +52,8 @@ class TotalResultItem extends Component {
                             choiceId={item.choiceId}
                             matchId={v.matchId}
                             gamblingId={v.odds[0].gamblingId}
-                            dishId={item.dishId}
-                            dish={item.dish}
+                            dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                            dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                          />
                           ),
                         )
@@ -68,8 +69,8 @@ class TotalResultItem extends Component {
                             choiceId={item.choiceId}
                             matchId={v.matchId}
                             gamblingId={v.odds[1].gamblingId}
-                            dishId={item.dishId}
-                            dish={item.dish}
+                            dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                            dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                           />
                           ),
                         )

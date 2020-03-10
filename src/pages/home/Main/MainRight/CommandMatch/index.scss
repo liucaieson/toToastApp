@@ -29,11 +29,19 @@
     }
     .match {
       overflow-y: auto;
-      background-color: $bg-color2;
+      background-color: #fff;
       height: calc(100vh - 148px);
       overflow: -moz-scrollbars-none;
-      &::-webkit-scrollbar {
-        width: 0 !important
+     @include scrollBar();
+      .competitions-name {
+        @include competition-layout();
+        .arrow {
+          text-align: center;
+          color: $fz-color3;
+        }
+        .name {
+          padding-left: 10px;
+        }
       }
       .match-info {
         @include pointSpread-matchInfo-layout();

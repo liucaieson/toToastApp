@@ -5,9 +5,10 @@ export default {
   namespace: 'totalOver',
 
   state: {
-    competitionsMatchList:[],
-    matchList:{},
-    oddsList:{}
+    cptIds: [],
+    matchListObj: {},
+    count:1,
+    current:1
   },
 
   effects: {

@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react';
-import { Icon, Row, Col, Modal } from 'antd';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import CountDown from '../../../../../components/CountDown/index';
 import CompetitionsModal from '../competitonsModal/index.js';
-import { AutoSizer, List } from 'react-virtualized';
+import PaginationBox from '../../../../../components/PaginationBox'
 import Item from './matchItem.js';
 import PageLoading from '../../../../../components/MbPageLoading';
 
-@connect(({ commandMatch, showCompetitions, changeBetSectionStatus, competitions }) => ({
+@connect(({ commandMatch, showCompetitions, changeBetSectionStatus, competitions, loading }) => ({
   commandMatch,
   showCompetitions,
   competitions,
   changeBetSectionStatus,
+  commandLoading:loading.models.commandMatch,
 }))
 class CommandMatch extends PureComponent {
   state = {
@@ -31,6 +32,7 @@ class CommandMatch extends PureComponent {
   globalParams = {
     sport: '1',
     gg: '1',
+    page:1
   };
 
   componentDidMount() {
@@ -78,11 +80,12 @@ class CommandMatch extends PureComponent {
 
 
   /* 展开比赛详细信息 */
-  turnToMatchDetail = (match) => {
-    this.setState({
-      isShowMatchDetail: true,
-      matchInfo: match,
-    });
+  nextPage = (page) => {
+    const {commandLoading} = this.props
+    if(commandLoading){
+      return
+    }
+    this.fetchMatchOdds({page,size:40});
   };
 
   /* 全局展示显示联赛的modal  */
@@ -145,24 +148,13 @@ class CommandMatch extends PureComponent {
       );
   };
 
-  _rowRenderer = ({ index, parent, style }) => {
-    /* 这里有一个坑。要让子组件应用上style,否则会出现闪烁 */
-    const { commandMatch: { matchList } } = this.props;
-    return (
-      <Item style={style} data={matchList[index]} key={matchList[index].matchId}/>
-    );
-  };
-
-  /*<Item style={style} data={matchList[index]} key={matchList[index].matchId}/>*/
-
-
   render() {
     const {
       commandMatch: {
-        matchList,
+        cptIds, matchListObj, count, current
       },
     } = this.props;
-    const { refreshLoading, isShowMatchDetail, matchInfo, firstLoading } = this.state;
+    const { refreshLoading, firstLoading } = this.state;
     return (
       <div className={styles.pointSpread}>
         <div className={styles.header}>
@@ -186,7 +178,7 @@ class CommandMatch extends PureComponent {
           <div className={styles['match-box']}>
             <Row className={styles.table}>
               <Col className={styles['big-tb']} span={2}>时间</Col>
-              <Col className={styles['big-tb']} span={5}>赛事</Col>
+              <Col className={styles['big-tb']} span={6}>赛事</Col>
               <Col className={styles['middle-tb']} span={8}>
                 <Row className={styles['cell-th']}>
                   全场
@@ -207,36 +199,22 @@ class CommandMatch extends PureComponent {
                   <Col span={8} className={styles.cell}>独赢</Col>
                 </Row>
               </Col>
-              <Col className={styles.item} span={1}/>
             </Row>
-            <div className={styles.match} id='commandMatch'>
-
+            <div className={styles.match} id='commandMatch' >
               {firstLoading ? <PageLoading/> :
-                (
-                 matchList && matchList.length === 0 ? <div className="no-match">暂无比赛</div> :
-                    <AutoSizer disableHeight>
-                      {({ width }) => (
-                        <List
-                          ref="List"
-                          height={window.innerHeight - 144}
-                          style={{
-                            height: 'calc(100vh - 144px)',
-                            lineHeight: '30px',
-                            width: '828px',
-                            backgroundColor: '#fff'
-                          }}
-                          className='command-item'
-                          overscanRowCount={5}
-                          rowCount={matchList.length}
-                          rowHeight={80}
-                          rowRenderer={this._rowRenderer}
-                          width={928}
-                        />
-                      )}
-                    </AutoSizer>
-                )
+                <div>
+                  {
+                    cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
+                      cptIds.map((val) => (
+                        <Item cptData={val} matchData={matchListObj[val]} key={val} />
+                      ))
+                  }
+                  <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage} />
+                </div>
               }
+
             </div>
+
           </div>
         </div>
         <CompetitionsModal params={this.globalParams} fn={this.fetchMatchOddsWithCompetitions} />

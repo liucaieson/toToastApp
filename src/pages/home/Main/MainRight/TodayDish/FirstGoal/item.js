@@ -48,8 +48,8 @@ class DoubleResultItem extends PureComponent {
                                 choiceId={item.choiceId}
                                 matchId={v.matchId}
                                 gamblingId={v.odds[0].gamblingId}
-                                dishId={item.dishId}
-                                dish={item.dish}
+                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                               />
                             }
                             {item.name === 'X' &&
@@ -58,8 +58,8 @@ class DoubleResultItem extends PureComponent {
                               choiceId={item.choiceId}
                               matchId={v.matchId}
                               gamblingId={v.odds[0].gamblingId}
-                              dishId={item.dishId}
-                              dish={item.dish}
+                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                             />
                             }
                             {item.name === '2' &&
@@ -68,8 +68,8 @@ class DoubleResultItem extends PureComponent {
                               choiceId={item.choiceId}
                               matchId={v.matchId}
                               gamblingId={v.odds[0].gamblingId}
-                              dishId={item.dishId}
-                              dish={item.dish}
+                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                             />
                             }
                           </Col>
@@ -87,8 +87,8 @@ class DoubleResultItem extends PureComponent {
                               choiceId={item.choiceId}
                               matchId={v.matchId}
                               gamblingId={v.odds[1].gamblingId}
-                              dishId={item.dishId}
-                              dish={item.dish}
+                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                             />
                             }
                             {item.name === 'X' &&
@@ -97,8 +97,8 @@ class DoubleResultItem extends PureComponent {
                               choiceId={item.choiceId}
                               matchId={v.matchId}
                               gamblingId={v.odds[1].gamblingId}
-                              dishId={item.dishId}
-                              dish={item.dish}
+                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                             />
                             }
                             {item.name === '2' &&
@@ -107,8 +107,8 @@ class DoubleResultItem extends PureComponent {
                               choiceId={item.choiceId}
                               matchId={v.matchId}
                               gamblingId={v.odds[1].gamblingId}
-                              dishId={item.dishId}
-                              dish={item.dish}
+                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                             />
                             }
                           </Col>

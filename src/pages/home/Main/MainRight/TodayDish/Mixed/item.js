@@ -38,9 +38,10 @@ class DoubleResultItem extends PureComponent {
   render() {
     const {
       cptData, matchData,
+      chsDB:{ chsDB }
     } = this.props;
     const {isShow} = this.state;
-    const {matchId} = this.state
+    const {matchId} = this.state;
     return (
       <div key={cptData} style={this.props.style}>
           <Row className={styles['competitions-name']}>
@@ -76,8 +77,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[0].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === '2' && <div className={styles['away-item']}>
@@ -86,8 +87,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[0].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   </Fragment>
@@ -105,8 +106,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[1].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>
                                   }
@@ -116,8 +117,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[1].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                 </Fragment>
@@ -135,8 +136,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[2].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === '2' && <div className={styles['away-item']}>
@@ -145,8 +146,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[2].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === 'X' && <div className={styles['pie-item']}>
@@ -155,8 +156,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[2].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                 </Fragment>
@@ -178,8 +179,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[3].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === '2' && <div className={styles['away-item']}>
@@ -188,8 +189,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[3].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                 </Fragment>
@@ -207,8 +208,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[4].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === 'Under' && <div className={styles['away-item']}>
@@ -217,8 +218,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[4].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                 </Fragment>
@@ -236,8 +237,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[5].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === '2' && <div className={styles['away-item']}>
@@ -246,8 +247,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[5].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                   {item.name === 'X' && <div className={styles['pie-item']}>
@@ -256,8 +257,8 @@ class DoubleResultItem extends PureComponent {
                                       matchId={v.matchId}
                                       choiceId={item.choiceId}
                                       gamblingId={v.odds[5].gamblingId}
-                                      dishId={item.dishId}
-                                      dish={item.dish}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                     />
                                   </div>}
                                 </Fragment>

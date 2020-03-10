@@ -8,17 +8,15 @@ import { calcDateToMonthAndDay, dishNameMap } from '../../../../../../utils/util
 import PageLoading from '../../../../../../components/MbPageLoading';
 import MixedDishLayout from '../../DishLayout/mixedDishLayout';
 import DishLayout from '../../DishLayout/betDishLayout';
+import PaginationBox from '../../../../../../components/PaginationBox';
 
-@connect(({ mixed, matchAllOdds, betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
-  mixed,
+@connect(({ asianGG,  betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
+  asianGG,
   showCompetitions,
   competitions,
-  matchAllOdds,
-  betShopCart,
   dates,
   chsDB,
-  mixedLoading: loading.models.mixed,
-  matchAllOddsLoading: loading.models.matchAllOdds,
+  loading: loading.effects['asianGG/fetchMatchOdds'],
   addLoading: loading.effects['betShopCart/addMixedShopCart'],
 }))
 class Mixed extends PureComponent {
@@ -37,55 +35,25 @@ class Mixed extends PureComponent {
   globalParams = {
     sport: '1',
     gg: '8',
+    page:1
   };
+
 
   componentDidMount() {
     this.fetchDates();
-    this.fetchCompetitions();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-
+    this.fetchMatchOdds({}, () => {
+      this.setState({
+        firstLoading: false,
+      });
+    });
   }
 
   setTimeFetchMatchList = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
     this.fetchMatchOdds(this.globalParams);
   };
 
-  addMixedShopCart = (matchId, gamblingId, choiceId, id) => {
-    const { dispatch, betShopCart: { mixedShopCart }, addLoading } = this.props;
-    if (addLoading) {
-      return;
-    }
-    if (mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) {
-      return false;
-    } else {
-      dispatch({
-        type: 'changeBetSectionStatus/changeStatus',
-        payload: [true, 'mixed'],
-      });
-      dispatch({
-        type: 'betShopCart/addMixedShopCart',
-        payload: {
-          sport: '1',
-          choiceId,
-          status: 0,
-          dishId: id,
-        },
-      });
-    }
-  };
-
   /* 请求比赛赔率 */
-  fetchMatchOdds = (param) => {
+  fetchMatchOdds = (param, fn) => {
     let params = {
       ...this.globalParams,
     };
@@ -97,8 +65,9 @@ class Mixed extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'mixed/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
+      callback: fn,
     });
   };
 
@@ -113,81 +82,7 @@ class Mixed extends PureComponent {
     });
   };
 
-  /* 请求联赛 */
-  fetchCompetitions = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-      /* 请求完毕联赛接口，请求第一个联赛的比赛赔率 */
-      callback: (data) => {
-        let id = data[0].competitionId;
-        this.fetchMatchOdds({ competitions: id });
-        this.setState({
-          isShowMatch: id,
-          firstLoading: false,
-        });
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-        };
-      },
-    });
-  };
-
-  /* isShowMatch里面没有这个val，说明该联赛需要显示，数组里有联赛id就隐藏,请求该联赛数据 */
-  toggleMatchExpend = (val) => {
-    const { isShowMatch } = this.state;
-    const { dispatch } = this.props;
-
-    if (isShowMatch === val) {
-      this.setState({
-        isShowMatch: -1,
-      });
-    } else {
-      this.setState({
-        isShowMatch: val,
-      });
-      let params = {
-        ...this.globalParams,
-        competitions: val,
-      };
-      dispatch({
-        type: 'mixed/fetchMatchOdds',
-        payload: params,
-        callback: () => {
-          this.globalParams = {
-            ...this.globalParams,
-            competitions: val,
-          };
-        },
-      });
-    }
-  };
-
-  /* 全局展示显示联赛的modal  */
-  showCompetitionsModal = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'showCompetitions/toggle',
-      payload: true,
-    });
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
-  };
-
-  /* 获取倒计时组件的this */
-  onCountDownRef = (ref) => {
-    this.countRef = ref;
-  };
-
-  /* 刷新比赛赔率，实际重新请求比赛 */
+  /* 刷新比赛数据 */
   refreshMatchOdds = () => {
     this.setState({
       refreshLoading: true,
@@ -197,13 +92,7 @@ class Mixed extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
-    dispatch({
-      type: 'mixed/fetchMatchOdds',
+      type: 'pointSpread/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();
@@ -216,64 +105,68 @@ class Mixed extends PureComponent {
 
   /* 点击日期的请求 */
   fetchMatchOddsWithDate = (date) => {
-    const { dispatch } = this.props;
     this.setState({
       isActiveDate: date.date,
       firstLoading: true,
     });
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
+    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+      this.countRef.reset();
+      this.setState({
+        firstLoading: false,
+      });
+      this.globalParams = {
         ...this.globalParams,
         ...date,
-      },
-      /* 请求完毕联赛接口，请求第一个联赛的比赛赔率 */
-      callback: (data) => {
-        if (data.length === 0) {
-          this.setState({
-            firstLoading: false,
-          });
-          return;
-        }
-        let id = data[0].competitionId;
-        this.fetchMatchOdds({ competitions: id, date: date.date });
-        this.countRef.reset();
-        this.setState({
-          isShowMatch: id,
-          firstLoading: false,
-        });
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-          ...date,
-        };
-      },
+      };
+    });
+
+  };
+
+  /* 给请求联赛的函数
+   * 回调函数为，请求联赛之后拿第一个联赛id去请求该联赛的比赛
+   * 设置show的match（实际上是应该展示的联赛）
+   * 保存全局参数
+    * */
+  fetchMatchOddsWithCompetitions = (param) => {
+    if (param.competitions === undefined) {
+      return;
+    }
+    this.setState({
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ competitions: param }, () => {
+      /* 刷新倒计时的时间 */
+      this.countRef.reset();
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: param,
+      };
+      this.setState({
+        firstLoading: false,
+      });
     });
   };
 
-  /* 请求比赛，携带联赛*/
-  fetchMatchOddsWithCompetitions = (param) => {
+  /* 全局展示显示联赛的modal  */
+  showCompetitionsModal = () => {
     const { dispatch } = this.props;
-    if (param.competitions.length === 0) {
+    dispatch({
+      type: 'showCompetitions/toggle',
+      payload: true,
+    });
+  };
+
+  /* 获取倒计时组件的this */
+  onCountDownRef = (ref) => {
+    this.countRef = ref;
+  };
+
+  nextPage = (page) => {
+    const { loading } = this.props;
+    if (loading) {
       return;
     }
-    dispatch({
-      type: 'competitions/toggle',
-      payload: param.competitions,
-      callback: () => {
-        let id = param.competitions[0].competitionId;
-        this.fetchMatchOdds({ competitions: id });
-        this.setState({
-          isShowMatch: id,
-        });
-        /* 刷新倒计时的时间 */
-        this.countRef.reset();
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-        };
-      },
-    });
+    this.fetchMatchOdds({ page, size: 40 });
   };
 
   /* 跳转到单程比赛所有盘口玩法赔率页面 ，
@@ -294,16 +187,13 @@ class Mixed extends PureComponent {
 
   render() {
     const {
-      mixed: {
-        competitionsMatchList,
+      asianGG: {
+        cptIds, matchListObj, count, current,
       },
       dates: { dates },
       chsDB: { chsDB },
-      betShopCart: { mixedShopCart },
       competitions: { competitions },
-      matchAllOdds: { matchAllOdds },
       mixedLoading,
-      matchAllOddsLoading,
     } = this.props;
     const { isShowMatch, refreshLoading, isActiveDate, allMatchExpend, firstLoading } = this.state;
     return (
@@ -370,50 +260,41 @@ class Mixed extends PureComponent {
               {
                 firstLoading ? <PageLoading/> :
                   (
-                    competitions.length === 0 ? <div className="no-match">暂无比赛</div> :
-                      competitions.map((val) => (
-                        <div key={val.competitionId}>
-                          <Row className={styles['competitions-name']}>
-                            <Col span={3} className={styles.arrow}
-                                 onClick={() => this.toggleMatchExpend(val.competitionId)}>
+                    <div>
+                      {
+                        cptIds.map((val) => (
+                          <div key={val}>
+                            <Row className={styles['competitions-name']}>
+                              <Col span={1} className={styles.arrow}>
+                              </Col>
+                              <Col span={20} className={styles.name}>
+                                {matchListObj[val][0].cptName}
+                              </Col>
+                            </Row>
+                            <div className={styles['match-info']}>
                               {
-                                isShowMatch === val.competitionId ?
-                                  <Icon type="caret-up"/> :
-                                  <Icon type="caret-down"/>
-                              }
-                            </Col>
-                            <Col span={20} className={styles.name}>
-                              {val.competitionName}
-                            </Col>
-                          </Row>
-                          <div className={styles['match-info']}>
-                            {isShowMatch === val.competitionId ?
-                              (
-                                mixedLoading ? <PageLoading/> :
-                                  competitionsMatchList &&
-                                  (
-                                    competitionsMatchList.length === 0 ? <div className="no-match">暂无比赛</div> :
-                                      competitionsMatchList.map((v) => (
-                                        <Row className={styles['match-line-box']} key={v.matchId}>
-                                          <Row className={styles['match-line']}>
-                                            <Col span={2} className={styles['match-time']}>
-                                              {calcDateToMonthAndDay(v.time)}
-                                            </Col>
-                                            <Col span={6} className={styles['match-team']}>
-                                              <div>{v.homeName}</div>
-                                              <div>{v.awayName}</div>
-                                              <div>和局</div>
-                                            </Col>
-                                            {/*全场投注区*/}
-                                            <Col span={8} className={styles['match-odds']}>
-                                              <Row>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[0].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                (
+                                  matchListObj[val].map((v) => (
+                                    <Row className={styles['match-line-box']} key={v.matchId}>
+                                      <Row className={styles['match-line']}>
+                                        <Col span={2} className={styles['match-time']}>
+                                          {calcDateToMonthAndDay(v.time)}
+                                        </Col>
+                                        <Col span={6} className={styles['match-team']}>
+                                          <div>{v.homeName}</div>
+                                          <div>{v.awayName}</div>
+                                          <div>和局</div>
+                                        </Col>
+                                        {/*全场投注区*/}
+                                        <Col span={8} className={styles['match-odds']}>
+                                          <Row>
+                                            <Col span={8} className={styles['match-odds-list']}>
+                                              {
+                                                v.odds[0].chs.map((item) => (
+                                                    <Fragment key={item.dishId}>
+                                                      {item.name === '1' && <div className={styles['home-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
                                                               <MixedDishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -421,10 +302,10 @@ class Mixed extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                      </div>}
+                                                      {item.name === '2' && <div className={styles['away-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
                                                                <MixedDishLayout
                                                                  choiceId={item.choiceId}
                                                                  matchId={v.matchId}
@@ -432,72 +313,19 @@ class Mixed extends PureComponent {
                                                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                                />
                                                             </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[1] && v.odds[1].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === 'Over' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'Under' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[2] && v.odds[2].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'X' && <div className={styles['pie-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                      </div>}
+                                                    </Fragment>
+                                                  ),
+                                                )
+                                              }
+                                            </Col>
+                                            <Col span={8} className={styles['match-odds-list']}>
+                                              {
+                                                v.odds[1] && v.odds[1].chs.map((item) => (
+                                                    <Fragment key={item.dishId}>
+                                                      {item.name === 'Over' && <div className={styles['home-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
                                                               <MixedDishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -505,55 +333,30 @@ class Mixed extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                             </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                              </Row>
+                                                      </div>}
+                                                      {item.name === 'Under' && <div className={styles['away-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                            </span>
+                                                      </div>}
+                                                    </Fragment>
+                                                  ),
+                                                )
+                                              }
                                             </Col>
-                                            {/* 上半场投注区*/}
-                                            <Col span={8} className={styles['match-odds']}>
-                                              <Row>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[3] && v.odds[3].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                              </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                              </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[4] && v.odds[4].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === 'Over' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                            <Col span={8} className={styles['match-odds-list']}>
+                                              {
+                                                v.odds[2] && v.odds[2].chs.map((item) => (
+                                                    <Fragment key={item.dishId}>
+                                                      {item.name === '1' && <div className={styles['home-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
                                                                <MixedDishLayout
                                                                  choiceId={item.choiceId}
                                                                  matchId={v.matchId}
@@ -561,10 +364,10 @@ class Mixed extends PureComponent {
                                                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                                />
                                                             </span>
-                                                          </div>}
-                                                          {item.name === 'Under' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                      </div>}
+                                                      {item.name === '2' && <div className={styles['away-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
                                                                <MixedDishLayout
                                                                  choiceId={item.choiceId}
                                                                  matchId={v.matchId}
@@ -572,106 +375,185 @@ class Mixed extends PureComponent {
                                                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                                />
                                                             </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[5] && v.odds[5].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
+                                                      </div>}
+                                                      {item.name === 'X' && <div className={styles['pie-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
                                                             </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'X' && <div className={styles['pie-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                              </Row>
+                                                      </div>}
+                                                    </Fragment>
+                                                  ),
+                                                )
+                                              }
                                             </Col>
                                           </Row>
-                                          <div className={styles['play-btn']}>
-                                            {
-                                              /*  allMatchExpend === v.matchId ?
-                                                  <Fragment>
-                                                    <div className={styles.btn} onClick={this.collapseMatchAllOdds}>
-                                                      收起
-                                                    </div>
-                                                    <div className={styles['all-odds-box']}>
-                                                      {
-                                                        matchAllOddsLoading ? <div className={styles.loading}>loading...</div> :
-                                                        matchAllOdds[0] && matchAllOdds[0].odds.map( (oddsItem) => (
-                                                          <div className={styles['single-odds']} key={oddsItem.gamblingId}>
-                                                            <div className={styles.oddsName}>
-                                                              { oddsItem.oddName }
-                                                            </div>
-                                                            <div className={styles.oddsDish}>
-                                                              {
-                                                                oddsItem.chs.map((chsItem) => (
-                                                                  <div key={chsItem.choiceId} className={styles['dish-box']}>
-                                                                    <div className={styles.dishName}>{dishNameMap[chsItem.name]}<span className={styles.choicehandicap}>{chsItem.choiceHandicap && `(${chsItem.choiceHandicap})`}</span></div>
-                                                                    <div
-                                                                      className={(mixedShopCart.list[chsItem.matchId] && mixedShopCart.list[chsItem.matchId].choiceId === chsItem.choiceId)  ? `${styles.dish} ${styles.active}` : styles.dish}
-                                                                      onClick={() => this.addMixedShopCart( v.matchId, oddsItem.gamblingId, chsItem.choiceId, chsItem.dishId)}
-                                                                    >{chsItem.dish}</div>
-                                                                  </div>
-                                                                ))
-                                                              }
-                                                            </div>
-                                                          </div>
-                                                        ))
-                                                      }
-                                                    </div>
-                                                  </Fragment>
-                                                  :*/
-                                              <div className={styles.btn} onClick={() => this.turnToDetail(v.matchId)}>
-                                                所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
-                                              </div>
-                                            }
-
+                                        </Col>
+                                        {/* 上半场投注区*/}
+                                        <Col span={8} className={styles['match-odds']}>
+                                          <Row>
+                                            <Col span={8} className={styles['match-odds-list']}>
+                                              {
+                                                v.odds[3] && v.odds[3].chs.map((item) => (
+                                                    <Fragment key={item.dishId}>
+                                                      {item.name === '1' && <div className={styles['home-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                              </span>
+                                                      </div>}
+                                                      {item.name === '2' && <div className={styles['away-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                              </span>
+                                                      </div>}
+                                                    </Fragment>
+                                                  ),
+                                                )
+                                              }
+                                            </Col>
+                                            <Col span={8} className={styles['match-odds-list']}>
+                                              {
+                                                v.odds[4] && v.odds[4].chs.map((item) => (
+                                                    <Fragment key={item.dishId}>
+                                                      {item.name === 'Over' && <div className={styles['home-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                            </span>
+                                                      </div>}
+                                                      {item.name === 'Under' && <div className={styles['away-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                            </span>
+                                                      </div>}
+                                                    </Fragment>
+                                                  ),
+                                                )
+                                              }
+                                            </Col>
+                                            <Col span={8} className={styles['match-odds-list']}>
+                                              {
+                                                v.odds[5] && v.odds[5].chs.map((item) => (
+                                                    <Fragment key={item.dishId}>
+                                                      {item.name === '1' && <div className={styles['home-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                            </span>
+                                                      </div>}
+                                                      {item.name === '2' && <div className={styles['away-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                            </span>
+                                                      </div>}
+                                                      {item.name === 'X' && <div className={styles['pie-item']}>
+                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                        <span className={styles.odds}>
+                                                               <MixedDishLayout
+                                                                 choiceId={item.choiceId}
+                                                                 matchId={v.matchId}
+                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                               />
+                                                            </span>
+                                                      </div>}
+                                                    </Fragment>
+                                                  ),
+                                                )
+                                              }
+                                            </Col>
+                                          </Row>
+                                        </Col>
+                                      </Row>
+                                      <div className={styles['play-btn']}>
+                                        {
+                                          /*  allMatchExpend === v.matchId ?
+                                              <Fragment>
+                                                <div className={styles.btn} onClick={this.collapseMatchAllOdds}>
+                                                  收起
+                                                </div>
+                                                <div className={styles['all-odds-box']}>
+                                                  {
+                                                    matchAllOddsLoading ? <div className={styles.loading}>loading...</div> :
+                                                    matchAllOdds[0] && matchAllOdds[0].odds.map( (oddsItem) => (
+                                                      <div className={styles['single-odds']} key={oddsItem.gamblingId}>
+                                                        <div className={styles.oddsName}>
+                                                          { oddsItem.oddName }
+                                                        </div>
+                                                        <div className={styles.oddsDish}>
+                                                          {
+                                                            oddsItem.chs.map((chsItem) => (
+                                                              <div key={chsItem.choiceId} className={styles['dish-box']}>
+                                                                <div className={styles.dishName}>{dishNameMap[chsItem.name]}<span className={styles.choicehandicap}>{chsItem.choiceHandicap && `(${chsItem.choiceHandicap})`}</span></div>
+                                                                <div
+                                                                  className={(mixedShopCart.list[chsItem.matchId] && mixedShopCart.list[chsItem.matchId].choiceId === chsItem.choiceId)  ? `${styles.dish} ${styles.active}` : styles.dish}
+                                                                  onClick={() => this.addMixedShopCart( v.matchId, oddsItem.gamblingId, chsItem.choiceId, chsItem.dishId)}
+                                                                >{chsItem.dish}</div>
+                                                              </div>
+                                                            ))
+                                                          }
+                                                        </div>
+                                                      </div>
+                                                    ))
+                                                  }
+                                                </div>
+                                              </Fragment>
+                                              :*/
+                                          <div className={styles.btn} onClick={() => this.turnToDetail(v.matchId)}>
+                                            所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
                                           </div>
-                                        </Row>
-                                      ))
-                                  )
-                              )
-                              : ''
-                            }
+                                        }
+
+                                      </div>
+                                    </Row>
+                                  ))
+                                )
+                              }
+                            </div>
                           </div>
-                        </div>
-                      ))
+                        ))
+                      }
+                      <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                    </div>
                   )}
             </div>
           </div>

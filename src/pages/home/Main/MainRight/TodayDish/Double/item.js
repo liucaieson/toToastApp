@@ -167,15 +167,14 @@ class Double extends PureComponent {
                             <Fragment key={item.dishId}>
                               {item.name === '1X' && <div key={item.dishId}
                                                           className={styles['match-odds-item']}
-
                               >
                                 <DishItem
                                   key={item.choiceId}
                                   choiceId={item.choiceId}
                                   matchId={v.matchId}
                                   gamblingId={v.odds[2].gamblingId}
-                                  dishId={item.dishId}
-                                  dish={item.dish}
+                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
                               {item.name === '12' && <div key={item.dishId}
@@ -187,21 +186,20 @@ class Double extends PureComponent {
                                   choiceId={item.choiceId}
                                   matchId={v.matchId}
                                   gamblingId={v.odds[2].gamblingId}
-                                  dishId={item.dishId}
-                                  dish={item.dish}
+                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
                               {item.name === 'X2' && <div key={item.dishId}
                                                           className={styles['match-odds-item']}
-
                               >
                                 <DishItem
                                   key={item.choiceId}
                                   choiceId={item.choiceId}
                                   matchId={v.matchId}
                                   gamblingId={v.odds[2].gamblingId}
-                                  dishId={item.dishId}
-                                  dish={item.dish}
+                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
                             </Fragment>

@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col   } from 'antd';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './pointSpread.scss';
 import CountDown from '../../../../../../components/CountDown/index';
@@ -7,6 +7,7 @@ import CompetitionsModal from '../../competitonsModal/index';
 import PageLoading from '../../../../../../components/MbPageLoading';
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
+import PaginationBox from '../../../../../../components/PaginationBox';
 
 @connect(({ pointSpread, betShopCart, matchAllOdds, dates, chsDB, showCompetitions, changeBetSectionStatus, competitions, loading }) => ({
   pointSpread,
@@ -17,18 +18,15 @@ import DishLayout from '../../DishLayout/betDishLayout';
   dates,
   chsDB,
   changeBetSectionStatus,
-  pointSpreadLoading: loading.models.pointSpread,
+  loading: loading.models.pointSpread,
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
   state = {
     refreshLoading: false,
-    showCompetitionsList: [],
-    isShowMatch: -1,
     isActiveDate: '',
-    allMatchExpend: -1,
-    isShowMatchDetail: false,
     firstLoading: true,
+    page:1
   };
 
   timer = null;
@@ -46,7 +44,11 @@ class Main extends PureComponent {
 
   componentDidMount() {
     this.fetchDates();
-    this.fetchCompetitions();
+    this.fetchMatchOdds({}, () => {
+      this.setState({
+        firstLoading: false,
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -54,40 +56,11 @@ class Main extends PureComponent {
   }
 
   setTimeFetchMatchList = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
     this.fetchMatchOdds(this.globalParams);
   };
 
-  /* 添加投注单到购物车 */
-  addShopCart = (matchId, gamblingId, choiceId, id) => {
-    const { dispatch, betShopCart: { shopCart } } = this.props;
-    if (shopCart.ids.includes(choiceId)) {
-      return false;
-    } else {
-      dispatch({
-        type: 'changeBetSectionStatus/changeStatus',
-        payload: [true, 'bets'],
-      });
-      dispatch({
-        type: 'betShopCart/addBetShopCart',
-        payload: {
-          sport: '1',
-          choiceId,
-          status: 0,
-          dishId: id,
-        },
-      });
-    }
-  };
-
   /* 请求比赛赔率 */
-  fetchMatchOdds = (param) => {
+  fetchMatchOdds = (param, fn) => {
     let params = {
       ...this.globalParams,
     };
@@ -101,14 +74,7 @@ class Main extends PureComponent {
     dispatch({
       type: 'pointSpread/fetchMatchOdds',
       payload: params,
-    });
-  };
-
-  /* 展开比赛详细信息 */
-  turnToMatchDetail = (match) => {
-    this.setState({
-      isShowMatchDetail: true,
-      matchInfo: match,
+      callback: fn,
     });
   };
 
@@ -123,60 +89,6 @@ class Main extends PureComponent {
     });
   };
 
-  /* 请求联赛 */
-  fetchCompetitions = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-      /* 请求完毕联赛接口，请求第一个联赛的比赛赔率 */
-      callback: (data) => {
-        let id = data[0].competitionId;
-        this.fetchMatchOdds({ competitions: id });
-        this.setState({
-          isShowMatch: id,
-          firstLoading: false,
-        });
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-        };
-      },
-    });
-  };
-
-  /* isShowMatch里面没有这个val，说明该联赛需要显示，数组里有联赛id就隐藏,请求该联赛数据 */
-  toggleMatchExpend = (val) => {
-    const { isShowMatch } = this.state;
-    const { dispatch } = this.props;
-
-    if (isShowMatch === val) {
-      this.setState({
-        isShowMatch: -1,
-      });
-    } else {
-      this.setState({
-        isShowMatch: val,
-      });
-      let params = {
-        ...this.globalParams,
-        competitions: val,
-      };
-      dispatch({
-        type: 'pointSpread/fetchMatchOdds',
-        payload: params,
-        callback: () => {
-          this.globalParams = {
-            ...this.globalParams,
-            competitions: val,
-          };
-        },
-      });
-    }
-  };
-
   /* 全局展示显示联赛的modal  */
   showCompetitionsModal = () => {
     const { dispatch } = this.props;
@@ -184,11 +96,6 @@ class Main extends PureComponent {
       type: 'showCompetitions/toggle',
       payload: true,
     });
-  };
-
-  /* 获取倒计时组件的this */
-  onCountDownRef = (ref) => {
-    this.countRef = ref;
   };
 
   /* 刷新比赛数据 */
@@ -200,12 +107,6 @@ class Main extends PureComponent {
       ...this.globalParams,
     };
     const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
     dispatch({
       type: 'pointSpread/fetchMatchOdds',
       payload: params,
@@ -220,39 +121,21 @@ class Main extends PureComponent {
 
   /* 点击日期的请求 */
   fetchMatchOddsWithDate = (date) => {
-    const { dispatch } = this.props;
     this.setState({
       isActiveDate: date.date,
       firstLoading: true,
     });
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
+    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+      this.countRef.reset();
+      this.setState({
+        firstLoading: false,
+      });
+      this.globalParams = {
         ...this.globalParams,
         ...date,
-      },
-      /* 请求完毕联赛接口，请求第一个联赛的比赛赔率 */
-      callback: (data) => {
-        if (data.length === 0) {
-          this.setState({
-            firstLoading: false,
-          });
-          return;
-        }
-        let id = data[0].competitionId;
-        this.fetchMatchOdds({ competitions: id, date: date.date });
-        this.countRef.reset();
-        this.setState({
-          isShowMatch: id,
-          firstLoading: false,
-        });
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-          ...date,
-        };
-      },
+      };
     });
+
   };
 
   /* 给请求联赛的函数
@@ -261,28 +144,31 @@ class Main extends PureComponent {
    * 保存全局参数
     * */
   fetchMatchOddsWithCompetitions = (param) => {
-    const { dispatch } = this.props;
     if (param.competitions === undefined) {
       return;
     }
-    dispatch({
-      type: 'competitions/toggle',
-      payload: param.competitions,
-      callback: () => {
-        let id = param.competitions[0].competitionId;
-        this.fetchMatchOdds({ competitions: id });
-        this.setState({
-          isShowMatch: id,
-        });
-        /* 刷新倒计时的时间 */
-        this.countRef.reset();
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-        };
-      },
+    this.setState({
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ competitions: param }, () => {
+      /* 刷新倒计时的时间 */
+      this.countRef.reset();
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: param,
+      };
+      this.setState({
+        firstLoading: false,
+      });
     });
   };
+
+  /* 获取倒计时组件的this */
+  onCountDownRef = (ref) => {
+    this.countRef = ref;
+  };
+
+
 
   /*跳转到混合过关*/
   turnToAsianMixed = () => {
@@ -291,6 +177,14 @@ class Main extends PureComponent {
       type: 'togglePageWithGg/togglePage',
       payload: '8',
     });
+  };
+
+  nextPage = (page) => {
+    const {loading} = this.props;
+    if(loading){
+      return
+    }
+    this.fetchMatchOdds({page,size:40});
   };
 
 
@@ -312,15 +206,12 @@ class Main extends PureComponent {
   render() {
     const {
       pointSpread: {
-        competitionsMatchList,
+        cptIds, matchListObj, count, current
       },
       dates: { dates },
       chsDB: { chsDB },
-      betShopCart: { shopCart },
-      competitions: { competitions },
-      pointSpreadLoading,
     } = this.props;
-    const { isShowMatch, refreshLoading, isActiveDate, isShowMatchDetail, matchInfo, firstLoading } = this.state;
+    const { refreshLoading, isActiveDate, firstLoading } = this.state;
     return (
       <div className={styles.pointSpread}>
         <div className={styles.header}>
@@ -345,7 +236,8 @@ class Main extends PureComponent {
             <Col
               className={isActiveDate === '' ? styles.item + ' ' + styles.active : styles.item} span={3} offset={1}
               onClick={() => this.fetchMatchOddsWithDate({ date: '' })}
-            >全部</Col>
+            >全部
+            </Col>
             {
               dates.map((val) => (
                 <Col
@@ -353,7 +245,8 @@ class Main extends PureComponent {
                   key={val.id}
                   span={3}
                   onClick={() => this.fetchMatchOddsWithDate({ date: val.id })}>
-                  {val.text}</Col>),
+                  {val.text}
+                </Col>),
               )
             }
           </Row>
@@ -385,51 +278,40 @@ class Main extends PureComponent {
             <div className={styles.match}>
               {
                 firstLoading ? <PageLoading/> :
-                  (
-                    competitions.length === 0 ? <div className="no-match">暂无比赛</div> :
-                      competitions.map((val) => (
-                        <div key={val.competitionId}>
-                          <Row className={styles['competitions-name']}>
-                            <Col span={3} className={styles.arrow}
-                                 onClick={() => this.toggleMatchExpend(val.competitionId)}>
-                              {
-                                isShowMatch === val.competitionId ?
-                                  <Icon type="caret-up"/> :
-                                  <Icon type="caret-down"/>
-                              }
-                            </Col>
-                            <Col span={20} className={styles.name}>
-                              {val.competitionName}
-                            </Col>
-                          </Row>
-                          <div className={styles['match-info']}>
-                            {isShowMatch === val.competitionId ?
-                              (
-                                pointSpreadLoading ? <PageLoading/> :
-                                  competitionsMatchList &&
-                                  (
-                                    competitionsMatchList.length === 0 ?
-                                      <div className="no-match">暂无比赛</div> : competitionsMatchList.map((v) => (
-                                        <Row className={styles['match-line-box']} key={v.matchId}>
-                                          <Row className={styles['match-line']}>
-                                            <Col span={3} className={styles['match-time']}>
-                                              {calcDateToMonthAndDay(v.time)}
-                                            </Col>
-                                            <Col span={5} className={styles['match-team']}>
-                                              <div>{v.homeName}</div>
-                                              <div>{v.awayName}</div>
-                                              <div>和局</div>
-                                            </Col>
-                                            {/*全场投注区*/}
-                                            <Col span={8} className={styles['match-odds']}>
-                                              <Row>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[0].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                  (<div>
+                      {
+                        cptIds.map((val) => (
+                          <div className={styles['match-info']} key={val}>
+                            <Row className={styles['competitions-name']}>
+                              <Col span={1} className={styles.arrow}>
+                              </Col>
+                              <Col span={20} className={styles.name}>
+                                {matchListObj[val][0].cptName}
+                              </Col>
+                            </Row>
+                            {
+                              matchListObj && (
+                                matchListObj[val].map((v) => (
+                                  <Row className={styles['match-line-box']} key={v.matchId}>
+                                    <Row className={styles['match-line']}>
+                                      <Col span={3} className={styles['match-time']}>
+                                        {calcDateToMonthAndDay(v.time)}
+                                      </Col>
+                                      <Col span={5} className={styles['match-team']}>
+                                        <div>{v.homeName}</div>
+                                        <div>{v.awayName}</div>
+                                        <div>和局</div>
+                                      </Col>
+                                      {/*全场投注区*/}
+                                      <Col span={8} className={styles['match-odds']}>
+                                        <Row>
+                                          <Col span={8} className={styles['match-odds-list']}>
+                                            {
+                                              v.odds[0].chs.map((item) => (
+                                                  <Fragment key={item.dishId}>
+                                                    {item.name === '1' && <div className={styles['home-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -437,10 +319,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === '2' && <div className={styles['away-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -448,19 +330,19 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[1] && v.odds[1].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === 'Over' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                  </Fragment>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                          <Col span={8} className={styles['match-odds-list']}>
+                                            {
+                                              v.odds[1] && v.odds[1].chs.map((item) => (
+                                                  <Fragment key={item.dishId}>
+                                                    {item.name === 'Over' && <div className={styles['home-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -468,10 +350,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'Under' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === 'Under' && <div className={styles['away-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -479,19 +361,19 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[2] && v.odds[2].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                  </Fragment>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                          <Col span={8} className={styles['match-odds-list']}>
+                                            {
+                                              v.odds[2] && v.odds[2].chs.map((item) => (
+                                                  <Fragment key={item.dishId}>
+                                                    {item.name === '1' && <div className={styles['home-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -499,10 +381,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === '2' && <div className={styles['away-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -510,10 +392,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'X' && <div className={styles['pie-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === 'X' && <div className={styles['pie-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -521,24 +403,24 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                              </Row>
-                                            </Col>
-                                            {/* 上半场投注区*/}
-                                            <Col span={8} className={styles['match-odds']}>
-                                              <Row>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[3] && v.odds[3].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                  </Fragment>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                        </Row>
+                                      </Col>
+                                      {/* 上半场投注区*/}
+                                      <Col span={8} className={styles['match-odds']}>
+                                        <Row>
+                                          <Col span={8} className={styles['match-odds-list']}>
+                                            {
+                                              v.odds[3] && v.odds[3].chs.map((item) => (
+                                                  <Fragment key={item.dishId}>
+                                                    {item.name === '1' && <div className={styles['home-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -546,10 +428,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === '2' && <div className={styles['away-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -557,19 +439,19 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[4] && v.odds[4].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === 'Over' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                  </Fragment>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                          <Col span={8} className={styles['match-odds-list']}>
+                                            {
+                                              v.odds[4] && v.odds[4].chs.map((item) => (
+                                                  <Fragment key={item.dishId}>
+                                                    {item.name === 'Over' && <div className={styles['home-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -577,10 +459,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'Under' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === 'Under' && <div className={styles['away-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -588,19 +470,19 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                                <Col span={8} className={styles['match-odds-list']}>
-                                                  {
-                                                    v.odds[5] && v.odds[5].chs.map((item) => (
-                                                        <Fragment key={item.dishId}>
-                                                          {item.name === '1' && <div className={styles['home-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                  </Fragment>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                          <Col span={8} className={styles['match-odds-list']}>
+                                            {
+                                              v.odds[5] && v.odds[5].chs.map((item) => (
+                                                  <Fragment key={item.dishId}>
+                                                    {item.name === '1' && <div className={styles['home-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -608,10 +490,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === '2' && <div className={styles['away-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === '2' && <div className={styles['away-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -619,10 +501,10 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                          {item.name === 'X' && <div className={styles['pie-item']}>
-                                                            <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                            <span className={styles.odds}>
+                                                    </div>}
+                                                    {item.name === 'X' && <div className={styles['pie-item']}>
+                                                      <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                      <span className={styles.odds}>
                                                               <DishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
@@ -630,17 +512,17 @@ class Main extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                          </div>}
-                                                        </Fragment>
-                                                      ),
-                                                    )
-                                                  }
-                                                </Col>
-                                              </Row>
-                                            </Col>
-                                          </Row>
-                                          <div className={styles['play-btn']}>
-                                            {/*allMatchExpend === v.matchId ?
+                                                    </div>}
+                                                  </Fragment>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                        </Row>
+                                      </Col>
+                                    </Row>
+                                    <div className={styles['play-btn']}>
+                                      {/*allMatchExpend === v.matchId ?
                                   <Fragment>
                                     <div className={styles.btn} onClick={this.collapseMatchAllOdds}>
                                       收起
@@ -672,21 +554,23 @@ class Main extends PureComponent {
                                     </div>
                                   </Fragment>
                                   :*/
-                                              <div className={styles.btn} onClick={() => this.turnToDetail(v.matchId)}>
-                                                所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
-                                              </div>
-                                            }
+                                        <div className={styles.btn} onClick={() => this.turnToDetail(v.matchId)}>
+                                          所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
+                                        </div>
+                                      }
 
-                                          </div>
-                                        </Row>
-                                      ))
-                                  )
+                                    </div>
+                                  </Row>
+                                ))
                               )
-                              : ''
                             }
+
                           </div>
-                        </div>
-                      ))
+
+                        ))
+                      }
+                      <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                    </div>
                   )
               }
 

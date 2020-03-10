@@ -1,21 +1,21 @@
-import { getPreCommandMatch } from '@/services/api';
+import { getPreMatchOdds } from '@/services/api';
 
 export default {
-  namespace: 'commandMatch',
+  namespace: 'asianGG',
 
   state: {
     cptIds: [],
     matchListObj: {},
     count:1,
-    current:1,
+    current:1
   },
 
   effects: {
     *fetchMatchOdds({payload, callback}, { call, put, select }) {
-      let result = yield call(getPreCommandMatch, {...payload, size: 40});
-      const {data, count,current } = result;
+      let result = yield call(getPreMatchOdds, {...payload, size:40});
       const cptIds=[];
       const matchListObj = {};
+      const { data, count, current } = result;
       data.forEach((item) => {
         if(cptIds.includes(item.cptId)){
           matchListObj[item.cptId].push(item)
@@ -48,8 +48,8 @@ export default {
         ...state,
         cptIds: payload.cptIds,
         matchListObj: payload.matchListObj,
-        count: payload.count,
-        current: payload.current
+        count:payload.count,
+        current:payload.current
       };
     },
   },

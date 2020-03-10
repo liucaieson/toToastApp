@@ -8,22 +8,20 @@ import moment from 'moment';
 import PageLoading from '../../../../../../components/MbPageLoading';
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
+import PaginationBox from '../../../../../../components/PaginationBox';
 
-@connect(({ doubleResult, betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
-  doubleResult,
+@connect(({ asianGG, dates, chsDB, showCompetitions, competitions, loading }) => ({
+  asianGG,
   showCompetitions,
   competitions,
-  betShopCart,
   dates,
   chsDB,
-  loading,
-  doubleResultLoading: loading.effects['doubleResult/fetchMatchOdds'],
+  loading: loading.effects['asian/fetchMatchOdds'],
 }))
 class DoubleResult extends PureComponent {
   state = {
     refreshLoading: false,
     showCompetitionsList: [],
-    isShowMatch: -1,
     isActiveDate: '',
     firstLoading: true,
   };
@@ -42,47 +40,19 @@ class DoubleResult extends PureComponent {
 
   componentDidMount() {
     this.fetchDates();
-    this.fetchCompetitions();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
+    this.fetchMatchOdds({}, () => {
+      this.setState({
+        firstLoading: false,
+      });
+    });
   }
 
   setTimeFetchMatchList = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
     this.fetchMatchOdds(this.globalParams);
   };
 
-  addShopCart = (matchId, gamblingId, choiceId, id) => {
-    const { dispatch, betShopCart: { shopCart } } = this.props;
-    if (shopCart.ids.includes(choiceId)) {
-      return false;
-    } else {
-      dispatch({
-        type: 'changeBetSectionStatus/changeStatus',
-        payload: [true, 'bets'],
-      });
-      dispatch({
-        type: 'betShopCart/addBetShopCart',
-        payload: {
-          sport: '1',
-          choiceId,
-          status: 0,
-          dishId: id,
-        },
-      });
-    }
-  };
-
   /* 请求比赛赔率 */
-  fetchMatchOdds = (param) => {
+  fetchMatchOdds = (param, fn) => {
     let params = {
       ...this.globalParams,
     };
@@ -94,8 +64,9 @@ class DoubleResult extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'doubleResult/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
+      callback: fn,
     });
   };
 
@@ -105,63 +76,74 @@ class DoubleResult extends PureComponent {
     dispatch({
       type: 'dates/fetch',
       payload: {
-        ...this.defaultParams,
+        ...this.globalParams,
       },
     });
   };
 
-  /* 请求联赛 */
-  fetchCompetitions = () => {
+  /* 刷新比赛数据 */
+  refreshMatchOdds = () => {
+    this.setState({
+      refreshLoading: true,
+    });
+    let params = {
+      ...this.globalParams,
+    };
     const { dispatch } = this.props;
     dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-      /* 请求完毕联赛接口，请求第一个联赛的比赛赔率 */
-      callback: (data) => {
-        let id = data[0].competitionId;
-        this.fetchMatchOdds({ competitions: id });
+      type: 'pointSpread/fetchMatchOdds',
+      payload: params,
+      callback: () => {
+        this.countRef.reset();
         this.setState({
-          isShowMatch: id,
-          firstLoading: false,
+          refreshLoading: false,
         });
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-        };
       },
     });
   };
 
-  /* isShowMatch里面没有这个val，说明该联赛需要显示，数组里有联赛id就隐藏,请求该联赛数据 */
-  toggleMatchExpend = (val) => {
-    const { isShowMatch } = this.state;
-    const { dispatch } = this.props;
-
-    if (isShowMatch === val) {
+  /* 点击日期的请求 */
+  fetchMatchOddsWithDate = (date) => {
+    this.setState({
+      isActiveDate: date.date,
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+      this.countRef.reset();
       this.setState({
-        isShowMatch: -1,
+        firstLoading: false,
       });
-    } else {
-      this.setState({
-        isShowMatch: val,
-      });
-      let params = {
+      this.globalParams = {
         ...this.globalParams,
-        competitions: val,
+        ...date,
       };
-      dispatch({
-        type: 'doubleResult/fetchMatchOdds',
-        payload: params,
-        callback: () => {
-          this.globalParams = {
-            ...this.globalParams,
-            competitions: val,
-          };
-        },
-      });
+    });
+
+  };
+
+  /* 给请求联赛的函数
+   * 回调函数为，请求联赛之后拿第一个联赛id去请求该联赛的比赛
+   * 设置show的match（实际上是应该展示的联赛）
+   * 保存全局参数
+    * */
+  fetchMatchOddsWithCompetitions = (param) => {
+    if (param.competitions === undefined) {
+      return;
     }
+    this.setState({
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ competitions: param }, () => {
+      /* 刷新倒计时的时间 */
+      this.countRef.reset();
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: param,
+      };
+      this.setState({
+        firstLoading: false,
+      });
+    });
   };
 
   /* 全局展示显示联赛的modal  */
@@ -178,92 +160,16 @@ class DoubleResult extends PureComponent {
     this.countRef = ref;
   };
 
-  refreshMatchOdds = () => {
-    this.setState({
-      refreshLoading: true,
-    });
-    let params = {
-      ...this.globalParams,
-    };
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
-    dispatch({
-      type: 'doubleResult/fetchMatchOdds',
-      payload: params,
-      callback: () => {
-        this.countRef.reset();
-        this.setState({
-          refreshLoading: false,
-        });
-      },
-    });
-  };
-
-  /* 点击日期的请求 */
-  fetchMatchOddsWithDate = (date) => {
-    const { dispatch } = this.props;
-    this.setState({
-      isActiveDate: date.date,
-      firstLoading: true,
-    });
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams,
-        ...date,
-      },
-      /* 请求完毕联赛接口，请求第一个联赛的比赛赔率 */
-      callback: (data) => {
-        if (data.length === 0) {
-          this.setState({
-            firstLoading: false,
-          });
-          return;
-        }
-        let id = data[0].competitionId;
-        this.fetchMatchOdds({ competitions: id, date: date.date });
-        this.countRef.reset();
-        this.setState({
-          isShowMatch: id,
-          firstLoading: false,
-        });
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-          ...date,
-        };
-      },
-    });
-  };
-
-  fetchMatchOddsWithCompetitions = (param) => {
-    const { dispatch } = this.props;
-    if (param.competitions.length === 0) {
+  nextPage = (page) => {
+    const { loading } = this.props;
+    if (loading) {
       return;
     }
-    dispatch({
-      type: 'competitions/toggle',
-      payload: param.competitions,
-      callback: () => {
-        let id = param.competitions[0].competitionId;
-        this.fetchMatchOdds({ competitions: id });
-        this.setState({
-          isShowMatch: id,
-        });
-        /* 刷新倒计时的时间 */
-        this.countRef.reset();
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: id,
-        };
-      },
-    });
+    this.fetchMatchOdds({ page, size: 40 });
   };
+
+
+
 
   turnToAsianMixed = () => {
     const { dispatch } = this.props;
@@ -275,14 +181,11 @@ class DoubleResult extends PureComponent {
 
   render() {
     const {
-      doubleResult: {
-        competitionsMatchList,
+      asianGG: {
+        cptIds, matchListObj, count, current,
       },
       dates: { dates },
-      betShopCart: { shopCart },
-      competitions: { competitions },
       chsDB:{chsDB},
-      doubleResultLoading,
     } = this.props;
     const { isShowMatch, refreshLoading, isActiveDate, firstLoading } = this.state;
     return (
@@ -341,28 +244,21 @@ class DoubleResult extends PureComponent {
               {
                 firstLoading ? <PageLoading/> :
                   (
-                    competitions.length === 0 ? <div className="no-match">暂无比赛</div> :
-                      competitions.map((val) => (
-                        <div key={val.competitionId}>
-                          <Row className={styles['competitions-name']}>
-                            <Col span={3} className={styles.arrow}
-                                 onClick={() => this.toggleMatchExpend(val.competitionId)}>
+                    <div>
+                      {
+                        cptIds.map((val) => (
+                          <div key={val}>
+                            <Row className={styles['competitions-name']}>
+                              <Col span={1} className={styles.arrow}>
+                              </Col>
+                              <Col span={20} className={styles.name}>
+                                {matchListObj[val][0].cptName}
+                              </Col>
+                            </Row>
+                            <div className={styles['match-info']}>
                               {
-                                isShowMatch === val.competitionId ?
-                                  <Icon type="caret-up"/> :
-                                  <Icon type="caret-down"/>
-                              }
-                            </Col>
-                            <Col span={20} className={styles.name}>
-                              {val.competitionName}
-                            </Col>
-                          </Row>
-                          <div className={styles['match-info']}>
-                            {isShowMatch === val.competitionId ?
-                              (
-                                doubleResultLoading ? <PageLoading/> :
-                                  competitionsMatchList &&
-                                  competitionsMatchList.map((v) => (
+                                (
+                                  matchListObj[val].map((v) => (
                                     <Row className={styles['match-line-box']} key={v.matchId}>
                                       <Row className={styles['match-line']}>
                                         <Col span={3} className={styles['match-time']}>
@@ -387,7 +283,7 @@ class DoubleResult extends PureComponent {
                                               </div>
                                             ))
                                           }
-                                         {/* <div className={styles['match-odds']}>
+                                          {/* <div className={styles['match-odds']}>
                                             {
                                               v.odds[0].chs.list['11'] &&
                                               <span className={styles.item}>
@@ -492,12 +388,15 @@ class DoubleResult extends PureComponent {
                                       </Row>
                                     </Row>
                                   ))
-                              )
-                              : ''
-                            }
+                                )
+
+                              }
+                            </div>
                           </div>
-                        </div>
-                      ))
+                        ))
+                      }
+                      <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                    </div>
                   )}
             </div>
           </div>

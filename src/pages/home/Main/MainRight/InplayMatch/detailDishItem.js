@@ -40,22 +40,19 @@ class DetailDishItem extends PureComponent {
   addShopCart = (matchId, gamblingId, choiceId, id) => {
     const { dispatch, betShopCart: { shopCart } } = this.props;
     if (shopCart.ids.includes(choiceId)) {
-      dispatch({
-        type: 'betShopCart/delBetShopCart',
-        payload: choiceId,
-      });
+      return false;
     } else {
       dispatch({
-        type: 'changeBetSectionStatus/changeStatus',
-        payload: [true, 'bets'],
+        type: 'toggleMainLeftTabs/toggleMainLeftTabs',
+        payload: 2
       });
       dispatch({
         type: 'betShopCart/addBetShopCart',
         payload: {
-          status: 1,
-          sport:'1',
+          sport: '1',
+          choiceId,
+          status: 0,
           dishId: id,
-          choiceId
         },
       });
     }
