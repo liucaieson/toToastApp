@@ -38,7 +38,6 @@ class Mixed extends PureComponent {
     page:1
   };
 
-
   componentDidMount() {
     this.fetchDates();
     this.fetchMatchOdds({}, () => {
