@@ -7,13 +7,14 @@ import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
 import Item from './item';
 import PageLoading from '../../../../../../components/MbPageLoading';
+import PaginationBox from '../../../../../../components/PaginationBox';
 
-@connect(({ todayPointSpread, showCompetitions,changeBetSectionStatus, competitions, loading }) => ({
-  todayPointSpread,
+@connect(({ asianGG, showCompetitions,changeBetSectionStatus, competitions, loading }) => ({
+  asianGG,
   showCompetitions,
   competitions,
   changeBetSectionStatus,
-  pointSpreadLoading:loading.models.todayPointSpread,
+  loading:loading.models.asianGG,
 }))
 class TodayPointSpread extends PureComponent {
   state = {
@@ -28,50 +29,27 @@ class TodayPointSpread extends PureComponent {
   globalParams = {
     sport: '1',
     gg: '1',
+    page:1,
     date: moment().format('YYYY-MM-DD')
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'todayPointSpread/fetchMatchOdds',
-      payload: {
-        ...this.globalParams
-      },
-      callback: () => {
-        this.setState({
-          firstLoading: false
-        })
-      }
+    this.fetchDates();
+    this.fetchMatchOdds({}, () => {
+      this.setState({
+        firstLoading: false,
+      });
     });
-  }
-
-/*
-  componentWillReceiveProps() { //Really important !!
-    this.cache.clearAll(); //Clear the cache if row heights are recompute to be sure there are no "blank spaces" (some row are erased)
-    this.virtualizedList && this.virtualizedList.recomputeRowHeights(); //We need to recompute the heights
-  }
-*/
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
   }
 
   setTimeFetchMatchList = () => {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams
-      },
-    });
-    this.fetchMatchOdds()
+    this.fetchMatchOdds(this.globalParams);
   };
 
   /* 请求比赛赔率 */
-  fetchMatchOdds = (param) => {
+  fetchMatchOdds = (param, fn) => {
     let params = {
-      ...this.globalParams
+      ...this.globalParams,
     };
     if (param) {
       params = {
@@ -81,16 +59,85 @@ class TodayPointSpread extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'todayPointSpread/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
+      callback: fn,
     });
   };
 
-  /* 展开比赛详细信息 */
-  turnToMatchDetail = (match) => {
+  /* 请求时间接口 */
+  fetchDates = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'dates/fetch',
+      payload: {
+        ...this.globalParams,
+      },
+    });
+  };
+
+  /* 刷新比赛数据 */
+  refreshMatchOdds = () => {
     this.setState({
-      isShowMatchDetail: true,
-      matchInfo: match
+      refreshLoading: true,
+    });
+    let params = {
+      ...this.globalParams,
+    };
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'pointSpread/fetchMatchOdds',
+      payload: params,
+      callback: () => {
+        this.countRef.reset();
+        this.setState({
+          refreshLoading: false,
+        });
+      },
+    });
+  };
+
+  /* 点击日期的请求 */
+  fetchMatchOddsWithDate = (date) => {
+    this.setState({
+      isActiveDate: date.date,
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+      this.countRef.reset();
+      this.setState({
+        firstLoading: false,
+      });
+      this.globalParams = {
+        ...this.globalParams,
+        ...date,
+      };
+    });
+
+  };
+
+  /* 给请求联赛的函数
+   * 回调函数为，请求联赛之后拿第一个联赛id去请求该联赛的比赛
+   * 设置show的match（实际上是应该展示的联赛）
+   * 保存全局参数
+    * */
+  fetchMatchOddsWithCompetitions = (param) => {
+    if (param.competitions === undefined) {
+      return;
+    }
+    this.setState({
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ competitions: param }, () => {
+      /* 刷新倒计时的时间 */
+      this.countRef.reset();
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: param,
+      };
+      this.setState({
+        firstLoading: false,
+      });
     });
   };
 
@@ -108,54 +155,22 @@ class TodayPointSpread extends PureComponent {
     this.countRef = ref;
   };
 
-  refreshMatchOdds = () => {
-    this.setState({
-      refreshLoading: true,
-    });
-    let params = {
-      ...this.globalParams
-    };
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams
-      },
-    });
-    dispatch({
-      type: 'pointSpread/fetchMatchOdds',
-      payload: params,
-      callback: () => {
-        this.countRef.reset();
-        this.setState({
-          refreshLoading: false,
-        });
-      },
+  nextPage = (page) => {
+    const { loading } = this.props;
+    if (loading) {
+      return;
+    }
+    this.fetchMatchOdds({ page, size: 40 }, (result) => {
+      const { current } = result;
+      this.globalParams = {
+        ...this.globalParams,
+        page: current
+      };
+
     });
   };
 
-  fetchMatchOddsWithCompetitions = (param) => {
-    const { dispatch } = this.props;
-    if(param.competitions.length === 0){return}
-    dispatch({
-      type: 'competitions/toggle',
-      payload: param.competitions,
-      callback: () => {
-        const ids = [];
-        param.competitions.map((val) => {
-          ids.push(val.competitionId)
-        });
-        const str = ids.join(',');
-        this.fetchMatchOdds({competitions: str});
-        /* 刷新倒计时的时间 */
-        this.countRef.reset();
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: str
-        }
-      },
-    });
-  };
+
 
   turnToTodayMixed = () => {
     const { dispatch } = this.props;
@@ -167,9 +182,9 @@ class TodayPointSpread extends PureComponent {
 
   render() {
     const {
-      todayPointSpread: {
-        cptIds, matchListObj
-      }
+      asianGG: {
+        cptIds, matchListObj, count, current,
+      },
     } = this.props;
     const {  refreshLoading, firstLoading } = this.state;
     return (
@@ -221,10 +236,15 @@ class TodayPointSpread extends PureComponent {
             <div className={styles.match}>
               {firstLoading ? <PageLoading/>  :
                 (
-                  cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
-                    cptIds.map((val) => (
-                      <Item  cptData={val} matchData={matchListObj[val]}/>
-                    ))
+                  <div>
+                    {
+                      cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
+                        cptIds.map((val) => (
+                          <Item cptData={val} matchData={matchListObj[val]}/>
+                        ))
+                    }
+                    <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                  </div>
                 )
               }
             </div>

@@ -38,7 +38,7 @@ export default {
           current
         },
       });
-      if(callback) callback()
+      if(callback) callback(result)
     },
   },
 

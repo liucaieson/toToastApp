@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col } from 'antd';
+import { Icon, Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './pointSpread.scss';
 import CountDown from '../../../../../../components/CountDown/index';
@@ -8,17 +8,15 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
+import ModalLayout from '../../DishLayout/modalLayout';
 
-@connect(({ pointSpread, betShopCart, matchAllOdds, dates, chsDB, showCompetitions, changeBetSectionStatus, competitions, loading }) => ({
-  pointSpread,
+@connect(({ asianGG, dates, chsDB, showCompetitions, changeBetSectionStatus, loading }) => ({
+  asianGG,
   showCompetitions,
-  matchAllOdds,
-  competitions,
-  betShopCart,
   dates,
   chsDB,
   changeBetSectionStatus,
-  loading: loading.models.pointSpread,
+  loading: loading.models.asianGG,
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
@@ -26,7 +24,8 @@ class Main extends PureComponent {
     refreshLoading: false,
     isActiveDate: '',
     firstLoading: true,
-    page:1
+    page:1,
+    isShow: false
   };
 
   timer = null;
@@ -36,6 +35,7 @@ class Main extends PureComponent {
   defaultParams = {
     sport: '1',
     gg: '1',
+    page:1
   };
   /* 存储全局的参数 */
   globalParams = {
@@ -125,7 +125,7 @@ class Main extends PureComponent {
       isActiveDate: date.date,
       firstLoading: true,
     });
-    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+    this.fetchMatchOdds({ ...this.globalParams,page:1, date: date.date }, () => {
       this.countRef.reset();
       this.setState({
         firstLoading: false,
@@ -133,9 +133,9 @@ class Main extends PureComponent {
       this.globalParams = {
         ...this.globalParams,
         ...date,
+        page:1
       };
     });
-
   };
 
   /* 给请求联赛的函数
@@ -169,6 +169,21 @@ class Main extends PureComponent {
   };
 
 
+  nextPage = (page) => {
+    const {loading} = this.props;
+    if(loading){
+      return
+    }
+    this.fetchMatchOdds({page,size:40}, (result) => {
+      const { current } = result;
+      this.globalParams = {
+        ...this.globalParams,
+        page: current
+      };
+    });
+  };
+
+
 
   /*跳转到混合过关*/
   turnToAsianMixed = () => {
@@ -179,39 +194,35 @@ class Main extends PureComponent {
     });
   };
 
-  nextPage = (page) => {
-    const {loading} = this.props;
-    if(loading){
-      return
-    }
-    this.fetchMatchOdds({page,size:40});
-  };
 
 
   /* 跳转到单程比赛所有盘口玩法赔率页面 ，
   * pageId为标识要跳的页面为detail（比赛详情玩法）
   * id为matchId页面初始化请求
    */
-  turnToDetail = (id) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'togglePageWithGg/turnToDetail',
-      payload: {
-        pageId: 'detail',
-        matchId: id,
-      },
+  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
+  openMatchAllOdds = (matchId) => {
+    this.setState({
+      isShow: true,
+      matchId
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      isShow: false
     });
   };
 
   render() {
     const {
-      pointSpread: {
+      asianGG: {
         cptIds, matchListObj, count, current
       },
       dates: { dates },
       chsDB: { chsDB },
     } = this.props;
-    const { refreshLoading, isActiveDate, firstLoading } = this.state;
+    const { refreshLoading, isActiveDate, firstLoading, isShow, matchId } = this.state;
     return (
       <div className={styles.pointSpread}>
         <div className={styles.header}>
@@ -554,7 +565,7 @@ class Main extends PureComponent {
                                     </div>
                                   </Fragment>
                                   :*/
-                                        <div className={styles.btn} onClick={() => this.turnToDetail(v.matchId)}>
+                                        <div className={styles.btn} onClick={() => this.openMatchAllOdds(v.matchId)}>
                                           所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
                                         </div>
                                       }
@@ -577,6 +588,27 @@ class Main extends PureComponent {
             </div>
           </div>
         </div>
+        <Modal
+          title={'比赛'}
+          visible={isShow}
+          onCancel={this.closeModal}
+          width={700}
+          footer={null}
+          maskClosable={false}
+          destroyOnClose
+          getContainer={() => document.getElementById('mainRightBox')}
+          bodyStyle={{
+            height: '600px',
+            color:'white',
+            padding:'2px 4px'
+          }}
+        >
+          {
+            isShow ? <ModalLayout matchId={matchId}/>
+
+              : ''
+          }
+        </Modal>
         <CompetitionsModal params={this.defaultParams} fn={this.fetchMatchOddsWithCompetitions}/>
       </div>
 

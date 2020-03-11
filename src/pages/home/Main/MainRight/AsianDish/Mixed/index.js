@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col } from 'antd';
+import { Icon, Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import CountDown from '../../../../../../components/CountDown/index';
@@ -9,6 +9,7 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 import MixedDishLayout from '../../DishLayout/mixedDishLayout';
 import DishLayout from '../../DishLayout/betDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
+import MixModalLayout from '../../DishLayout/mixedModalLayout';
 
 @connect(({ asianGG,  betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
   asianGG,
@@ -108,7 +109,7 @@ class Mixed extends PureComponent {
       isActiveDate: date.date,
       firstLoading: true,
     });
-    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+    this.fetchMatchOdds({ ...this.globalParams,page:1, date: date.date }, () => {
       this.countRef.reset();
       this.setState({
         firstLoading: false,
@@ -116,9 +117,9 @@ class Mixed extends PureComponent {
       this.globalParams = {
         ...this.globalParams,
         ...date,
+        page:1
       };
     });
-
   };
 
   /* 给请求联赛的函数
@@ -146,26 +147,24 @@ class Mixed extends PureComponent {
     });
   };
 
-  /* 全局展示显示联赛的modal  */
-  showCompetitionsModal = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'showCompetitions/toggle',
-      payload: true,
-    });
-  };
-
   /* 获取倒计时组件的this */
   onCountDownRef = (ref) => {
     this.countRef = ref;
   };
 
+
   nextPage = (page) => {
-    const { loading } = this.props;
-    if (loading) {
-      return;
+    const {loading} = this.props;
+    if(loading){
+      return
     }
-    this.fetchMatchOdds({ page, size: 40 });
+    this.fetchMatchOdds({page,size:40}, (result) => {
+      const { current } = result;
+      this.globalParams = {
+        ...this.globalParams,
+        page: current
+      };
+    });
   };
 
   /* 跳转到单程比赛所有盘口玩法赔率页面 ，
@@ -183,6 +182,22 @@ class Mixed extends PureComponent {
     });
   };
 
+  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
+  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
+  fetchMatchAllOdds = (matchId) => {
+    this.setState({
+      isShow: true,
+      matchId
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      isShow: false
+    });
+  };
+
+
 
   render() {
     const {
@@ -191,10 +206,8 @@ class Mixed extends PureComponent {
       },
       dates: { dates },
       chsDB: { chsDB },
-      competitions: { competitions },
-      mixedLoading,
     } = this.props;
-    const { isShowMatch, refreshLoading, isActiveDate, allMatchExpend, firstLoading } = this.state;
+    const { isShow, refreshLoading, isActiveDate, matchId, firstLoading } = this.state;
     return (
       <div className={styles.mixed}>
         <div className={styles.header}>
@@ -537,7 +550,7 @@ class Mixed extends PureComponent {
                                                 </div>
                                               </Fragment>
                                               :*/
-                                          <div className={styles.btn} onClick={() => this.turnToDetail(v.matchId)}>
+                                          <div className={styles.btn} onClick={() => this.fetchMatchAllOdds(v.matchId)}>
                                             所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
                                           </div>
                                         }
@@ -557,6 +570,27 @@ class Mixed extends PureComponent {
             </div>
           </div>
         </div>
+        <Modal
+          title='比赛'
+          visible={isShow}
+          onCancel={this.closeModal}
+          width={700}
+          footer={null}
+          maskClosable={false}
+          destroyOnClose
+          getContainer={() => document.getElementById('mainRightBox')}
+          bodyStyle={{
+            height: '600px',
+            color:'white',
+            padding:'2px 4px'
+          }}
+        >
+          {
+            isShow ?
+              <MixModalLayout matchId={matchId} />
+              : ''
+          }
+        </Modal>
         <CompetitionsModal params={this.globalParams} fn={this.fetchMatchOddsWithCompetitions}/>
       </div>
     );

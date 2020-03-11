@@ -109,7 +109,7 @@ class TotalResult extends PureComponent {
       isActiveDate: date.date,
       firstLoading: true,
     });
-    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+    this.fetchMatchOdds({ ...this.globalParams,page:1, date: date.date }, () => {
       this.countRef.reset();
       this.setState({
         firstLoading: false,
@@ -117,9 +117,9 @@ class TotalResult extends PureComponent {
       this.globalParams = {
         ...this.globalParams,
         ...date,
+        page:1
       };
     });
-
   };
 
   /* 给请求联赛的函数
@@ -147,28 +147,25 @@ class TotalResult extends PureComponent {
     });
   };
 
-  /* 全局展示显示联赛的modal  */
-  showCompetitionsModal = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'showCompetitions/toggle',
-      payload: true,
-    });
-  };
-
   /* 获取倒计时组件的this */
   onCountDownRef = (ref) => {
     this.countRef = ref;
   };
+
 
   nextPage = (page) => {
     const {loading} = this.props;
     if(loading){
       return
     }
-    this.fetchMatchOdds({page,size:40});
+    this.fetchMatchOdds({page,size:40}, (result) => {
+      const { current } = result;
+      this.globalParams = {
+        ...this.globalParams,
+        page: current
+      };
+    });
   };
-
 
   turnToAsianMixed = () => {
     const { dispatch } = this.props;
@@ -259,7 +256,7 @@ class TotalResult extends PureComponent {
                             <Col span={1} className={styles.arrow}>
                             </Col>
                             <Col span={20} className={styles.name}>
-                              {matchListObj[val].cptName}
+                              {matchListObj[val][0].cptName}
                             </Col>
                           </Row>
                           <div className={styles['match-info']}>

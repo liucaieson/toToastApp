@@ -31,6 +31,7 @@ class FirstGoal extends PureComponent {
   defaultParams = {
     sport: '1',
     gg: '7',
+    page: 1
   };
   /* 存储全局的参数 */
   globalParams = {
@@ -107,7 +108,7 @@ class FirstGoal extends PureComponent {
       isActiveDate: date.date,
       firstLoading: true,
     });
-    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
+    this.fetchMatchOdds({ ...this.globalParams,page:1, date: date.date }, () => {
       this.countRef.reset();
       this.setState({
         firstLoading: false,
@@ -115,9 +116,9 @@ class FirstGoal extends PureComponent {
       this.globalParams = {
         ...this.globalParams,
         ...date,
+        page:1
       };
     });
-
   };
 
   /* 给请求联赛的函数
@@ -145,26 +146,24 @@ class FirstGoal extends PureComponent {
     });
   };
 
-  /* 全局展示显示联赛的modal  */
-  showCompetitionsModal = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'showCompetitions/toggle',
-      payload: true,
-    });
-  };
-
   /* 获取倒计时组件的this */
   onCountDownRef = (ref) => {
     this.countRef = ref;
   };
 
+
   nextPage = (page) => {
-    const { loading } = this.props;
-    if (loading) {
-      return;
+    const {loading} = this.props;
+    if(loading){
+      return
     }
-    this.fetchMatchOdds({ page, size: 40 });
+    this.fetchMatchOdds({page,size:40}, (result) => {
+      const { current } = result;
+      this.globalParams = {
+        ...this.globalParams,
+        page: current
+      };
+    });
   };
 
   turnToAsianMixed = () => {
