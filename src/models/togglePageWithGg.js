@@ -3,7 +3,7 @@ export default {
   namespace: 'togglePageWithGg',
 
   state: {
-    pageId: 'command',
+    pageId: '1',
     matchId: ''
   },
 

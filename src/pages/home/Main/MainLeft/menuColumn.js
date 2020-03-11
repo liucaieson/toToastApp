@@ -13,7 +13,7 @@ class MemuColumn extends PureComponent {
   state = {
     isTodayDishExpend: true,
     isRoundDishExpend: true,
-    GGMenu: 'home',
+    GGMenu: 'asian',
     isMenuExpend: true
   };
   componentDidMount() {
@@ -74,8 +74,8 @@ class MemuColumn extends PureComponent {
     this.setState({
       GGMenu: tab
     });
-    if( tab === 'home'){
-      this.getMatchOdds('command')
+    if( tab === 'mixed'){
+      this.getMatchOdds('8')
     }
     if(tab === 'asian'){
       this.getMatchOdds('1')
@@ -92,13 +92,13 @@ class MemuColumn extends PureComponent {
     } = this.props;
     const { GGMenu } =this.state;
     switch (GGMenu) {
-      case 'home':
+      case 'mixed':
         return (
           <ul className={styles['dish-list']}>
-            <li className={pageId === 'command' ? `${styles.item} ${styles.active}`: styles.item}  key='command'
-                onClick={() => this.getMatchOdds('command')}
+            <li className={pageId === '8' ? `${styles.item} ${styles.active}`: styles.item}  key='command'
+                onClick={() => this.getMatchOdds('mixed')}
             >
-              <span className={styles.left}>即将开始</span>
+              <span className={styles.left}>混合过关</span>
               <span className={styles.right}></span>
             </li>
           </ul>
@@ -131,7 +131,7 @@ class MemuColumn extends PureComponent {
         );
       default :
         return ''
-    }1
+    }
   };
 
 
@@ -162,9 +162,10 @@ class MemuColumn extends PureComponent {
         </div>
             <div>
               <div className={styles['gg-tab']}>
-                <div className={ GGMenu === 'home' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('home')}>首页</div>
                 <div className={ GGMenu === 'asian' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('asian')}>早盘</div>
                 <div className={ GGMenu === 'today' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('today')}>今日</div>
+                <div className={ GGMenu === 'mixed' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('mixed')}>混合过关</div>
+
               </div>
               { this.renderGGMenu() }
             </div>
