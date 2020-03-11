@@ -9,7 +9,7 @@ import styles from './menuColumn.scss';
   gamePlay,
   balanceLoading:loading.models.userInfo
 }))
-class MemuColumn extends PureComponent {
+class MenuColumn extends PureComponent {
   state = {
     isTodayDishExpend: true,
     isRoundDishExpend: true,
@@ -99,7 +99,7 @@ class MemuColumn extends PureComponent {
                 onClick={() => this.getMatchOdds('mixed')}
             >
               <span className={styles.left}>混合过关</span>
-              <span className={styles.right}></span>
+              <span className={styles.right}>{asianDish[7].matchCount}</span>
             </li>
           </ul>
         );
@@ -175,4 +175,4 @@ class MemuColumn extends PureComponent {
   }
 }
 
-export default MemuColumn;
+export default MenuColumn;

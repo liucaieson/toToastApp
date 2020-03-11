@@ -72,7 +72,7 @@ class Main extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'pointSpread/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
       callback: fn,
     });
@@ -108,7 +108,7 @@ class Main extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'pointSpread/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();

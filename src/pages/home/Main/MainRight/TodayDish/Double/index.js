@@ -5,17 +5,15 @@ import styles from './index.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
 import moment from 'moment';
-import { AutoSizer, List } from 'react-virtualized';
 import Item from './item';
 import PageLoading from '../../../../../../components/MbPageLoading';
+import PaginationBox from '../../../../../../components/PaginationBox';
 
-@connect(({ todayDouble, dates, showCompetitions, competitions, loading }) => ({
-  todayDouble,
+@connect(({ asianGG, chsDB, showCompetitions,  loading }) => ({
+  asianGG,
   showCompetitions,
-  competitions,
-  dates,
-  loading,
-  doubleLoading:loading.effects['todayDouble/fetchMatchOdds']
+  chsDB,
+  loading:loading.effects['asianGG/fetchMatchOdds']
 }))
 class Double extends PureComponent {
   state = {
@@ -30,7 +28,8 @@ class Double extends PureComponent {
   defaultParams = {
     sport: '1',
     gg: '4',
-    date: moment().format('YYYY-MM-DD')
+    date: moment().format('YYYY-MM-DD'),
+    page:1
   };
 
   globalParams = {
@@ -38,40 +37,21 @@ class Double extends PureComponent {
   };
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'todayDouble/fetchMatchOdds',
-      payload: {
-        ...this.globalParams
-      },
-      callback:() => {
-        this.setState({
-          firstLoading: false
-        })
-      }
+    this.fetchMatchOdds({}, () => {
+      this.setState({
+        firstLoading: false,
+      });
     });
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-
   }
 
   setTimeFetchMatchList = () => {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams
-      },
-    });
-    this.fetchMatchOdds(this.globalParams)
+    this.fetchMatchOdds(this.globalParams);
   };
 
   /* 请求比赛赔率 */
-  fetchMatchOdds = (param) => {
+  fetchMatchOdds = (param, fn) => {
     let params = {
-      ...this.defaultParams
+      ...this.globalParams,
     };
     if (param) {
       params = {
@@ -81,8 +61,55 @@ class Double extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'todayDouble/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
+      callback: fn,
+    });
+  };
+
+  /* 刷新比赛数据 */
+  refreshMatchOdds = () => {
+    this.setState({
+      refreshLoading: true,
+    });
+    let params = {
+      ...this.globalParams,
+    };
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'asianGG/fetchMatchOdds',
+      payload: params,
+      callback: () => {
+        this.countRef.reset();
+        this.setState({
+          refreshLoading: false,
+        });
+      },
+    });
+  };
+
+  /* 给请求联赛的函数
+   * 回调函数为，请求联赛之后拿第一个联赛id去请求该联赛的比赛
+   * 设置show的match（实际上是应该展示的联赛）
+   * 保存全局参数
+    * */
+  fetchMatchOddsWithCompetitions = (param) => {
+    if (param.competitions === undefined) {
+      return;
+    }
+    this.setState({
+      firstLoading: true,
+    });
+    this.fetchMatchOdds({ competitions: param }, () => {
+      /* 刷新倒计时的时间 */
+      this.countRef.reset();
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: param,
+      };
+      this.setState({
+        firstLoading: false,
+      });
     });
   };
 
@@ -100,55 +127,6 @@ class Double extends PureComponent {
     this.countRef = ref;
   };
 
-  refreshMatchOdds = () => {
-    this.setState({
-      refreshLoading: true,
-    });
-    let params = {
-      ...this.globalParams
-    };
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'competitions/fetch',
-      payload: {
-        ...this.globalParams
-      },
-    });
-    dispatch({
-      type: 'todayDouble/fetchMatchOdds',
-      payload: params,
-      callback: () => {
-        this.countRef.reset();
-        this.setState({
-          refreshLoading: false,
-        });
-      },
-    });
-  };
-
-  fetchMatchOddsWithCompetitions = (param) => {
-    const { dispatch } = this.props;
-    if(param.competitions.length === 0){return}
-    dispatch({
-      type: 'competitions/toggle',
-      payload: param.competitions,
-      callback: () => {
-        const ids = [];
-        param.competitions.map((val) => {
-          ids.push(val.competitionId)
-        });
-        const str = ids.join(',');
-        this.fetchMatchOdds({competitions: str});
-        /* 刷新倒计时的时间 */
-        this.countRef.reset();
-        this.globalParams = {
-          ...this.globalParams,
-          competitions: str
-        }
-      },
-    });
-  };
-
   turnToTodayMixed = () => {
     const { dispatch } = this.props;
     dispatch({
@@ -157,26 +135,12 @@ class Double extends PureComponent {
     });
   };
 
-  _rowRenderer = ({index, parent, style}) => {
-    /* 这里有一个坑。要让子组件应用上style,否则会出现闪烁 */
-    const { todayDouble: { cptIds,matchListObj }} = this.props;
-    return (
-      <Item style={style} cptData={cptIds[index]} matchData={matchListObj[cptIds[index]]} key={cptIds[index]}/>
-    )
-  };
-
-  _getRowHeight = ({index}) => {
-    const {
-      todayDouble: { cptIds,matchListObj }} = this.props;
-    return  30 + 50 * matchListObj[cptIds[index]].length;
-  };
-
 
   render() {
     const {
-      todayDouble: {
-        cptIds
-      },
+      asianGG: {
+        cptIds, matchListObj, count, current
+      }
     } = this.props;
     const { refreshLoading,firstLoading } = this.state;
     return (
@@ -235,27 +199,18 @@ class Double extends PureComponent {
               </Col>
             </Row>
             <div className={styles.match}>
-              { firstLoading ? <PageLoading/>  :
-                <AutoSizer disableHeight>
-                  {({width}) => (
-                    <List
-                      ref="List"
-                      height={window.innerHeight-144}
-                      style={{
-                        height: "calc(100vh - 144px)",
-                        lineHeight: "30px",
-                        width: "828px",
-                      }}
-                      overscanRowCount={10}
-                      rowCount={cptIds.length}
-                      rowHeight={
-                        this._getRowHeight
-                      }
-                      rowRenderer={this._rowRenderer}
-                      width={928}
-                    />
-                  )}
-                </AutoSizer>
+              {firstLoading ? <PageLoading/>  :
+                (
+                  <div>
+                    {
+                      cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
+                        cptIds.map((val) => (
+                          <Item cptData={val} matchData={matchListObj[val]}/>
+                        ))
+                    }
+                    <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                  </div>
+                )
               }
             </div>
           </div>

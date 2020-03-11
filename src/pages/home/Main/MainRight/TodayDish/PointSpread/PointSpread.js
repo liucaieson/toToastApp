@@ -34,7 +34,6 @@ class TodayPointSpread extends PureComponent {
   };
 
   componentDidMount() {
-    this.fetchDates();
     this.fetchMatchOdds({}, () => {
       this.setState({
         firstLoading: false,
@@ -65,17 +64,6 @@ class TodayPointSpread extends PureComponent {
     });
   };
 
-  /* 请求时间接口 */
-  fetchDates = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'dates/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
-  };
-
   /* 刷新比赛数据 */
   refreshMatchOdds = () => {
     this.setState({
@@ -86,7 +74,7 @@ class TodayPointSpread extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'pointSpread/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();
@@ -95,25 +83,6 @@ class TodayPointSpread extends PureComponent {
         });
       },
     });
-  };
-
-  /* 点击日期的请求 */
-  fetchMatchOddsWithDate = (date) => {
-    this.setState({
-      isActiveDate: date.date,
-      firstLoading: true,
-    });
-    this.fetchMatchOdds({ ...this.globalParams, date: date.date }, () => {
-      this.countRef.reset();
-      this.setState({
-        firstLoading: false,
-      });
-      this.globalParams = {
-        ...this.globalParams,
-        ...date,
-      };
-    });
-
   };
 
   /* 给请求联赛的函数
@@ -169,8 +138,6 @@ class TodayPointSpread extends PureComponent {
 
     });
   };
-
-
 
   turnToTodayMixed = () => {
     const { dispatch } = this.props;
