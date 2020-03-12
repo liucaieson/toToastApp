@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import styles from './index.scss';
-import DishLayout from '../DishLayout/betDishLayout';
+import InpalyDishLayout from '../DishLayout/inplayDishLayout';
 
 class IndexDishItem extends PureComponent {
 
@@ -17,7 +17,7 @@ class IndexDishItem extends PureComponent {
       <div>
         <span className={styles.handicap}>{choiceHandicap}</span>
         <span className={styles.odds}>
-          <DishLayout
+          <InpalyDishLayout
             choiceId={choiceId}
             matchId={matchId}
             gamblingId={gamblingId}

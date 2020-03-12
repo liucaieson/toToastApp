@@ -1,12 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { dishNameMap, calcDate2 } from '../../../../../utils/util';
 
-@connect(({ betShopCart }) => ({
+
+@connect(({  betShopCart}) => ({
   betShopCart,
 }))
-class DetailDishItem extends PureComponent {
+class InpalyDishLayout extends PureComponent {
 
   state = {
     up: 0,
@@ -35,7 +35,6 @@ class DetailDishItem extends PureComponent {
     return null
   }
 
-
   /* 添加投注单到购物车 */
   addShopCart = (matchId, gamblingId, choiceId, id) => {
     const { dispatch, betShopCart: { shopCart } } = this.props;
@@ -46,7 +45,6 @@ class DetailDishItem extends PureComponent {
         type: 'toggleMainLeftTabs/toggleMainLeftTabs',
         payload: 2
       });
-      /* status0是盘前1是滚球 */
       dispatch({
         type: 'betShopCart/addBetShopCart',
         payload: {
@@ -73,35 +71,20 @@ class DetailDishItem extends PureComponent {
   }
 
   render() {
-    const {
-      betShopCart: { shopCart },
-      matchId,
-      choiceId,
-      gamblingId,
-      dishId,
-      dish,
-      name,
-      choiceHandicap
-    } = this.props;
+    const { matchId, gamblingId, choiceId, dishId, dish, betShopCart: {shopCart} } = this.props;
     return (
-        <div
-             className={shopCart.ids.includes(choiceId) ? `${styles.item} ${styles.active}` : styles.item}
-             onClick={() => this.addShopCart(matchId, gamblingId, choiceId, dishId)}
-        >
-          <div className={styles.name}>
-            {dishNameMap[name]}
-            <span className={styles.handicap}>
-                {choiceHandicap && `(${choiceHandicap})`}
-           </span>
-          </div>
-          <div className={styles.dish}>
-            {dish}
-            {this.renderUp()}
-          </div>
-
-        </div>
+      <span
+        className={shopCart.ids.includes(choiceId) ? `${styles.dish} ${styles.active}` : styles.dish}
+        onClick={() => this.addShopCart(matchId, gamblingId, choiceId, dishId)}
+      >
+        {dish}
+        {this.renderUp()}
+     </span>
     );
   }
 }
 
-export default DetailDishItem;
+export default InpalyDishLayout;
+
+
+
