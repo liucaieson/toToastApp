@@ -79,6 +79,7 @@ class DishLayout extends PureComponent {
         onClick={() => this.addShopCart(matchId, gamblingId, choiceId, dishId)}
       >
         {dish}
+        {this.renderUp()}
      </span>
     );
   }

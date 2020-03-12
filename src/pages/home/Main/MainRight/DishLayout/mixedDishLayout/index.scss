@@ -8,12 +8,62 @@
   border-radius: 2px;
   padding: 1px 4px;
   cursor: pointer;
+  position: relative;
   &:hover{
     background-color: $active-color1;
     color: $active1-fz;
   }
+  .up{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(200,37,10,.2);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    -webkit-animation: flash 10s linear 1 alternate;
+    animation: flash 10s linear 1 alternate;
+  }
+  .down{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(199,165,18,.4);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    -webkit-animation: flash 10s linear 1 alternate;
+    animation: flash 10s linear 1 alternate;
+  }
 }
+
 .active{
   background-color: $active-color1;
   color: $active1-fz;
 }
+
+@-webkit-keyframes flash {
+
+  from, 50%, to {
+    opacity: 1;
+  }
+
+  /*  25%, 75% {
+      opacity: 0;
+    }*/
+}
+
+@keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+  /*  25%, 75% {
+      opacity: 0;
+    }*/
+}
+
+.flash {
+  -webkit-animation-name: flash;
+  animation-name: flash;
+}
+
