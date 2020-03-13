@@ -1,0 +1,126 @@
+@import "../../../../styles/common";
+@import "../../../../styles/utils";
+
+.myOrder {
+  width: 100%;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  @include scrollBar();
+  .title {
+    display: flex;
+    height: 50px;
+    cursor: pointer;
+    .left {
+      width: 40px;
+      height: 50px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e8cb94;
+    }
+    .right {
+      flex: 1;
+      .top {
+        line-height: 24px;
+        color: #e8cb94;
+        font-size: 16px;
+        font-weight: 600
+      }
+      .bottom {
+        line-height: 18px;
+        color: #c0b49e;
+        font-size: 14px;
+      }
+    }
+  }
+  .list {
+    width: 100%;
+    background-color: white;
+    padding: 4px 6px;
+    .item {
+      border-bottom: 1px dashed $cart-item-fz2;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      .info {
+        width: 100%;
+        display: flex;
+        box-sizing: border-box;
+        padding-bottom: 4px;
+        &:nth-child(even) {
+          background-color: #f9f7f6;
+        }
+        .left {
+          width: 80%;
+          .dish-name {
+            font-size: 12px;
+            line-height: 20px;
+            .name {
+              color: $odds-fz-color;
+              padding-right: 4px;
+            }
+            .dish {
+              color: $odds-fz-color;
+              font-weight: 600;
+            }
+          }
+          .odds-name {
+            font-size: 12px;
+            line-height: 1.5;
+            color: $cart-item-fz1;
+          }
+          .match {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #333333;
+          }
+          .time {
+            font-size: 12px;
+            color: #616060;
+          }
+        }
+        .right {
+          width: 26%;
+          text-align: right;
+          padding-right: 3px;
+          font-size: 12px;
+          color: #3e3d3d;
+          .dish {
+
+          }
+          .win {
+            .red {
+              color: #ff8834;
+            }
+            .green {
+              color: #a8b3b0;
+            }
+          }
+        }
+      }
+      .money {
+        width: 100%;
+        padding-bottom: 4px;
+        padding-left: 4px;
+        padding-right: 8px;
+        .left {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          .text {
+            font-size: 12px;
+          }
+          .num {
+            font-size: 12px;
+            color: #3a3a3a;
+            font-weight: 600;
+          }
+          .time{
+            font-size: 12px;
+            color: #3a3a3a;
+          }
+        }
+      }
+    }
+  }
+}

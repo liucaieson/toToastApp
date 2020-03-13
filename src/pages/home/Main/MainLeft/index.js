@@ -4,6 +4,7 @@ import styles from './index.scss';
 import MenuColumn from './menuColumn';
 import BetShopCart from './BetShopCart/index'
 import MixedShopCart from './MixedShopCart/index'
+import MyOrder from './myOrder'
 
 const time = new Date();
 
@@ -49,6 +50,11 @@ class MainLeft extends PureComponent {
         <MixedShopCart />
       );
     }
+    if(mainLeftId === 4){
+      return (
+        <MyOrder />
+      );
+    }
   }
 
 
@@ -64,7 +70,9 @@ class MainLeft extends PureComponent {
             <div className={mainLeftId === 2 ? styles.active + ' ' + styles.tab : styles.tab}
                  onClick={() => this.toggleTab(2)}>单注</div>
             <div className={mainLeftId === 3 ? styles.active + ' ' + styles.tab : styles.tab}
-                 onClick={() => this.toggleTab(3)}>混合过关</div>
+                 onClick={() => this.toggleTab(3)}>过关</div>
+            <div className={mainLeftId === 4 ? styles.active + ' ' + styles.tab : styles.tab}
+                 onClick={() => this.toggleTab(4)}>我的注单</div>
           </div>
           <div>
             {this.renderTab()}

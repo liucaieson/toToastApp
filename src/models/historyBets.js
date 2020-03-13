@@ -8,7 +8,9 @@ export default {
     data:[
     ],
     count:1,
-    current:1
+    current:1,
+    settlementData:[],
+    unSettlementData:[],
   },
 
   effects: {
@@ -16,6 +18,22 @@ export default {
       let data = yield call(queryHistory, payload);
       yield put({
         type: 'save',
+        payload: data,
+      });
+      if(callback) callback(data)
+    },
+    *fetchSettlement({payload, callback}, { call, put, select }) {
+      let data = yield call(queryHistory, payload);
+      yield put({
+        type: 'saveSettlement',
+        payload: data,
+      });
+      if(callback) callback(data)
+    },
+    *fetchUnSettlement({payload, callback}, { call, put, select }) {
+      let data = yield call(queryHistory, payload);
+      yield put({
+        type: 'saveUnSettlement',
         payload: data,
       });
       if(callback) callback(data)
@@ -29,6 +47,18 @@ export default {
         data: payload.data,
         count:payload.count,
         current:payload.current
+      };
+    },
+    saveSettlement(state, { payload }) {
+      return {
+        ...state,
+        settlementData: payload.data,
+      };
+    },
+    saveUnSettlement(state, { payload }) {
+      return {
+        ...state,
+        unSettlementData: payload.data,
       };
     },
   },
