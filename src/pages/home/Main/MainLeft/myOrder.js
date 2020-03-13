@@ -4,6 +4,15 @@ import { connect } from 'dva';
 import styles from './myOrder.scss';
 import { dishNameMap } from '../../../../utils/util';
 
+const betTypeMap = {
+  '1':'',
+  '2':'二串一',
+  '3':'三串一',
+  '4':'四串一',
+  '5':'五串一',
+  '6':'六串一',
+};
+
 @connect(({ historyBets, loading }) => ({
   historyBets,
   loading: loading.models.historyBets,
@@ -92,7 +101,7 @@ class MyOrder extends PureComponent {
                       val.detailed && val.detailed.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
                           <div className={styles.left}>
-                            <div className={styles['odds-name']}>{item.oddName}</div>
+                            <div className={styles['odds-name']}><span className={styles.type}>{betTypeMap[val.betType]}</span>{item.oddName}</div>
                             <div className={styles.match}>{item.cptName}</div>
                             <div className={styles.match}>{item.hostName}---{item.awayName}</div>
                             <div
@@ -160,7 +169,7 @@ class MyOrder extends PureComponent {
                       val.detailed && val.detailed.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
                           <div className={styles.left}>
-                            <div className={styles['odds-name']}>{item.oddName}</div>
+                            <div className={styles['odds-name']}> <span className={styles.type}>{betTypeMap[val.betType]}</span>{item.oddName}</div>
                             <div className={styles.match}>{item.cptName}</div>
                             <div className={styles.match}>{item.hostName}---{item.awayName}</div>
                             <div
