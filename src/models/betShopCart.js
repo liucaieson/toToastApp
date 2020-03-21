@@ -102,7 +102,7 @@ export default {
       * */
     *addBetShopCart({ payload, callback }, { call, put, select }) {
       const cartData = yield select( state => state.betShopCart.shopCart);
-      if(cartData.ids.length > 3){
+      if(cartData.ids.length > 10){
         message.info('购物车满了。。。请投注');
         return
       }

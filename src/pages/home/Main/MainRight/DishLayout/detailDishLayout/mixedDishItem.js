@@ -4,8 +4,9 @@ import styles from '../../Detail/dish.scss';
 import { dishNameMap } from '../../../../../../utils/util';
 
 
-@connect(({ betShopCart }) => ({
+@connect(({ betShopCart, loading }) => ({
   betShopCart,
+  addLoading: loading.effects['betShopCart/addMixedShopCart'],
 }))
 class MixedDishItem extends PureComponent {
 
@@ -39,9 +40,15 @@ class MixedDishItem extends PureComponent {
 
   /* 添加投注单到购物车 */
   addMixedShopCart = (matchId , gamblingId, choiceId, id) => {
-    const { dispatch, betShopCart: { mixedShopCart } } = this.props;
+    const { dispatch, betShopCart: { mixedShopCart } , addLoading} = this.props;
+    if (addLoading) {
+      return;
+    }
     if (mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) {
-      return false
+      dispatch({
+        type: 'betShopCart/delMixedShopCart',
+        payload: matchId
+      });
     } else {
       dispatch({
         type: 'toggleMainLeftTabs/toggleMainLeftTabs',

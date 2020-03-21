@@ -1,7 +1,6 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { stringify as qsStringify } from 'qs';
-import storage from './localStorage';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -20,6 +19,7 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+
 function checkStatus(response) {
   if (response.status >= '200' && response.status < '300') {
     return response;

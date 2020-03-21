@@ -270,13 +270,13 @@ class TotalOver extends PureComponent {
                                 <Col span={1} className={styles.arrow}>
                                 </Col>
                                 <Col span={20} className={styles.name}>
-                                  {matchListObj[val][0].cptName}
+                                  {matchListObj[val] &&  matchListObj[val][0].cptName}
                                 </Col>
                               </Row>
                               <div className={styles['match-info']}>
                                 {
                                   (
-                                    matchListObj[val].map((v) => (
+                                    matchListObj[val] && matchListObj[val].map((v) => (
                                       <Row className={styles['match-line-box']} key={v.matchId}>
                                         <Row className={styles['match-line']}>
                                           <Col span={2} className={styles['match-time']}>

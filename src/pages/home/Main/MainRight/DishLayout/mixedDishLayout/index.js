@@ -43,7 +43,10 @@ class MixedDishItem extends PureComponent {
       return;
     }
     if (mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) {
-      return false;
+      dispatch({
+        type: 'betShopCart/delMixedShopCart',
+        payload:matchId
+      });
     } else {
       dispatch({
         type: 'toggleMainLeftTabs/toggleMainLeftTabs',

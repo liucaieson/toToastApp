@@ -40,7 +40,10 @@ class DishLayout extends PureComponent {
   addShopCart = (matchId, gamblingId, choiceId, id) => {
     const { dispatch, betShopCart: { shopCart } } = this.props;
     if (shopCart.ids.includes(choiceId)) {
-      return false;
+      dispatch({
+        type: 'betShopCart/delBetShopCart',
+        payload: choiceId,
+      });
     } else {
       dispatch({
         type: 'toggleMainLeftTabs/toggleMainLeftTabs',
