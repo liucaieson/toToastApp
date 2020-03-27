@@ -45,7 +45,7 @@ class InplayItem extends PureComponent {
             matchData.map((v) => (
               <Row className={styles['match-line-box']} key={v.matchId}>
                 <Row className={styles['match-line']}>
-                  <Col span={3} className={styles['match-time']}>
+                  <Col span={2} className={styles['match-time']}>
                     {
                       v.period < 0 ?
                         <div>
@@ -63,10 +63,14 @@ class InplayItem extends PureComponent {
                         </div>
                     }
                   </Col>
-                  <Col span={5} className={styles['match-team']}>
+                  <Col span={6} className={styles['match-team']}>
                     <div>{v.homeName}</div>
                     <div>{v.awayName}</div>
                     <div>和局</div>
+                    <div className={styles.favorite}>
+                      <Icon className={styles.icon} type="star" />
+                      <Icon className={styles.icon} type="star" theme="filled" />
+                    </div>
                   </Col>
                   <Col span={8} className={styles['match-odds']}>
                     <Row>

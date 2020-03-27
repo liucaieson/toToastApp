@@ -50,7 +50,7 @@ class Detail extends PureComponent {
 
   /* 请求比赛所有玩法的赔率赔率 */
   fetchMatchAllOdds = () => {
-    const {matchId} = this.props;
+    const { matchId } = this.props;
     const { dispatch } = this.props;
     dispatch({
       type: 'inPlay/fetchMatchAllOdds',

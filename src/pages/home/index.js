@@ -21,22 +21,22 @@ class HomePage extends PureComponent {
     const accessCode = getQueryString('accessCode');
     const code = sessionStorage.getItem('accessCode');
     if (code && code !== 'faeb2ead70b74948ae3b7c4cd73243f1') {
-     /* Modal.success({
+      Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',
-      });*/
+      });
     } else if (accessCode) {
       sessionStorage.setItem('accessCode', accessCode);
-     /* Modal.success({
+      Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',
-      });*/
+      });
     } else {
       sessionStorage.setItem('accessCode', 'faeb2ead70b74948ae3b7c4cd73243f1');
-     /* Modal.success({
+     Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育,当前为试玩账号',
-      });*/
+      });
     }
     this.getUserInfo();
   }

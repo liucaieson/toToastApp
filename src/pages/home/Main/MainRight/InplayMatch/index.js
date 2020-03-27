@@ -6,7 +6,6 @@ import CountDown from '../../../../../components/CountDown/index';
 import { dishNameMap } from '../../../../../utils/util';
 import PageLoading from '../../../../../components/MbPageLoading';
 import Item from './item'
-import { AutoSizer, List } from 'react-virtualized';
 
 @connect(({ inPlay, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
   inPlay,
@@ -113,23 +112,11 @@ class Main extends PureComponent {
     });
   };
 
-  _rowRenderer = ({index, parent, style}) => {
-    /* 这里有一个坑。要让子组件应用上style,否则会出现闪烁 */
-    const {  inPlay: { cptIds,matchListObj }} = this.props;
-    return (
-      <Item style={style} cptData={cptIds[index]} matchData={matchListObj[cptIds[index]]} key={cptIds[index]}/>
-    )
-  };
-
-  _getRowHeight = ({index}) => {
-    const { inPlay: { cptIds,matchListObj }} = this.props;
-    return  30 + 80 * matchListObj[cptIds[index]].length;
-  };
 
   render() {
     const {
       inPlay: {
-        cptIds
+        cptIds, matchListObj
       },
     } = this.props;
     const { refreshLoading, firstLoading } = this.state;
@@ -154,8 +141,8 @@ class Main extends PureComponent {
         <div>
           <div className={styles['match-box']}>
             <Row className={styles.table}>
-              <Col className={styles['big-tb']} span={3}>时间</Col>
-              <Col className={styles['big-tb']} span={5}>赛事</Col>
+              <Col className={styles['big-tb']} span={2}>时间</Col>
+              <Col className={styles['big-tb']} span={6}>赛事</Col>
               <Col className={styles['middle-tb']} span={8}>
                 <Row className={styles['cell-th']}>
                   全场
@@ -181,24 +168,9 @@ class Main extends PureComponent {
               {
                 firstLoading ? <PageLoading/> :
                   cptIds.length === 0 ? <div className="match-loading">暂无滚球</div>:
-                  <AutoSizer disableHeight>
-                    {({width}) => (
-                      <List
-                        ref="List"
-                        height={window.innerHeight-156}
-                        style={{
-                          height: "calc(100vh - 156px)",
-                          lineHeight: "30px",
-                          width: "828px",
-                          backgroundColor: '#fff'
-                        }}
-                        overscanRowCount={5}
-                        rowCount={cptIds.length}
-                        rowHeight={this._getRowHeight}
-                        rowRenderer={this._rowRenderer}
-                        width={928}
-                      />
-                    )}</AutoSizer>
+                      cptIds.map((val) => (
+                        <Item cptData={val} matchData={matchListObj[val]}/>
+                      ))
               }
             </div>
           </div>
