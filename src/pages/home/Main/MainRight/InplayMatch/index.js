@@ -5,7 +5,7 @@ import styles from './index.scss';
 import CountDown from '../../../../../components/CountDown/index';
 import { dishNameMap } from '../../../../../utils/util';
 import PageLoading from '../../../../../components/MbPageLoading';
-import Item from './item'
+import Item from './cptItem'
 
 @connect(({ inPlay, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
   inPlay,

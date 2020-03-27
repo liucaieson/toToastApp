@@ -25,7 +25,8 @@ class Main extends PureComponent {
     isActiveDate: '',
     firstLoading: true,
     page:1,
-    isShow: false
+    isShow: false,
+    showOdds: []
   };
 
   timer = null;
@@ -214,6 +215,26 @@ class Main extends PureComponent {
     });
   };
 
+  /* 控制联赛显示隐藏, 包含id的隐藏 */
+
+  toggleCpt = (id) => {
+    const { showOdds } = this.state;
+    const index = showOdds.indexOf(id);
+    if( index > -1 ){
+      showOdds.splice(index, 1);
+      const arr = showOdds.concat();
+      this.setState({
+        showOdds: arr,
+      });
+    }else{
+      showOdds.push(id);
+      const arr = showOdds.concat();
+      this.setState({
+        showOdds: arr,
+      });
+    }
+  };
+
   render() {
     const {
       asianGG: {
@@ -222,7 +243,7 @@ class Main extends PureComponent {
       dates: { dates },
       chsDB: { chsDB },
     } = this.props;
-    const { refreshLoading, isActiveDate, firstLoading, isShow, matchId } = this.state;
+    const { refreshLoading, isActiveDate, firstLoading, isShow, matchId, showOdds } = this.state;
     return (
       <div className={styles.pointSpread}>
         <div className={styles.header}>
@@ -293,14 +314,25 @@ class Main extends PureComponent {
                       {
                         cptIds.map((val) => (
                           <div className={styles['match-info']} key={val}>
-                            <Row className={styles['competitions-name']}>
+
+                            <Row className={styles['competitions-name']} onClick={() => this.toggleCpt(val)} >
                               <Col span={1} className={styles.arrow}>
+                                {
+                                  showOdds.includes(val) ?
+                                    <div className={styles.arrow} >
+                                      <Icon type="down"/>
+                                    </div> :
+                                    <div className={styles.arrow}>
+                                      <Icon type="up"/>
+                                    </div>
+                                }
                               </Col>
                               <Col span={20} className={styles.name}>
                                 {matchListObj[val][0].cptName}
                               </Col>
                             </Row>
                             {
+                              showOdds.includes(val) ? '' :
                               matchListObj && (
                                 matchListObj[val].map((v) => (
                                   <Row className={styles['match-line-box']} key={v.matchId}>

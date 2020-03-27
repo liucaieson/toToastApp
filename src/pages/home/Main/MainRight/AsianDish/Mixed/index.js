@@ -27,6 +27,7 @@ class Mixed extends PureComponent {
     isShowMatch: -1,
     isActiveDate: '',
     firstLoading: true,
+    showOdds:[]
   };
 
   timer = null;
@@ -197,6 +198,26 @@ class Mixed extends PureComponent {
     });
   };
 
+  /* 控制联赛显示隐藏, 包含id的隐藏 */
+
+  toggleCpt = (id) => {
+    const { showOdds } = this.state;
+    const index = showOdds.indexOf(id);
+    if( index > -1 ){
+      showOdds.splice(index, 1);
+      const arr = showOdds.concat();
+      this.setState({
+        showOdds: arr,
+      });
+    }else{
+      showOdds.push(id);
+      const arr = showOdds.concat();
+      this.setState({
+        showOdds: arr,
+      });
+    }
+  };
+
 
 
   render() {
@@ -207,7 +228,7 @@ class Mixed extends PureComponent {
       dates: { dates },
       chsDB: { chsDB },
     } = this.props;
-    const { isShow, refreshLoading, isActiveDate, matchId, firstLoading } = this.state;
+    const { isShow, refreshLoading, isActiveDate, matchId, firstLoading, showOdds } = this.state;
     return (
       <div className={styles.mixed}>
         <div className={styles.header}>
@@ -276,8 +297,17 @@ class Mixed extends PureComponent {
                       {
                         cptIds.map((val) => (
                           <div key={val}>
-                            <Row className={styles['competitions-name']}>
+                            <Row className={styles['competitions-name']} onClick={() => this.toggleCpt(val)} >
                               <Col span={1} className={styles.arrow}>
+                                {
+                                  showOdds.includes(val) ?
+                                    <div className={styles.arrow} >
+                                      <Icon type="down"/>
+                                    </div> :
+                                    <div className={styles.arrow}>
+                                      <Icon type="up"/>
+                                    </div>
+                                }
                               </Col>
                               <Col span={20} className={styles.name}>
                                 {matchListObj[val][0].cptName}
@@ -285,6 +315,7 @@ class Mixed extends PureComponent {
                             </Row>
                             <div className={styles['match-info']}>
                               {
+                                showOdds.includes(val) ? '' :
                                 (
                                   matchListObj[val].map((v) => (
                                     <Row className={styles['match-line-box']} key={v.matchId}>
