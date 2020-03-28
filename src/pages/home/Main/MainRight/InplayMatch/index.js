@@ -7,12 +7,13 @@ import { dishNameMap } from '../../../../../utils/util';
 import PageLoading from '../../../../../components/MbPageLoading';
 import Item from './cptItem'
 
-@connect(({ inPlay, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
+@connect(({ inPlay,inPlayFavorite, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
   inPlay,
   showCompetitions,
   competitions,
   betShopCart,
   chsDB,
+  inPlayFavorite,
   oddsLoading:loading.effects['inPlay/fetchAllMatchOdds']
 }))
 class Main extends PureComponent {
@@ -69,13 +70,6 @@ class Main extends PureComponent {
     });
   };
 
-  /* 展开比赛详细信息 */
-  turnToMatchDetail = (match) => {
-    this.setState({
-      isShowMatchDetail: true,
-      matchInfo: match,
-    });
-  };
 
   /* 全局展示显示联赛的modal  */
   showCompetitionsModal = () => {
@@ -112,12 +106,21 @@ class Main extends PureComponent {
     });
   };
 
+  turnToFav = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'togglePageWithGg/togglePage',
+      payload: 'inPlayFav',
+    });
+  };
+
 
   render() {
     const {
       inPlay: {
         cptIds, matchListObj
       },
+      inPlayFavorite:{ favMatchIds }
     } = this.props;
     const { refreshLoading, firstLoading } = this.state;
     return (
@@ -137,6 +140,17 @@ class Main extends PureComponent {
               s
             </span>
           </div>
+          {
+            favMatchIds.length > 0 ?
+              <div className={styles.fav} onClick={this.turnToFav}>
+                <Icon type='star' style={{color:'#F9C100'}} className={styles.icon} theme="filled" />
+                <div className={styles['fav-num']}>{favMatchIds.length}</div>
+              </div>
+              :
+              <div className={styles.fav}>
+                <Icon type='star' className={styles.icon} theme="filled" />
+              </div>
+          }
         </div>
         <div>
           <div className={styles['match-box']}>

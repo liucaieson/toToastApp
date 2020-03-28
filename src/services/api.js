@@ -41,9 +41,19 @@ export async function postBetOrder(params) {
   });
 }
 
-/*2.1.获取玩法分组列表*/
+/*2.1.轮询收藏的比赛*/
 export async function getGg(params) {
   return request(`${baseUrl}/portal/pre/getGg`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+/*2.1.获取玩法分组列表*/
+export async function getFavorite(params) {
+  return request(`${baseUrl}/portal/pre/getStatus`, {
     method: 'POST',
     body: {
       ...params,
@@ -80,7 +90,6 @@ export async function getInPLay(params) {
     },
   });
 }
-
 
 /*2.1.添加到购物车*/
 export async function addShopCart(params) {

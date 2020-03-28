@@ -21,6 +21,7 @@ import InPlayMatch from './InplayMatch';
 import InPlayMatchDetail from './InplayMatch/detail';
 import MatchDetail from './Detail/asianDetail';
 import MixedMatchDetail from './Detail/asianMixedDetail';
+import InPlayFav from './InplayMatch/favorite';
 import styles from './index.scss';
 
 @connect(({ togglePageWithGg }) => ({
@@ -105,6 +106,9 @@ class MainRight extends PureComponent {
     }
     if(pageId === 'mixedDetail'){
       return  <MixedMatchDetail matchId={matchId} />
+    }
+    if(pageId === 'inPlayFav'){
+      return  <InPlayFav />
     }
   }
 

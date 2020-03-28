@@ -24,7 +24,7 @@ class TopHeader extends PureComponent {
   };
 
   componentDidMount() {
-  
+
   }
 
   getUserInfo = () => {

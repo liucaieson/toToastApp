@@ -613,6 +613,42 @@
       background-color: $bg-color2;
     }
   }
+  .fav{
+    float: right;
+    width: 30px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    color: white;
+    border: 1px solid;
+    border-radius: 2px;
+    margin-right: 10px;
+    margin-top: 8px;
+    position: relative;
+    cursor: pointer;
+    .icon {
+      font-size: 14px;
+      vertical-align: baseline;
+    }
+    .fav-num{
+      position: absolute;
+      cursor: pointer;
+      width: 17px;
+      height: 17px;
+      font-size: 12px;
+      line-height: 17px;
+      text-align: center;
+      z-index: 100;
+      top:-6px;
+      right:-6px;
+      border-radius: 50%;
+      background-color: #f5ad35;
+      color: white;
+      .text{
+        color: white;
+      }
+    }
+  }
   .refresh {
     float: right;
     font-size: 12px;

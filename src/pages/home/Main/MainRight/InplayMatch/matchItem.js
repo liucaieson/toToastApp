@@ -4,10 +4,11 @@ import { connect } from 'dva';
 import styles from './index.scss';
 import IndexDishItem from './indexDishItem';
 
-@connect(({ chsDB, inPlay, betShopCart, loading }) => ({
+@connect(({ chsDB,    inPlayFavorite, inPlay, betShopCart, loading }) => ({
   chsDB,
   inPlay,
   betShopCart,
+  inPlayFavorite,
   oddsLoading: loading.effects['inPlay/fetchAllMatchOdds'],
 }))
 class InplayMatchItem extends PureComponent {
@@ -71,9 +72,31 @@ class InplayMatchItem extends PureComponent {
     });
   };
 
+  addFav = (matchId, data) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'inPlayFavorite/addFav',
+      payload: {
+        matchId: matchId,
+        matchData: data
+      },
+    });
+  };
+
+  removeFav = (matchId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'inPlayFavorite/removeFav',
+      payload: {
+        matchId: matchId,
+      },
+    });
+  };
+
   render() {
     const {
       time, period, soccer, homeName, awayName, odds, matchId, chsDB: { chsDB },
+      inPlayFavorite: {favMatchIds},
     } = this.props;
     const {prevPeriod, second } = this.state;
     return (
@@ -101,10 +124,15 @@ class InplayMatchItem extends PureComponent {
               <div>{homeName}</div>
               <div>{awayName}</div>
               <div>和局</div>
-              <div className={styles.favorite}>
-                <Icon className={styles.icon} type="star"/>
-                <Icon className={styles.icon} type="star" theme="filled"/>
-              </div>
+              {
+                favMatchIds.includes(matchId) ?
+                  <div className={styles.favorite2} onClick={() => this.removeFav(matchId)}>
+                    <Icon className={styles.icon} type="star" theme="filled" />
+                   </div> :
+                  <div className={styles.favorite1} onClick={() => this.addFav(matchId,{time,period, soccer, homeName, awayName, odds, matchId })}>
+                    <Icon className={styles.icon} type="star" />
+                </div>
+              }
             </Col>
             <Col span={8} className={styles['match-odds']}>
               <Row>

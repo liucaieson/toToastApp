@@ -4,14 +4,13 @@ import { connect } from 'dva';
 import styles from './index.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-import { calcDateToMonthAndDay, dishNameMap } from '../../../../../../utils/util';
+import { calcDateToMonthAndDay} from '../../../../../../utils/util';
 import PageLoading from '../../../../../../components/MbPageLoading';
 import MixedDishLayout from '../../DishLayout/mixedDishLayout';
-import DishLayout from '../../DishLayout/betDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 import MixModalLayout from '../../DishLayout/mixedModalLayout';
 
-@connect(({ asianGG,  betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
+@connect(({ asianGG, betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
   asianGG,
   showCompetitions,
   competitions,

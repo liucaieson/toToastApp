@@ -95,17 +95,25 @@
               border-right: 1px solid $border-color2;
               position: relative;
                 &:hover{
-                  .favorite{
-                    display: none;
+                  .favorite1{
+                    display: block;
                   }
                 }
-                .favorite{
+                .favorite1{
                   position: absolute;
                   right: 6px;
                   bottom: 0;
                   font-size: 16px;
                   padding: 2px 6px;
                   display: none;
+                  color: #f5ad35;
+                }
+                .favorite2{
+                  position: absolute;
+                  right: 6px;
+                  bottom: 0;
+                  font-size: 16px;
+                  padding: 2px 6px;
                   color: #f5ad35;
                 }
             }
