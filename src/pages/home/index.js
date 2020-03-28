@@ -31,14 +31,16 @@ class HomePage extends PureComponent {
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',
       });
+      this.getUserInfo();
     } else {
       sessionStorage.setItem('accessCode', 'faeb2ead70b74948ae3b7c4cd73243f1');
      Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育,当前为试玩账号',
       });
+      this.getUserInfo();
     }
-    this.getUserInfo();
+
   }
 
   getUserInfo = () => {
