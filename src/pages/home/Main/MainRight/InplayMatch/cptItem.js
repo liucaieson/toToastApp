@@ -62,6 +62,7 @@ class InplayItem extends PureComponent {
                 homeName={v.homeName}
                 awayName={v.awayName}
                 odds={v.odds}
+                key={v.matchId}
              />
             ))
           }

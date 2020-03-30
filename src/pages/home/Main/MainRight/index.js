@@ -18,7 +18,6 @@ import TodayDoubleResult from './TodayDish/DoubleResult';
 import TodayFirstGoal from './TodayDish/FirstGoal';
 import TodayMixed from './TodayDish/Mixed';
 import InPlayMatch from './InplayMatch';
-import InPlayMatchDetail from './InplayMatch/detail';
 import MatchDetail from './Detail/asianDetail';
 import MixedMatchDetail from './Detail/asianMixedDetail';
 import InPlayFav from './InplayMatch/favorite';
@@ -97,9 +96,6 @@ class MainRight extends PureComponent {
     }
     if(pageId === 'inPlay'){
       return  <InPlayMatch />
-    }
-    if(pageId === 'inPlayDetail'){
-      return  <InPlayMatchDetail matchId={matchId} />
     }
     if(pageId === 'detail'){
       return  <MatchDetail matchId={matchId} />

@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { dishNameMap, calcDate2 } from '../../../../../utils/util';
+import { dishNameMap, calcDate2 } from '../../../../../../utils/util';
 
 @connect(({ betShopCart }) => ({
   betShopCart,
@@ -40,7 +40,10 @@ class DetailDishItem extends PureComponent {
   addShopCart = (matchId, gamblingId, choiceId, id) => {
     const { dispatch, betShopCart: { shopCart } } = this.props;
     if (shopCart.ids.includes(choiceId)) {
-      return false;
+      dispatch({
+        type: 'betShopCart/delBetShopCart',
+        payload: choiceId,
+      });
     } else {
       dispatch({
         type: 'toggleMainLeftTabs/toggleMainLeftTabs',
@@ -84,22 +87,22 @@ class DetailDishItem extends PureComponent {
       choiceHandicap
     } = this.props;
     return (
-        <div
-             className={shopCart.ids.includes(choiceId) ? `${styles.item} ${styles.active}` : styles.item}
-             onClick={() => this.addShopCart(matchId, gamblingId, choiceId, dishId)}
-        >
-          <div className={styles.name}>
-            {dishNameMap[name]}
-            <span className={styles.handicap}>
+      <div
+        className={shopCart.ids.includes(choiceId) ? `${styles.item} ${styles.active}` : styles.item}
+        onClick={() => this.addShopCart(matchId, gamblingId, choiceId, dishId)}
+      >
+        <div className={styles.name}>
+          {dishNameMap[name]}
+          <span className={styles.handicap}>
                 {choiceHandicap && `(${choiceHandicap})`}
            </span>
-          </div>
-          <div className={styles.dish}>
-            {dish}
-            {this.renderUp()}
-          </div>
-
         </div>
+        <div className={styles.dish}>
+          {dish}
+          {this.renderUp()}
+        </div>
+
+      </div>
     );
   }
 }

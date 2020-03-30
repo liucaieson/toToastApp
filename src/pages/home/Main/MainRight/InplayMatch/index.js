@@ -16,7 +16,7 @@ import Item from './cptItem'
   inPlayFavorite,
   oddsLoading:loading.effects['inPlay/fetchAllMatchOdds']
 }))
-class Main extends PureComponent {
+class InplayMatch extends PureComponent {
   state = {
     refreshLoading: false,
     showCompetitionsList: [],
@@ -183,7 +183,7 @@ class Main extends PureComponent {
                 firstLoading ? <PageLoading/> :
                   cptIds.length === 0 ? <div className="match-loading">暂无滚球</div>:
                       cptIds.map((val) => (
-                        <Item cptData={val} matchData={matchListObj[val]}/>
+                        <Item key={val} cptData={val} matchData={matchListObj[val]}/>
                       ))
               }
             </div>
@@ -194,4 +194,4 @@ class Main extends PureComponent {
   }
 }
 
-export default Main;
+export default InplayMatch;

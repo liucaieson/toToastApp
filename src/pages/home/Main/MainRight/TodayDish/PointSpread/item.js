@@ -273,26 +273,26 @@ class PointSpreadItem extends PureComponent {
           }
         </div>
         <Modal
-          title={'比赛'}
-          visible={isShow}
-          onCancel={this.closeModal}
-          width={700}
-          footer={null}
-          maskClosable={false}
-          destroyOnClose
-          getContainer={() => document.getElementById('mainRightBox')}
-          bodyStyle={{
-            height: '600px',
-            color:'white',
-            padding:'2px 4px'
-          }}
-        >
-          {
-            isShow ? <ModalLayout matchId={matchId}/>
+        title={'比赛'}
+        visible={isShow}
+        onCancel={this.closeModal}
+        width={700}
+        footer={null}
+        maskClosable={false}
+        destroyOnClose
+        getContainer={() => document.getElementById('mainRightBox')}
+        bodyStyle={{
+          height: '600px',
+          color:'white',
+          padding:'2px 4px'
+        }}
+      >
+        {
+          isShow ? <ModalLayout matchId={matchId}/>
 
-              : ''
-          }
-        </Modal>
+            : ''
+        }
+      </Modal>
       </div>
 
     );

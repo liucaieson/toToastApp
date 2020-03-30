@@ -105,9 +105,6 @@ class Favorite extends PureComponent {
 
   render() {
     const {
-      inPlay: {
-        cptIds, matchListObj,
-      },
       inPlayFavorite: { favMatchIds, favMatchObj },
     } = this.props;
     const { refreshLoading, firstLoading } = this.state;
@@ -159,7 +156,6 @@ class Favorite extends PureComponent {
               <div className={styles['match-info']}>
                 {
                   firstLoading ? <PageLoading/> :
-                    cptIds.length === 0 ? <div className="match-loading">暂无滚球</div> :
                       favMatchIds.map((val) => (
                           <MatchItem
                             time={favMatchObj[val].time}
