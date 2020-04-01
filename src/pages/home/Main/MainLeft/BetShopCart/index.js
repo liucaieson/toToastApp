@@ -44,10 +44,12 @@ class ShopCart extends PureComponent {
       return false;
     }
     const paramsValue = [];
+    const paramsDishId = [];
     const paramsDish = [];
     /*这里传递的id为盘口id，后端返回盘口id，用来做查询购物车 */
     shopCart.ids.map((val) => {
-      paramsDish.push(chsDB[val].dishId);
+      paramsDishId.push(chsDB[val].dishId);
+      paramsDish.push(chsDB[val].dish);
       paramsValue.push(shopCart.list[val].amount)
     });
     params = {
@@ -55,7 +57,8 @@ class ShopCart extends PureComponent {
       result: [{
         betType: '1',
         dishValue: paramsValue.join(','),
-        dishId: paramsDish.join(',')
+        dishId: paramsDishId.join(','),
+        dishRate: paramsDish.join((','))
        }
       ]
     };

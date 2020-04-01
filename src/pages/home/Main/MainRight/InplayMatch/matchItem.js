@@ -33,7 +33,6 @@ class InplayMatchItem extends PureComponent {
           second = 0;
         } else {
           second = +second + 1;
-          console.log(prevPeriod, second)
         }
       }
       const newSecond = second.toString().padStart(2, '0');

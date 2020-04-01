@@ -51,7 +51,6 @@ class ModalLayout extends PureComponent {
   /* 请求比赛所有玩法的赔率赔率 */
   fetchInPlayAllOdds = () => {
     const { matchId, dispatch } = this.props;
-    console.log(matchId);
     dispatch({
       type: 'inPlay/fetchMatchAllOdds',
       payload: {

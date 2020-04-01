@@ -48,7 +48,6 @@ class ModalLayout extends PureComponent {
   /* 请求比赛所有玩法的赔率赔率 */
   fetchMatchAllOdds = () => {
     const { matchId, dispatch } = this.props;
-    console.log(matchId);
     dispatch({
       type: 'matchAllOdds/fetch',
       payload: {
@@ -86,7 +85,6 @@ class ModalLayout extends PureComponent {
       },
     });
   };
-
 
   render() {
     const {

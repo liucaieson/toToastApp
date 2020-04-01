@@ -73,6 +73,7 @@ class ShopCart extends PureComponent {
     const { amount1, amount2, amount3, amount4, amount5, amount6} = this.state;
     let params = [];
     let dishParams = [];
+    let dishRate = [];
     let amountTotal = amount1 + amount2 + amount3 + amount4 + amount5 + amount6;
 
 
@@ -87,6 +88,7 @@ class ShopCart extends PureComponent {
     if(amount1  >= 1 || amount2  >= 1 || amount3  >= 1 || amount4  >= 1 || amount5  >= 1 && amount6  >= 1 ){
       mixedShopCart.ids.map((item) => {
         dishParams.push(chsDB[mixedShopCart.list[item].choiceId].dishId)
+        dishRate.push(chsDB[mixedShopCart.list[item].choiceId].dish)
       });
       betTypeArr[mixedShopCart.ids.length - 1].map((item) => {
         if(this.state['amount'+ item.betType] >= 1){
@@ -98,13 +100,16 @@ class ShopCart extends PureComponent {
             params.push({
               betType: item.betType,
               dishValue: dishValue.join(','),
-              dishId: dishParams.join(',')
+              dishId: dishParams.join(','),
+              dishRate: dishRate.join(',')
             })
           }else {
             params.push({
               betType: item.betType,
               dishValue: this.state['amount' + item.betType],
-              dishId: dishParams.join(',')
+              dishId: dishParams.join(','),
+              dishRate: dishRate.join(',')
+
             })
           }
         }
