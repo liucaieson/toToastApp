@@ -17,7 +17,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(201,52,61,.2);
+    background-color: $odds-up-color;
     top: 0;
     left: 0;
     opacity: 0;
@@ -28,7 +28,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(44,188,36,.2);
+    background-color: $odds-down-color;
     top: 0;
     left: 0;
     opacity: 0;
