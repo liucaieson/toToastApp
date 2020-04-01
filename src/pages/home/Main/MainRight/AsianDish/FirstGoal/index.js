@@ -127,7 +127,7 @@ class FirstGoal extends PureComponent {
    * 保存全局参数
     * */
   fetchMatchOddsWithCompetitions = (param) => {
-    if (param.competitions === undefined) {
+    if (param === undefined) {
       return;
     }
     this.setState({
@@ -143,6 +143,15 @@ class FirstGoal extends PureComponent {
       this.setState({
         firstLoading: false,
       });
+    });
+  };
+
+  /* 全局展示显示联赛的modal  */
+  showCompetitionsModal = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'showCompetitions/toggle',
+      payload: true,
     });
   };
 

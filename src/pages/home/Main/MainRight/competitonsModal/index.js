@@ -29,7 +29,8 @@ class CompetitionsModal extends Component {
     if(this.props.form.getFieldsValue().competitions ===undefined){
       this.closeShowCompetitionsModal()
     }else{
-      fn(this.props.form.getFieldsValue());
+      const params = this.props.form.getFieldsValue().competitions.join(',');
+      fn(params);
       this.closeShowCompetitionsModal()
     }
   };
@@ -118,7 +119,7 @@ class CompetitionsModal extends Component {
                             showArea.includes(item) ?
                             competitionsObj[item].map((val) => (
                               <div className={styles['list-item']} key={val.competitionId}>
-                                <Checkbox value={val}>
+                                <Checkbox value={val.competitionId}>
                                   {val.competitionName}
                                 </Checkbox>
                               </div>

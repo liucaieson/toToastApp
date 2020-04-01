@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import styles from '../../Detail/dish.scss';
+import styles from './index.scss';
 import { dishNameMap } from '../../../../../../utils/util';
 
 

@@ -11,10 +11,6 @@ import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 }))
 class TotalOverItem extends PureComponent {
 
-  turnToMatchDetail = () => {
-
-  };
-
   render() {
     const {
       cptData, matchData,

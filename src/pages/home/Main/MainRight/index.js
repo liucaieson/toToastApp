@@ -18,8 +18,8 @@ import TodayDoubleResult from './TodayDish/DoubleResult';
 import TodayFirstGoal from './TodayDish/FirstGoal';
 import TodayMixed from './TodayDish/Mixed';
 import InPlayMatch from './InplayMatch';
-import MatchDetail from './Detail/asianDetail';
-import MixedMatchDetail from './Detail/asianMixedDetail';
+/*import MatchDetail from './Detail/asianDetail';
+import MixedMatchDetail from './Detail/asianMixedDetail';*/
 import InPlayFav from './InplayMatch/favorite';
 import styles from './index.scss';
 
@@ -97,12 +97,12 @@ class MainRight extends PureComponent {
     if(pageId === 'inPlay'){
       return  <InPlayMatch />
     }
-    if(pageId === 'detail'){
+  /*  if(pageId === 'detail'){
       return  <MatchDetail matchId={matchId} />
     }
     if(pageId === 'mixedDetail'){
       return  <MixedMatchDetail matchId={matchId} />
-    }
+    }*/
     if(pageId === 'inPlayFav'){
       return  <InPlayFav />
     }

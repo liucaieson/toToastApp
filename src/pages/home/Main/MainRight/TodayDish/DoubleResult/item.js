@@ -12,11 +12,6 @@ import DishLayout from '../../DishLayout/betDishLayout';
 }))
 class DoubleResultItem extends PureComponent {
 
-  turnToMatchDetail = () => {
-
-  };
-
-
   render() {
     const {
       cptData, matchData,

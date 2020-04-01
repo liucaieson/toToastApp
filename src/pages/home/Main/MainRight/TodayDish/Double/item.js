@@ -5,49 +5,15 @@ import styles from './index.scss';
 import DishItem from './dishItem'
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 
-@connect(({ chsDB, betShopCart }) => ({
+@connect(({ chsDB }) => ({
   chsDB,
-  betShopCart,
 }))
 class Double extends PureComponent {
-
-  /* 添加投注单到购物车 */
-  addShopCart = (matchId, gamblingId, choiceId, id) => {
-    const { dispatch, betShopCart: { shopCart } } = this.props;
-    if (shopCart.ids.includes(choiceId)) {
-      return false;
-    } else {
-      dispatch({
-        type: 'changeBetSectionStatus/changeStatus',
-        payload: [true, 'bets'],
-      });
-      dispatch({
-        type: 'betShopCart/addBetShopCart',
-        payload: {
-          params: {
-            sport: '1',
-            dishId: id,
-          },
-          shopCartItem: {
-            matchId,
-            gamblingId,
-            choiceId,
-          },
-        },
-      });
-    }
-  };
-
-  turnToMatchDetail = () => {
-
-  };
-
 
   render() {
     const {
       cptData, matchData,
       chsDB: { chsDB },
-      betShopCart: { shopCart },
     } = this.props;
     return (
       <div key={cptData} style={this.props.style}>

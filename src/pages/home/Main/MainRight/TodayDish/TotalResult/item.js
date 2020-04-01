@@ -13,10 +13,6 @@ import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 class TotalResultItem extends Component {
   state = {};
 
-  turnToMatchDetail = (matchId) => {
-    console.log(matchId);
-  };
-
   render() {
     const {
       cptData, matchData,

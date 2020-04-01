@@ -94,7 +94,7 @@ class CorrectScore extends PureComponent {
    * 保存全局参数
     * */
   fetchMatchOddsWithCompetitions = (param) => {
-    if (param.competitions === undefined) {
+    if (param === undefined) {
       return;
     }
     this.setState({
