@@ -279,7 +279,7 @@ class DoubleResult extends PureComponent {
                                         <Col span={16}>
                                           {
                                             v.odds[0].chs.map((item) => (
-                                              <div className={styles['match-odds']}>
+                                              <div className={styles['match-odds']} key={item.choiceId}>
                                                   <span className={styles.item}>
                                                     <DishLayout
                                                       choiceId={item.choiceId}

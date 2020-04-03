@@ -3,7 +3,7 @@ import { Row, Col, Icon, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import IndexDishItem from './indexDishItem';
-import ModalLayout from '../DishLayout/inPlayModalLayout';
+import ModalLayout from '../ModalLayout/inPlayModalLayout';
 
 @connect(({ chsDB, inPlayFavorite, inPlay, betShopCart, loading }) => ({
   chsDB,

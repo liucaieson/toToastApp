@@ -175,7 +175,7 @@ class CorrectScore extends PureComponent {
                     {
                       cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
                         cptIds.map((val) => (
-                          <Item cptData={val} matchData={matchListObj[val]}/>
+                          <Item cptData={val} matchData={matchListObj[val]} key={val}/>
                         ))
                     }
                     <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>

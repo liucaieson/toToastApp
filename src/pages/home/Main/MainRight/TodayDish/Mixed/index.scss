@@ -22,13 +22,12 @@
   }
   .match-box{
     border: 1px solid $border-color1;
-    background-color: $bg-color;
+    background-color: #fff;
     .table{
       @include game-table();
     }
     .match{
       overflow-y:auto;
-      background-color: $bg-color2;
       height: calc(100vh - 148px);
       overflow: -moz-scrollbars-none;
       &::-webkit-scrollbar { width: 0 !important }
@@ -42,83 +41,7 @@
         }
       }
       .match-info{
-        width: 100%;
-        background-color: white;
-        color: #232323;
-        .match-line-box{
-          background-color: white;
-          &:nth-child(even){
-            background-color:$match-line-even;
-          }
-          .match-line{
-            line-height: 26px;
-            font-size: 12px;
-            height: $height7;
-            .match-time{
-              text-align: center;
-              padding-top: 20px;
-              height: $height7;
-              border-right: 1px solid $border-color2;
-            }
-            .match-team{
-              padding-left: 6px;
-              height: $height7;
-              text-align: left;
-              border-right: 1px solid $border-color2;
-            }
-            .match-odds{
-              text-align: center;
-              height: $height7;
-              border-right: 1px solid $border-color2;
-              .match-odds-list{
-                position: relative;
-                .home-item{
-                  @include match-odds-layout();
-                }
-                .away-item{
-                  top: 25px;
-                  @include match-odds-layout();
-                }
-                .pie-item{
-                  top: 50px;
-                  @include match-odds-layout();
-                }
-              }
-            }
-          }
-          .play-btn{
-            position: relative;
-            width: 100%;
-            top: -25px;
-            height: 0;
-            .btn{
-              margin: 0 auto;
-              font-size: 12px;
-              width: 80px;
-              height: 24px;
-              line-height: 22px;
-              border: 1px solid;
-              color: $btn-color;
-              border-radius: 10px;
-              text-align: center;
-              cursor: pointer;
-            }
-            .all-odds-box{
-              background-color: $bg-color;
-              @include clearfix();
-              .loading{
-                text-align: center;
-                height: 50px;
-                line-height: 50px;
-                width: 100%;
-                color: #fcf7ed;
-                float: left;
-                margin: 4px;
-              }
-
-            }
-          }
-        }
+        @include pointSpread-matchInfo-layout();
       }
     }
   }

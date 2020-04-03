@@ -342,8 +342,7 @@ class Mixed extends PureComponent {
                                             <Col span={8} className={styles['match-odds-list']}>
                                               {
                                                 v.odds[0].chs.map((item) => (
-                                                    <Fragment key={item.dishId}>
-                                                      {item.name === '1' && <div className={styles['home-item']}>
+                                                      <div className={styles['match-odds-item']} key={item.choiceId}>
                                                         <span className={styles.handicap}>{item.choiceHandicap}</span>
                                                         <span className={styles.odds}>
                                                               <MixedDishLayout
@@ -353,19 +352,7 @@ class Mixed extends PureComponent {
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
                                                            </span>
-                                                      </div>}
-                                                      {item.name === '2' && <div className={styles['away-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                    </Fragment>
+                                                      </div>
                                                   ),
                                                 )
                                               }
@@ -373,30 +360,17 @@ class Mixed extends PureComponent {
                                             <Col span={8} className={styles['match-odds-list']}>
                                               {
                                                 v.odds[1] && v.odds[1].chs.map((item) => (
-                                                    <Fragment key={item.dishId}>
-                                                      {item.name === 'Over' && <div className={styles['home-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
+                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                    <span className={styles.odds}>
                                                               <MixedDishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
-                                                            </span>
-                                                      </div>}
-                                                      {item.name === 'Under' && <div className={styles['away-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                    </Fragment>
+                                                           </span>
+                                                  </div>
                                                   ),
                                                 )
                                               }
@@ -404,41 +378,17 @@ class Mixed extends PureComponent {
                                             <Col span={8} className={styles['match-odds-list']}>
                                               {
                                                 v.odds[2] && v.odds[2].chs.map((item) => (
-                                                    <Fragment key={item.dishId}>
-                                                      {item.name === '1' && <div className={styles['home-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                      {item.name === '2' && <div className={styles['away-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                      {item.name === 'X' && <div className={styles['pie-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
+                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                    <span className={styles.odds}>
                                                               <MixedDishLayout
                                                                 choiceId={item.choiceId}
                                                                 matchId={v.matchId}
                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                               />
-                                                            </span>
-                                                      </div>}
-                                                    </Fragment>
+                                                           </span>
+                                                  </div>
                                                   ),
                                                 )
                                               }
@@ -451,30 +401,17 @@ class Mixed extends PureComponent {
                                             <Col span={8} className={styles['match-odds-list']}>
                                               {
                                                 v.odds[3] && v.odds[3].chs.map((item) => (
-                                                    <Fragment key={item.dishId}>
-                                                      {item.name === '1' && <div className={styles['home-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                              </span>
-                                                      </div>}
-                                                      {item.name === '2' && <div className={styles['away-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                              </span>
-                                                      </div>}
-                                                    </Fragment>
+                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                    <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                  </div>
                                                   ),
                                                 )
                                               }
@@ -482,30 +419,17 @@ class Mixed extends PureComponent {
                                             <Col span={8} className={styles['match-odds-list']}>
                                               {
                                                 v.odds[4] && v.odds[4].chs.map((item) => (
-                                                    <Fragment key={item.dishId}>
-                                                      {item.name === 'Over' && <div className={styles['home-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                      {item.name === 'Under' && <div className={styles['away-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                    </Fragment>
+                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                    <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                  </div>
                                                   ),
                                                 )
                                               }
@@ -513,41 +437,17 @@ class Mixed extends PureComponent {
                                             <Col span={8} className={styles['match-odds-list']}>
                                               {
                                                 v.odds[5] && v.odds[5].chs.map((item) => (
-                                                    <Fragment key={item.dishId}>
-                                                      {item.name === '1' && <div className={styles['home-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                      {item.name === '2' && <div className={styles['away-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                      {item.name === 'X' && <div className={styles['pie-item']}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                               <MixedDishLayout
-                                                                 choiceId={item.choiceId}
-                                                                 matchId={v.matchId}
-                                                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                               />
-                                                            </span>
-                                                      </div>}
-                                                    </Fragment>
+                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                    <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                  </div>
                                                   ),
                                                 )
                                               }

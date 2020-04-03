@@ -16,7 +16,6 @@ class DoubleResultItem extends PureComponent {
     const {
       cptData, matchData,
       chsDB: { chsDB },
-      betShopCart: { shopCart },
     } = this.props;
     return (
       <div key={cptData} style={this.props.style}>
@@ -42,7 +41,7 @@ class DoubleResultItem extends PureComponent {
                   <Col span={16}>
                     {
                       v.odds[0].chs.map((item) => (
-                        <div className={styles['match-odds']}>
+                        <div className={styles['match-odds']} key={item.choiceId}>
                           <span className={styles.item}>
                             <DishLayout
                               choiceId={item.choiceId}
