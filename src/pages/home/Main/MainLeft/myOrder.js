@@ -114,8 +114,6 @@ class MyOrder extends PureComponent {
                               {item.dishRate}
                             </span>
                             </div>
-                            <div
-                              className={styles.time}>{item.matchTime && item.matchTime.substring(0, 19)}</div>
                           </div>
                           <div className={styles.right}>
 
@@ -130,6 +128,7 @@ class MyOrder extends PureComponent {
                       ))
                     }
                     <div className={styles.money}>
+
                       <div className={styles.left}>
                         <span className={styles.text}>本金：</span>
                         <span className={styles.num}>￥{val.betMoney}</span>
@@ -137,6 +136,10 @@ class MyOrder extends PureComponent {
                       <div className={styles.left}>
                         <span className={styles.text}>状态：</span>
                         <span className={styles.time}>{val.betStatus}</span>
+                      </div>
+                      <div className={styles.left}>
+                        <span className={styles.text}>下注时间：</span>
+                        <span className={styles.time}>{val.betTime &&  val.betTime.substring(0,19)}</span>
                       </div>
                     </div>
                   </li>
@@ -182,8 +185,6 @@ class MyOrder extends PureComponent {
                               {item.dishRate}
                             </span>
                             </div>
-                            <div
-                              className={styles.time}>{item.matchTime && item.matchTime.substring(0, 19)}</div>
                           </div>
                           <div className={styles.right}>
 
@@ -205,6 +206,10 @@ class MyOrder extends PureComponent {
                       <div className={styles.left}>
                         <span className={styles.text}>返还：</span>
                         <span className={styles.num}>￥{val.bonusMoney}</span>
+                      </div>
+                      <div className={styles.left}>
+                        <span className={styles.text}>下注时间：</span>
+                        <span className={styles.time}>{val.betTime &&  val.betTime.substring(0,19)}</span>
                       </div>
                     </div>
 

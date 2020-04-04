@@ -76,8 +76,7 @@ class ShopCart extends PureComponent {
     let dishRate = [];
     let amountTotal = amount1 + amount2 + amount3 + amount4 + amount5 + amount6;
 
-
-    if(amountTotal <= balance.balance){
+    if(amountTotal >= balance.balance){
       Modal.info({
         title:'提示',
         content:'余额不足'
@@ -130,7 +129,13 @@ class ShopCart extends PureComponent {
       callback: (data) => {
         this.setState({
           modal: true,
-          result: data
+          result: data,
+          amount1: 0,
+          amount2: 0,
+          amount3: 0,
+          amount4: 0,
+          amount5: 0,
+          amount6: 0,
         })
       }
     });

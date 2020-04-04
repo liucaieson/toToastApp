@@ -1,8 +1,7 @@
-import { stringify } from 'qs';
 import request from '../utils/request';
 
 const baseUrl = 'http://35.229.133.12:8090/api/v1';
-/*const baseUrl = 'http://47.99.98.185:8099/api/v1/';*/
+/*const baseUrl = 'http://192.168.10.15:8090/api/v1/'*/
 
 
 /*获取用户信息接口*/
