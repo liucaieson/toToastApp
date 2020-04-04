@@ -38,7 +38,7 @@ class MyOrder extends PureComponent {
       payload: {
         page: 1,
         size: 20,
-        betStatus: 2,
+        betStatus: 0,
         sport: '1',
         /*start_time: +(moment(startDate).valueOf()/1000).toFixed(0),
         end_time: +(moment(moment(endDate).format('YYYY-MM-DD 23:59:59'))/1000).toFixed(0)*/
