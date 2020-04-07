@@ -5,8 +5,8 @@ import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import styles from './index.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-import moment from 'moment';
 import PageLoading from '../../../../../../components/MbPageLoading';
+import Accordion from '../../../../../../components/Accordion';
 import DishLayout from '../../DishLayout/betDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 
@@ -275,31 +275,27 @@ class TotalOver extends PureComponent {
                         {
                           cptIds.map((val) => (
                             <div key={val}>
-                              <Row className={styles['competitions-name']}>
-                                <Col span={1} className={styles.arrow}>
-                                </Col>
-                                <Col span={20} className={styles.name}>
-                                  {matchListObj[val] &&  matchListObj[val][0].cptName}
-                                </Col>
-                              </Row>
-                              <div className={styles['match-info']}>
-                                {
-                                  (
-                                    matchListObj[val] && matchListObj[val].map((v) => (
-                                      <Row className={styles['match-line-box']} key={v.matchId}>
-                                        <Row className={styles['match-line']}>
-                                          <Col span={2} className={styles['match-time']}>
-                                            {calcDateToMonthAndDay(v.time)}
-                                          </Col>
-                                          <Col span={4} className={styles['match-team']}>
-                                            <div>{v.homeName}</div>
-                                            <div>{v.awayName}</div>
-                                          </Col>
-                                          {/*全场投注区*/}
-                                          <Col span={10} className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.map((item) => (
-                                                  <Col key={item.dishId} span={3} className={styles['odds-item']}>
+                              <Accordion
+                                cptName={matchListObj[val] &&  matchListObj[val][0].cptName}
+                              >
+                                <div className={styles['match-info']}>
+                                  {
+                                    (
+                                      matchListObj[val] && matchListObj[val].map((v) => (
+                                        <Row className={styles['match-line-box']} key={v.matchId}>
+                                          <Row className={styles['match-line']}>
+                                            <Col span={2} className={styles['match-time']}>
+                                              {calcDateToMonthAndDay(v.time)}
+                                            </Col>
+                                            <Col span={4} className={styles['match-team']}>
+                                              <div>{v.homeName}</div>
+                                              <div>{v.awayName}</div>
+                                            </Col>
+                                            {/*全场投注区*/}
+                                            <Col span={10} className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.map((item) => (
+                                                    <Col key={item.dishId} span={3} className={styles['odds-item']}>
                                                       <span
                                                         className={styles.odds}
                                                       >
@@ -310,16 +306,16 @@ class TotalOver extends PureComponent {
                                                           dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                         />
                                                       </span>
-                                                  </Col>
-                                                ),
-                                              )
-                                            }
-                                          </Col>
-                                          {/* 上半场投注区*/}
-                                          <Col span={8} className={styles['match-odds']}>
-                                            {
-                                              v.odds[1] ? v.odds[1].chs.map((item) => (
-                                                  <Col key={item.dishId} span={4} className={styles['odds-item']}>
+                                                    </Col>
+                                                  ),
+                                                )
+                                              }
+                                            </Col>
+                                            {/* 上半场投注区*/}
+                                            <Col span={8} className={styles['match-odds']}>
+                                              {
+                                                v.odds[1] ? v.odds[1].chs.map((item) => (
+                                                    <Col key={item.dishId} span={4} className={styles['odds-item']}>
                                                       <span
                                                         className={styles.odds}>
                                                         <DishLayout
@@ -329,17 +325,18 @@ class TotalOver extends PureComponent {
                                                           dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                         />
                                                       </span>
-                                                  </Col>
-                                                ),
-                                              ) : ''
-                                            }
-                                          </Col>
+                                                    </Col>
+                                                  ),
+                                                ) : ''
+                                              }
+                                            </Col>
+                                          </Row>
                                         </Row>
-                                      </Row>
-                                    ))
-                                  )
-                                }
-                              </div>
+                                      ))
+                                    )
+                                  }
+                                </div>
+                              </Accordion>
                             </div>
                           ))
                         }

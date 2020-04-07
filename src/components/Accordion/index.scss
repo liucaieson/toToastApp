@@ -1,0 +1,12 @@
+@import "../../styles/common";
+@import "../../styles/utils";
+
+.competitions-name {
+  @include competition-layout();
+  .arrow {
+    text-align: center;
+  }
+  .name {
+    padding-left: 10px;
+  }
+}

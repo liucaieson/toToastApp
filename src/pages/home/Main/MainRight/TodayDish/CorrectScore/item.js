@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import {  Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import DishItem from './dishItem'
+import { calcDateToMonthAndDay } from '../../../../../../utils/util';
+import Accordion from '../../../../../../components/Accordion';
 
 @connect(({  chsDB, betShopCart }) => ({
   chsDB,
@@ -17,14 +19,9 @@ class TotalOverItem extends PureComponent {
     } = this.props;
     return (
       <div key={cptData} style={this.props.style}>
-
-          <Row className={styles['competitions-name']}>
-            <Col span={1} className={styles.arrow}>
-            </Col>
-            <Col span={20} className={styles.name}>
-              {matchData[0].cptName}
-            </Col>
-          </Row>
+        <Accordion
+          cptName={matchData[0] &&  matchData[0].cptName}
+        >
           <div className={styles['match-info']}>
             {
               matchData.map((v) => (
@@ -61,6 +58,8 @@ class TotalOverItem extends PureComponent {
               ))
             }
           </div>
+        </Accordion>
+
       </div>
 
 

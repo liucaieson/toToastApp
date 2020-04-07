@@ -7,6 +7,9 @@ import CompetitionsModal from '../../competitonsModal/index';
 import PageLoading from '../../../../../../components/MbPageLoading';
 import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
+import Accordion from '../../../../../../components/Accordion';
+import { calcDateToMonthAndDay } from '../../../../../../utils/util';
+import DishLayout from '../../DishLayout/betDishLayout';
 
 @connect(({ asianGG, dates, chsDB, showCompetitions, competitions, loading }) => ({
   asianGG,
@@ -192,7 +195,7 @@ class CorrectScore extends PureComponent {
       dates: { dates },
       chsDB: {chsDB},
     } = this.props;
-    const { isShowMatch, refreshLoading, isActiveDate, firstLoading } = this.state;
+    const { refreshLoading, isActiveDate, firstLoading } = this.state;
     return (
       <div className={styles.correctScore}>
         <div className={styles.header}>
@@ -242,56 +245,54 @@ class CorrectScore extends PureComponent {
                       {
                         cptIds.map((val) => (
                           <div key={val}>
-                            <Row className={styles['competitions-name']}>
-                              <Col span={1} className={styles.arrow}>
-                              </Col>
-                              <Col span={20} className={styles.name}>
-                                {matchListObj[val][0].cptName}
-                              </Col>
-                            </Row>
-                            <div className={styles['match-info']}>
-                              {
-                                (
-                                  matchListObj[val].map((v) => (
-                                    <Row className={styles['match-line-box']} key={v.matchId}>
-                                      <Row className={styles['match-line']}>
-                                        <Col span={16} className={styles['match-team']}>
-                                          <div>{v.homeName}-VS-{v.awayName}</div>
+                            <Accordion
+                              cptName={matchListObj[val] &&  matchListObj[val][0].cptName}
+                            >
+                              <div className={styles['match-info']}>
+                                {
+                                  (
+                                    matchListObj[val].map((v) => (
+                                      <Row className={styles['match-line-box']} key={v.matchId}>
+                                        <Row className={styles['match-line']}>
+                                          <Col span={16} className={styles['match-team']}>
+                                            <div>{v.homeName}-VS-{v.awayName}</div>
 
-                                        </Col>
-                                        <Col span={6} className={styles['match-time']}>
+                                          </Col>
+                                          <Col span={6} className={styles['match-time']}>
                                       <span>
                                         {v.time.substring(0, 4)}-{v.time.substring(4, 6)}-{v.time.substring(6, 8)}
                                       </span>
-                                          <span className={styles.right}>
+                                            <span className={styles.right}>
                                         {v.time.substring(8, 10)}:{v.time.substring(10, 12)}
                                       </span>
-                                        </Col>
-                                      </Row>
-                                      <Row className={styles['match-odds']}>
-                                        {
-                                          v.odds[0].chs.map((item) => (
-                                            <div className={styles['match-odds-item']} key={item.choiceId}>
-                                              <div className={styles.name}>{item.name}</div>
-                                              <div className={styles.odds}>
-                                                <CorrectScoreDishLayout
-                                                  choiceId={item.choiceId}
-                                                  matchId={v.matchId}
-                                                  gamblingId={v.odds[0].gamblingId}
-                                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                />
+                                          </Col>
+                                        </Row>
+                                        <Row className={styles['match-odds']}>
+                                          {
+                                            v.odds[0].chs.map((item) => (
+                                              <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                <div className={styles.name}>{item.name}</div>
+                                                <div className={styles.odds}>
+                                                  <CorrectScoreDishLayout
+                                                    choiceId={item.choiceId}
+                                                    matchId={v.matchId}
+                                                    gamblingId={v.odds[0].gamblingId}
+                                                    dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                    dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                  />
+                                                </div>
                                               </div>
-                                            </div>
-                                          ))
-                                        }
+                                            ))
+                                          }
+                                        </Row>
                                       </Row>
-                                    </Row>
-                                  ))
-                                )
+                                    ))
+                                  )
 
-                              }
-                            </div>
+                                }
+                              </div>
+                            </Accordion>
+
                           </div>
                         ))
                       }

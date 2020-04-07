@@ -9,6 +9,8 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 import MixedDishLayout from '../../DishLayout/mixedDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 import MixModalLayout from '../../DishLayout/mixedModalLayout';
+import Accordion from '../../../../../../components/Accordion';
+import DishLayout from '../../DishLayout/betDishLayout';
 
 @connect(({ asianGG, betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
   asianGG,
@@ -305,201 +307,189 @@ class Mixed extends PureComponent {
                       {
                         cptIds.map((val) => (
                           <div key={val}>
-                            <Row className={styles['competitions-name']} onClick={() => this.toggleCpt(val)} >
-                              <Col span={1} className={styles.arrow}>
+                            <Accordion
+                              cptName={matchListObj[val] &&  matchListObj[val][0].cptName}
+                            >
+                              <div className={styles['match-info']}>
                                 {
-                                  showOdds.includes(val) ?
-                                    <div className={styles.arrow} >
-                                      <Icon type="down"/>
-                                    </div> :
-                                    <div className={styles.arrow}>
-                                      <Icon type="up"/>
-                                    </div>
-                                }
-                              </Col>
-                              <Col span={20} className={styles.name}>
-                                {matchListObj[val][0].cptName}
-                              </Col>
-                            </Row>
-                            <div className={styles['match-info']}>
-                              {
-                                showOdds.includes(val) ? '' :
-                                (
-                                  matchListObj[val].map((v) => (
-                                    <Row className={styles['match-line-box']} key={v.matchId}>
-                                      <Row className={styles['match-line']}>
-                                        <Col span={2} className={styles['match-time']}>
-                                          {calcDateToMonthAndDay(v.time)}
-                                        </Col>
-                                        <Col span={6} className={styles['match-team']}>
-                                          <div>{v.homeName}</div>
-                                          <div>{v.awayName}</div>
-                                          <div>和局</div>
-                                        </Col>
-                                        {/*全场投注区*/}
-                                        <Col span={8} className={styles['match-odds']}>
-                                          <Row>
-                                            <Col span={8} className={styles['match-odds-list']}>
-                                              {
-                                                v.odds[0].chs.map((item) => (
-                                                      <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                        <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                        <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                              />
-                                                           </span>
-                                                      </div>
-                                                  ),
-                                                )
-                                              }
+                                  showOdds.includes(val) ? '' :
+                                    (
+                                      matchListObj[val].map((v) => (
+                                        <Row className={styles['match-line-box']} key={v.matchId}>
+                                          <Row className={styles['match-line']}>
+                                            <Col span={2} className={styles['match-time']}>
+                                              {calcDateToMonthAndDay(v.time)}
                                             </Col>
-                                            <Col span={8} className={styles['match-odds-list']}>
-                                              {
-                                                v.odds[1] && v.odds[1].chs.map((item) => (
-                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                    <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                              />
-                                                           </span>
-                                                  </div>
-                                                  ),
-                                                )
-                                              }
+                                            <Col span={6} className={styles['match-team']}>
+                                              <div>{v.homeName}</div>
+                                              <div>{v.awayName}</div>
+                                              <div>和局</div>
                                             </Col>
-                                            <Col span={8} className={styles['match-odds-list']}>
-                                              {
-                                                v.odds[2] && v.odds[2].chs.map((item) => (
-                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                    <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                              />
-                                                           </span>
-                                                  </div>
-                                                  ),
-                                                )
-                                              }
-                                            </Col>
-                                          </Row>
-                                        </Col>
-                                        {/* 上半场投注区*/}
-                                        <Col span={8} className={styles['match-odds']}>
-                                          <Row>
-                                            <Col span={8} className={styles['match-odds-list']}>
-                                              {
-                                                v.odds[3] && v.odds[3].chs.map((item) => (
-                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                    <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                              />
-                                                           </span>
-                                                  </div>
-                                                  ),
-                                                )
-                                              }
-                                            </Col>
-                                            <Col span={8} className={styles['match-odds-list']}>
-                                              {
-                                                v.odds[4] && v.odds[4].chs.map((item) => (
-                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                    <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                              />
-                                                           </span>
-                                                  </div>
-                                                  ),
-                                                )
-                                              }
-                                            </Col>
-                                            <Col span={8} className={styles['match-odds-list']}>
-                                              {
-                                                v.odds[5] && v.odds[5].chs.map((item) => (
-                                                  <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                    <span className={styles.handicap}>{item.choiceHandicap}</span>
-                                                    <span className={styles.odds}>
-                                                              <MixedDishLayout
-                                                                choiceId={item.choiceId}
-                                                                matchId={v.matchId}
-                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                              />
-                                                           </span>
-                                                  </div>
-                                                  ),
-                                                )
-                                              }
-                                            </Col>
-                                          </Row>
-                                        </Col>
-                                      </Row>
-                                      <div className={styles['play-btn']}>
-                                        {
-                                          /*  allMatchExpend === v.matchId ?
-                                              <Fragment>
-                                                <div className={styles.btn} onClick={this.collapseMatchAllOdds}>
-                                                  收起
-                                                </div>
-                                                <div className={styles['all-odds-box']}>
+                                            {/*全场投注区*/}
+                                            <Col span={8} className={styles['match-odds']}>
+                                              <Row>
+                                                <Col span={8} className={styles['match-odds-list']}>
                                                   {
-                                                    matchAllOddsLoading ? <div className={styles.loading}>loading...</div> :
-                                                    matchAllOdds[0] && matchAllOdds[0].odds.map( (oddsItem) => (
-                                                      <div className={styles['single-odds']} key={oddsItem.gamblingId}>
-                                                        <div className={styles.oddsName}>
-                                                          { oddsItem.oddName }
+                                                    v.odds[0].chs.map((item) => (
+                                                        <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
                                                         </div>
-                                                        <div className={styles.oddsDish}>
-                                                          {
-                                                            oddsItem.chs.map((chsItem) => (
-                                                              <div key={chsItem.choiceId} className={styles['dish-box']}>
-                                                                <div className={styles.dishName}>{dishNameMap[chsItem.name]}<span className={styles.choicehandicap}>{chsItem.choiceHandicap && `(${chsItem.choiceHandicap})`}</span></div>
-                                                                <div
-                                                                  className={(mixedShopCart.list[chsItem.matchId] && mixedShopCart.list[chsItem.matchId].choiceId === chsItem.choiceId)  ? `${styles.dish} ${styles.active}` : styles.dish}
-                                                                  onClick={() => this.addMixedShopCart( v.matchId, oddsItem.gamblingId, chsItem.choiceId, chsItem.dishId)}
-                                                                >{chsItem.dish}</div>
-                                                              </div>
-                                                            ))
-                                                          }
-                                                        </div>
-                                                      </div>
-                                                    ))
+                                                      ),
+                                                    )
                                                   }
-                                                </div>
-                                              </Fragment>
-                                              :*/
-                                          <div className={styles.btn} onClick={() => this.fetchMatchAllOdds(v.matchId)}>
-                                            所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
-                                          </div>
-                                        }
+                                                </Col>
+                                                <Col span={8} className={styles['match-odds-list']}>
+                                                  {
+                                                    v.odds[1] && v.odds[1].chs.map((item) => (
+                                                        <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                        </div>
+                                                      ),
+                                                    )
+                                                  }
+                                                </Col>
+                                                <Col span={8} className={styles['match-odds-list']}>
+                                                  {
+                                                    v.odds[2] && v.odds[2].chs.map((item) => (
+                                                        <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                        </div>
+                                                      ),
+                                                    )
+                                                  }
+                                                </Col>
+                                              </Row>
+                                            </Col>
+                                            {/* 上半场投注区*/}
+                                            <Col span={8} className={styles['match-odds']}>
+                                              <Row>
+                                                <Col span={8} className={styles['match-odds-list']}>
+                                                  {
+                                                    v.odds[3] && v.odds[3].chs.map((item) => (
+                                                        <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                        </div>
+                                                      ),
+                                                    )
+                                                  }
+                                                </Col>
+                                                <Col span={8} className={styles['match-odds-list']}>
+                                                  {
+                                                    v.odds[4] && v.odds[4].chs.map((item) => (
+                                                        <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                        </div>
+                                                      ),
+                                                    )
+                                                  }
+                                                </Col>
+                                                <Col span={8} className={styles['match-odds-list']}>
+                                                  {
+                                                    v.odds[5] && v.odds[5].chs.map((item) => (
+                                                        <div className={styles['match-odds-item']} key={item.choiceId}>
+                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.odds}>
+                                                              <MixedDishLayout
+                                                                choiceId={item.choiceId}
+                                                                matchId={v.matchId}
+                                                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                              />
+                                                           </span>
+                                                        </div>
+                                                      ),
+                                                    )
+                                                  }
+                                                </Col>
+                                              </Row>
+                                            </Col>
+                                          </Row>
+                                          <div className={styles['play-btn']}>
+                                            {
+                                              /*  allMatchExpend === v.matchId ?
+                                                  <Fragment>
+                                                    <div className={styles.btn} onClick={this.collapseMatchAllOdds}>
+                                                      收起
+                                                    </div>
+                                                    <div className={styles['all-odds-box']}>
+                                                      {
+                                                        matchAllOddsLoading ? <div className={styles.loading}>loading...</div> :
+                                                        matchAllOdds[0] && matchAllOdds[0].odds.map( (oddsItem) => (
+                                                          <div className={styles['single-odds']} key={oddsItem.gamblingId}>
+                                                            <div className={styles.oddsName}>
+                                                              { oddsItem.oddName }
+                                                            </div>
+                                                            <div className={styles.oddsDish}>
+                                                              {
+                                                                oddsItem.chs.map((chsItem) => (
+                                                                  <div key={chsItem.choiceId} className={styles['dish-box']}>
+                                                                    <div className={styles.dishName}>{dishNameMap[chsItem.name]}<span className={styles.choicehandicap}>{chsItem.choiceHandicap && `(${chsItem.choiceHandicap})`}</span></div>
+                                                                    <div
+                                                                      className={(mixedShopCart.list[chsItem.matchId] && mixedShopCart.list[chsItem.matchId].choiceId === chsItem.choiceId)  ? `${styles.dish} ${styles.active}` : styles.dish}
+                                                                      onClick={() => this.addMixedShopCart( v.matchId, oddsItem.gamblingId, chsItem.choiceId, chsItem.dishId)}
+                                                                    >{chsItem.dish}</div>
+                                                                  </div>
+                                                                ))
+                                                              }
+                                                            </div>
+                                                          </div>
+                                                        ))
+                                                      }
+                                                    </div>
+                                                  </Fragment>
+                                                  :*/
+                                              <div className={styles.btn} onClick={() => this.fetchMatchAllOdds(v.matchId)}>
+                                                所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
+                                              </div>
+                                            }
 
-                                      </div>
-                                    </Row>
-                                  ))
-                                )
-                              }
-                            </div>
+                                          </div>
+                                        </Row>
+                                      ))
+                                    )
+                                }
+                              </div>
+                            </Accordion>
                           </div>
                         ))
                       }

@@ -5,6 +5,7 @@ import styles from './index.scss';
 import DishItem from './dishItem';
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
+import Accordion from '../../../../../../components/Accordion';
 
 @connect(({ chsDB, betShopCart }) => ({
   chsDB,
@@ -19,29 +20,25 @@ class DoubleResultItem extends PureComponent {
     } = this.props;
     return (
       <div key={cptData} style={this.props.style}>
-        <Row className={styles['competitions-name']}>
-          <Col span={1} className={styles.arrow}>
-          </Col>
-          <Col span={20} className={styles.name}>
-            {matchData[0].cptName}
-          </Col>
-        </Row>
-        <div className={styles['match-info']}>
-          {
-            matchData.map((v) => (
-              <Row className={styles['match-line-box']} key={v.matchId}>
-                <Row className={styles['match-line']}>
-                  <Col span={3} className={styles['match-time']}>
-                    {calcDateToMonthAndDay(v.time)}
-                  </Col>
-                  <Col span={5} className={styles['match-team']}>
-                    <div>{v.homeName}</div>
-                    <div>{v.awayName}</div>
-                  </Col>
-                  <Col span={16}>
-                    {
-                      v.odds[0].chs.map((item) => (
-                        <div className={styles['match-odds']} key={item.choiceId}>
+        <Accordion
+          cptName={matchData[0] &&  matchData[0].cptName}
+        >
+          <div className={styles['match-info']}>
+            {
+              matchData.map((v) => (
+                <Row className={styles['match-line-box']} key={v.matchId}>
+                  <Row className={styles['match-line']}>
+                    <Col span={3} className={styles['match-time']}>
+                      {calcDateToMonthAndDay(v.time)}
+                    </Col>
+                    <Col span={5} className={styles['match-team']}>
+                      <div>{v.homeName}</div>
+                      <div>{v.awayName}</div>
+                    </Col>
+                    <Col span={16}>
+                      {
+                        v.odds[0].chs.map((item) => (
+                          <div className={styles['match-odds']} key={item.choiceId}>
                           <span className={styles.item}>
                             <DishLayout
                               choiceId={item.choiceId}
@@ -50,17 +47,19 @@ class DoubleResultItem extends PureComponent {
                               dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                             />
                           </span>
-                        </div>
-                      ))
-                    }
-                  </Col>
+                          </div>
+                        ))
+                      }
+                    </Col>
+                  </Row>
                 </Row>
-              </Row>
-            ))
+              ))
 
 
-          }
-        </div>
+            }
+          </div>
+        </Accordion>
+
       </div>
 
     );

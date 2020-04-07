@@ -8,6 +8,7 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
+import Accordion from '../../../../../../components/Accordion';
 
 @connect(({ asianGG, dates, chsDB, showCompetitions, competitions, loading }) => ({
   asianGG,
@@ -263,30 +264,26 @@ class FirstGoal extends PureComponent {
                       {
                         cptIds.map((val) => (
                           <div key={val}>
-                            <Row className={styles['competitions-name']}>
-                              <Col span={1} className={styles.arrow}>
-                              </Col>
-                              <Col span={20} className={styles.name}>
-                                {matchListObj[val][0].cptName}
-                              </Col>
-                            </Row>
-                            <div className={styles['match-info']}>
-                              {
-                                (
-                                  matchListObj[val].map((v) => (
-                                    <Row className={styles['match-line-box']} key={v.matchId}>
-                                      <Row className={styles['match-line']}>
-                                        <Col span={3} className={styles['match-time']}>
-                                          {calcDateToMonthAndDay(v.time)}
-                                        </Col>
-                                        <Col span={7} className={styles['match-team']}>
-                                          <div>{v.homeName}</div>
-                                          <div>{v.awayName}</div>
-                                        </Col>
-                                        <Col span={7} className={styles['match-odds']}>
-                                          {
-                                            v.odds[0].chs.map((item) => (
-                                                <Col span={8} key={item.dishId} className={styles.item}>
+                            <Accordion
+                              cptName={matchListObj[val] &&  matchListObj[val][0].cptName}
+                            >
+                              <div className={styles['match-info']}>
+                                {
+                                  (
+                                    matchListObj[val].map((v) => (
+                                      <Row className={styles['match-line-box']} key={v.matchId}>
+                                        <Row className={styles['match-line']}>
+                                          <Col span={3} className={styles['match-time']}>
+                                            {calcDateToMonthAndDay(v.time)}
+                                          </Col>
+                                          <Col span={7} className={styles['match-team']}>
+                                            <div>{v.homeName}</div>
+                                            <div>{v.awayName}</div>
+                                          </Col>
+                                          <Col span={7} className={styles['match-odds']}>
+                                            {
+                                              v.odds[0].chs.map((item) => (
+                                                  <Col span={8} key={item.dishId} className={styles.item}>
                                                       <span
                                                         className={styles.odds}
                                                       >
@@ -297,15 +294,15 @@ class FirstGoal extends PureComponent {
                                                           dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                         />
                                                        </span>
-                                                </Col>
-                                              ),
-                                            )
-                                          }
-                                        </Col>
-                                        <Col span={7} className={styles['match-odds']}>
-                                          {
-                                            v.odds[1].chs.map((item) => (
-                                                <Col span={8} key={item.dishId} className={styles.item}>
+                                                  </Col>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                          <Col span={7} className={styles['match-odds']}>
+                                            {
+                                              v.odds[1].chs.map((item) => (
+                                                  <Col span={8} key={item.dishId} className={styles.item}>
                                                       <span
                                                         className={styles.odds}
                                                       >
@@ -316,17 +313,19 @@ class FirstGoal extends PureComponent {
                                                           dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                                         />
                                                        </span>
-                                                </Col>
-                                              ),
-                                            )
-                                          }
-                                        </Col>
+                                                  </Col>
+                                                ),
+                                              )
+                                            }
+                                          </Col>
+                                        </Row>
                                       </Row>
-                                    </Row>
-                                  ))
-                                )
-                              }
-                            </div>
+                                    ))
+                                  )
+                                }
+                              </div>
+                            </Accordion>
+
                           </div>
                         ))
                       }

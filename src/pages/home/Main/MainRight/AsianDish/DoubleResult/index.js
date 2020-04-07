@@ -9,6 +9,8 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 import { calcDateToMonthAndDay } from '../../../../../../utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
+import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout';
+import Accordion from '../../../../../../components/Accordion';
 
 @connect(({asianGG6And7, dates, chsDB, showCompetitions, competitions, loading }) => ({
   asianGG6And7,
@@ -256,28 +258,24 @@ class DoubleResult extends PureComponent {
                       {
                         cptIds.map((val) => (
                           <div key={val}>
-                            <Row className={styles['competitions-name']}>
-                              <Col span={1} className={styles.arrow}>
-                              </Col>
-                              <Col span={20} className={styles.name}>
-                                {matchListObj[val][0].cptName}
-                              </Col>
-                            </Row>
-                            <div className={styles['match-info']}>
-                              {
-                                (
-                                  matchListObj[val].map((v) => (
-                                    <Row className={styles['match-line-box']} key={v.matchId}>
-                                      <Row className={styles['match-line']}>
-                                        <Col span={3} className={styles['match-time']}>
-                                          {calcDateToMonthAndDay(v.time)}
-                                        </Col>
-                                        <Col span={5} className={styles['match-team']}>
-                                          <div>{v.homeName}</div>
-                                          <div>{v.awayName}</div>
-                                        </Col>
-                                        <Col span={16}>
-                                         {/* {
+                            <Accordion
+                              cptName={matchListObj[val] &&  matchListObj[val][0].cptName}
+                            >
+                              <div className={styles['match-info']}>
+                                {
+                                  (
+                                    matchListObj[val].map((v) => (
+                                      <Row className={styles['match-line-box']} key={v.matchId}>
+                                        <Row className={styles['match-line']}>
+                                          <Col span={3} className={styles['match-time']}>
+                                            {calcDateToMonthAndDay(v.time)}
+                                          </Col>
+                                          <Col span={5} className={styles['match-team']}>
+                                            <div>{v.homeName}</div>
+                                            <div>{v.awayName}</div>
+                                          </Col>
+                                          <Col span={16}>
+                                            {/* {
                                             v.odds[0].chs.map((item) => (
                                               <div className={styles['match-odds']} key={item.choiceId}>
                                                   <span className={styles.item}>
@@ -291,10 +289,10 @@ class DoubleResult extends PureComponent {
                                               </div>
                                             ))
                                           }*/}
-                                         <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['11'] &&
-                                              <span className={styles.item}>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['11'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['11'].choiceId}
                                                  matchId={v.matchId}
@@ -302,12 +300,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['11'].choiceId] && chsDB[v.odds[0].chs.list['11'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['1X'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['1X'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['1X'].choiceId}
                                                  matchId={v.matchId}
@@ -315,13 +313,13 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['1X'].choiceId] && chsDB[v.odds[0].chs.list['1X'].choiceId].dish}
                                                />
                                       </span>
-                                            }
+                                              }
 
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['12'] &&
-                                              <span className={styles.item}>
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['12'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['12'].choiceId}
                                                  matchId={v.matchId}
@@ -329,12 +327,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['12'].choiceId] && chsDB[v.odds[0].chs.list['12'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['X1'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['X1'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['X1'].choiceId}
                                                  matchId={v.matchId}
@@ -342,12 +340,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['X1'].choiceId] && chsDB[v.odds[0].chs.list['X1'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['XX'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['XX'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['XX'].choiceId}
                                                  matchId={v.matchId}
@@ -355,12 +353,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['XX'].choiceId] && chsDB[v.odds[0].chs.list['XX'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['X2'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['X2'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['X2'].choiceId}
                                                  matchId={v.matchId}
@@ -368,12 +366,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['X2'].choiceId] && chsDB[v.odds[0].chs.list['X2'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['21'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['21'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['21'].choiceId}
                                                  matchId={v.matchId}
@@ -381,12 +379,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['21'].choiceId] && chsDB[v.odds[0].chs.list['21'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['2X'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['2X'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['2X'].choiceId}
                                                  matchId={v.matchId}
@@ -394,12 +392,12 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['2X'].choiceId] && chsDB[v.odds[0].chs.list['2X'].choiceId].dish}
                                                />
                                             </span>
-                                            }
-                                          </div>
-                                          <div className={styles['match-odds']}>
-                                            {
-                                              v.odds[0].chs.list['22'] &&
-                                              <span className={styles.item}>
+                                              }
+                                            </div>
+                                            <div className={styles['match-odds']}>
+                                              {
+                                                v.odds[0].chs.list['22'] &&
+                                                <span className={styles.item}>
                                                <DishLayout
                                                  choiceId={v.odds[0].chs.list['22'].choiceId}
                                                  matchId={v.matchId}
@@ -407,16 +405,18 @@ class DoubleResult extends PureComponent {
                                                  dish={chsDB[v.odds[0].chs.list['22'].choiceId] && chsDB[v.odds[0].chs.list['22'].choiceId].dish}
                                                />
                                       </span>
-                                            }
-                                          </div>
-                                        </Col>
+                                              }
+                                            </div>
+                                          </Col>
+                                        </Row>
                                       </Row>
-                                    </Row>
-                                  ))
-                                )
+                                    ))
+                                  )
 
-                              }
-                            </div>
+                                }
+                              </div>
+                            </Accordion>
+
                           </div>
                         ))
                       }
