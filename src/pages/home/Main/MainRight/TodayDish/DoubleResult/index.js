@@ -10,8 +10,8 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 import PaginationBox from '../../../../../../components/PaginationBox';
 
 
-@connect(({ asianGG, chsDB, showCompetitions,  loading }) => ({
-  asianGG,
+@connect(({ asianGG6And7, chsDB, showCompetitions,  loading }) => ({
+  asianGG6And7,
   showCompetitions,
   chsDB,
   loading:loading.effects['asianGG/fetchMatchOdds']
@@ -134,7 +134,7 @@ class DoubleResult extends PureComponent {
 
   render() {
     const {
-      asianGG: {
+      asianGG6And7: {
         cptIds, matchListObj, count, current
       }
     } = this.props;

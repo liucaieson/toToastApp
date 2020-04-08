@@ -7,7 +7,7 @@ import { Icon } from 'antd';
 import CountDown from '../../../../../../components/CountDown/index';
 import BetDishItem from '../../DishLayout/inPlayDeatilDishLayout/index';
 
-@connect(({ chsDB,inPlay, loading }) => ({
+@connect(({ chsDB, inPlay, loading }) => ({
   chsDB,
   inPlay,
   inPlayAllOddsLoading: loading.models.inPlayAllOdds,
@@ -16,7 +16,10 @@ class ModalLayout extends PureComponent {
   state = {
     showOdds: [],
     firstLoading: true,
+    prevPeriod: '0:00',
+    calcPeriod: '0:00',
   };
+
 
   timer = null;
   competitionsParams = {};
@@ -42,6 +45,41 @@ class ModalLayout extends PureComponent {
         });
       },
     });
+
+    this.timer = setInterval(() => {
+      const { prevPeriod} = this.state;
+      let minute = prevPeriod.split(':')[0];
+      let second = prevPeriod.split(':')[1];
+      if(minute === '45' ){
+        this.setState({
+          prevPeriod: '45:00'
+        })
+      }else if(minute === '90'){
+        this.setState({
+          prevPeriod: '45:00'
+        })
+      }else {
+        second = +second + 1;
+        if(second >= 59){
+          minute = +minute + 1;
+          second = 0
+        }
+        const newPeriod = minute + ':' + second.toString().padStart(2, '0');
+        this.setState({
+          prevPeriod: newPeriod
+        })
+      }
+    },1000)
+  }
+
+  static getDerivedStateFromProps (props, state) {
+    if (props.inPlay.inPlayAllOdds && props.inPlay.inPlayAllOdds[0] && props.inPlay.inPlayAllOdds[0].period !== state.calcPeriod) {
+      return {
+        prevPeriod: props.inPlay.inPlayAllOdds[0].period,
+        calcPeriod: props.inPlay.inPlayAllOdds[0].period
+      }
+    }
+    return null
   }
 
   componentWillUnmount() {
@@ -96,7 +134,7 @@ class ModalLayout extends PureComponent {
         inPlayAllOdds,
       },
     } = this.props;
-    const { refreshLoading, firstLoading } = this.state;
+    const { refreshLoading, firstLoading, prevPeriod } = this.state;
     return (
       <div className={styles.modalLayout}>
         {
@@ -117,17 +155,27 @@ class ModalLayout extends PureComponent {
               </div>
               <div className={styles['match-info']}>
                 {
-                 inPlayAllOdds && inPlayAllOdds[0] ?
+                  inPlayAllOdds && inPlayAllOdds[0] ?
                     <div>
                       <div className={styles.time}>
-                       {calcDate2(inPlayAllOdds[0].time)}
+                        {calcDate2(inPlayAllOdds[0].time)}
                       </div>
                       <div className={styles.team}>
                         <div className={styles['home-name']}>{inPlayAllOdds[0].homeName}</div>
                         <div className={styles.vs}>vs</div>
                         <div className={styles['away-name']}>{inPlayAllOdds[0].awayName}</div>
                       </div>
-                    </div> : <div className={styles['match-over']}>比赛结束</div>
+                      <div className={styles.period}>
+                        <div className={styles.interval}>
+                          <Icon type="clock-circle" className={styles.icon} />
+                        {
+                          inPlayAllOdds[0].goOnFlag === 1 ? inPlayAllOdds[0].period : prevPeriod
+                        }
+                        </div>
+                      </div>
+                    </div>
+                    :
+                    <div className={styles['match-over']}>比赛结束</div>
                 }
               </div>
               <div className={styles['all-odds']}>
@@ -161,7 +209,6 @@ class ModalLayout extends PureComponent {
                 }
               </div>
             </div>
-
         }
       </div>
     );
