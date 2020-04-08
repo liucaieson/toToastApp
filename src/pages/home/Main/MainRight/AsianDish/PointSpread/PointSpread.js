@@ -359,13 +359,13 @@ class Main extends PureComponent {
                                                       <div className={styles['match-odds-item']} key={item.dishId}>
                                                         <span className={styles.handicap}>{item.choiceHandicap}</span>
                                                         <span className={styles.odds}>
-                                                      <DishLayout
-                                                        choiceId={item.choiceId}
-                                                        matchId={v.matchId}
-                                                        dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                        dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                      />
-                                                    </span>
+                                                          <DishLayout
+                                                            choiceId={item.choiceId}
+                                                            matchId={v.matchId}
+                                                            dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                                            dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                                          />
+                                                        </span>
                                                       </div>
                                                     ),
                                                   )

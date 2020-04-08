@@ -169,7 +169,7 @@ class ModalLayout extends PureComponent {
                         <div className={styles.interval}>
                           <Icon type="clock-circle" className={styles.icon} />
                         {
-                          inPlayAllOdds[0].goOnFlag === 1 ? inPlayAllOdds[0].period : prevPeriod
+                          inPlayAllOdds[0].goOnFlag === 0 ? inPlayAllOdds[0].period : prevPeriod
                         }
                         </div>
                       </div>

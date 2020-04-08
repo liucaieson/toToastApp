@@ -28,14 +28,11 @@
         border-right: 1px solid $match-cell-border;
       }
       .match-team {
-        padding-top: 6px;
-        height: $height7;
-        padding-left: 10px;
-        border-right: 1px solid $match-cell-border;
+        @include match-team-layout();
       }
       .match-odds {
         text-align: center;
-        border-right: 1px solid $match-cell-border;
+        border-left: 1px solid $match-cell-border;
         height: $height7;
         padding-top: 3px;
         .match-odds-list {
@@ -169,8 +166,7 @@
         border-right: 1px solid $match-cell-border;
       }
       .match-team{
-        padding-left: 10px;
-        margin-top: 4px;
+        @include match-team-layout();
       }
       .match-odds{
         text-align: center;
@@ -224,19 +220,12 @@
         margin-top: 6px;
       }
       .match-team{
-        padding-left: 10px;
-        padding-top: 6px;
-        height: $height1;
-        border-left: 1px solid $match-cell-border;
+        @include match-team-layout();
       }
       .match-odds{
         text-align: center;
         height: $height1;
-        border-right: 1px solid  $match-cell-border;
         border-left: 1px solid  $match-cell-border;
-        &:nth-child(even){
-          border-left:0 solid transparent;
-        }
         .odds-item{
           height: $height1;
           line-height: 50px;
@@ -282,21 +271,15 @@
         border-right: 1px solid $match-cell-border;
       }
       .match-team {
-        padding-top: 2px;
-        height: $height1;
-        padding-left: 10px;
-        border-right: 1px solid $match-cell-border;
+        @include match-team-layout();
       }
       .match-odds {
         height: $height1;
         text-align: center;
-        border-right: 1px solid $match-cell-border;
+        border-left: 1px solid $match-cell-border;
         display: flex;
         align-items: center;
         justify-content: center;
-        &:last-child {
-          border-left: none;
-        }
         .match-odds-item {
           height: $height1;
           padding-top: 2px;
@@ -389,14 +372,13 @@
       font-size: 12px;
       height: $height4;
       .match-time{
+        padding-top: 4px;
+        height: $height4;
         text-align: center;
-        margin-top: 6px;
+        border-right: 1px solid $match-cell-border;
       }
       .match-team{
-        padding-left: 10px;
-        padding-top: 6px;
-        height: $height4;
-        border-left: 1px solid $match-cell-border;
+        @include match-team-layout();
       }
       .match-odds{
         height: $height4;
@@ -406,9 +388,6 @@
         flex: 0 0 auto;
         width: 11.11111%;
         border-left: 1px solid $match-cell-border;
-        &:last-child{
-          border-right: 1px solid $match-cell-border;
-        }
         .item{
           display: block;
           font-size: 13px;
@@ -438,21 +417,19 @@
       font-size: 12px;
       height: $height1;
       .match-time{
+        padding-top: 4px;
         text-align: center;
-        margin-top: 2px;
+        height: $height1;
+        border-right: 1px solid $match-cell-border;
       }
       .match-team{
-        padding-left: 10px;
-        padding-top: 2px;
-        height: $height1;
-        border-left: 1px solid $match-cell-border;
-        border-right: 1px solid $match-cell-border;
+        @include match-team-layout();
       }
       .match-odds{
         height: $height1;
         box-sizing: border-box;
         text-align: center;
-        border-right: 1px solid $match-cell-border;
+        border-left: 1px solid $match-cell-border;
         .item{
           height: $height1;
           margin: 0 auto;
@@ -699,6 +676,15 @@
   background-color: $competition-color;
   border-bottom: 1px solid $competition-fz-border;
   cursor: pointer;
+}
+
+/* 球队名称的布局 */
+@mixin match-team-layout{
+  padding-left: 10px;
+  margin-top: 4px;
+  div{
+    @include textOverflow();
+  }
 }
 
 
