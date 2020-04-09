@@ -56,7 +56,7 @@ class ModalLayout extends PureComponent {
         })
       }else if(minute === '90'){
         this.setState({
-          prevPeriod: '45:00'
+          prevPeriod: '90:00'
         })
       }else {
         second = +second + 1;
