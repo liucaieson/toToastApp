@@ -31,6 +31,7 @@ export default {
   // 路由配置
   routes: PCPageRoutes,
   history: 'browser',
+  hash: true
 /*  proxy: {
     "/test": {
       "target": "http://35.229.133.12:8090",
