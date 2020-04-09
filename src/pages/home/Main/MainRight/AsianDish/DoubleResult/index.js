@@ -94,7 +94,7 @@ class DoubleResult extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'pointSpread/fetchMatchOdds',
+      type: 'asianGG/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();
