@@ -130,8 +130,9 @@ class HistoryBetsContent extends Component {
             <div key={val.betId} className={styles.historyBets}>
               <div className={styles['bet-time-line']}>
                 <div className={styles.status}>{val.betStatus}</div>
-                <div className={styles.text}>下注时间：</div>
                 <div className={styles.time}>{val.betTime.substring(0,19)}</div>
+                <div className={styles.text1}>订单号：</div>
+                <div className={styles.time}>{val.betId}</div>
               </div>
               <div>
                 {

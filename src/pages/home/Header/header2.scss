@@ -259,15 +259,18 @@
     color: white;
     .status {
       font-size: 13px;
-      width: 20%;
       font-weight: bold;
       padding-left: 5%;
+      padding-right: 5%;
     }
     .text {
-
+      margin-left: 10px;
     }
     .time {
-      margin-left: 50px;
+      margin-left: 4px;
+    }
+    .text1{
+      margin-left: 350px;
     }
   }
   .bet-detail-line {
