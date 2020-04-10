@@ -1,8 +1,11 @@
 import request from '../utils/request';
 
-const baseUrl = 'http://35.229.133.12:8090/api/v1';
-/*const baseUrl = 'http://192.168.10.15:8090/api/v1/'*/
 
+
+const baseUrl =  process.env.NODE_ENV === 'development' ?
+  'http://35.229.133.12:8090/api/v1' :
+  'http://35.229.133.12:8090/api/v1';
+/*const baseUrl = ''*/
 
 /*获取用户信息接口*/
 export async function loginApp1(params) {

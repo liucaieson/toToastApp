@@ -67,8 +67,8 @@ class DoubleResultItem extends PureComponent {
                           {
                             v.odds[0].chs.map((item) => (
                                 <div className={styles['match-odds-item']}>
+                                  <span className={styles.handicap}>{item.choiceHandicap}</span>
                                   <DishItem
-                                    choiceHandicap={item.choiceHandicap}
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
                                     gamblingId={v.odds[0].gamblingId}
@@ -82,10 +82,10 @@ class DoubleResultItem extends PureComponent {
                         </Col>
                         <Col span={8} className={styles['match-odds-list']}>
                           {
-                            v.odds[1] && v.odds[1].chs.map((item) => (
+                            v.odds[1] && v.odds[1].chs.map((item, index) => (
                                 <div className={styles['match-odds-item']}>
+                                  <span className={styles.handicap}>{index === 0 ? '大': '小'}{item.choiceHandicap}</span>
                                   <DishItem
-                                    choiceHandicap={item.choiceHandicap}
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
                                     gamblingId={v.odds[0].gamblingId}
@@ -101,8 +101,8 @@ class DoubleResultItem extends PureComponent {
                           {
                             v.odds[2] && v.odds[2].chs.map((item) => (
                                 <div className={styles['match-odds-item']}>
+                                  <span className={styles.handicap}>{item.choiceHandicap}</span>
                                   <DishItem
-                                    choiceHandicap={item.choiceHandicap}
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
                                     gamblingId={v.odds[0].gamblingId}
@@ -122,8 +122,8 @@ class DoubleResultItem extends PureComponent {
                           {
                             v.odds[3] && v.odds[3].chs.map((item) => (
                                 <div className={styles['match-odds-item']}>
+                                  <span className={styles.handicap}>{item.choiceHandicap}</span>
                                   <DishItem
-                                    choiceHandicap={item.choiceHandicap}
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
                                     gamblingId={v.odds[0].gamblingId}
@@ -137,10 +137,10 @@ class DoubleResultItem extends PureComponent {
                         </Col>
                         <Col span={8} className={styles['match-odds-list']}>
                           {
-                            v.odds[4] && v.odds[4].chs.map((item) => (
+                            v.odds[4] && v.odds[4].chs.map((item, index) => (
                                 <div className={styles['match-odds-item']}>
+                                  <span className={styles.handicap}>{index === 0 ? '大': '小'}{item.choiceHandicap}</span>
                                   <DishItem
-                                    choiceHandicap={item.choiceHandicap}
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
                                     gamblingId={v.odds[0].gamblingId}
@@ -156,8 +156,8 @@ class DoubleResultItem extends PureComponent {
                           {
                             v.odds[5] && v.odds[5].chs.map((item) => (
                                 <div className={styles['match-odds-item']}>
+                                  <span className={styles.handicap}>{item.choiceHandicap}</span>
                                   <DishItem
-                                    choiceHandicap={item.choiceHandicap}
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
                                     gamblingId={v.odds[0].gamblingId}

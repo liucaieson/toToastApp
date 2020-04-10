@@ -5,10 +5,9 @@ import MixedDishLayout from '../../DishLayout/mixedDishLayout/index'
 class MixedDishItem extends PureComponent {
 
   render() {
-    const {choiceHandicap, matchId, gamblingId, choiceId, dishId, dish } = this.props;
+    const { matchId, gamblingId, choiceId, dishId, dish } = this.props;
     return (
-       <div>
-         <span className={styles.handicap}>{choiceHandicap}</span>
+
          <span className={styles.odds}>
            <MixedDishLayout
              choiceId={choiceId}
@@ -18,7 +17,7 @@ class MixedDishItem extends PureComponent {
              dish={dish}
            />
          </span>
-       </div>
+
 
     );
   }

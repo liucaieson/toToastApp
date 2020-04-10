@@ -348,9 +348,9 @@ class Mixed extends PureComponent {
                                                 </Col>
                                                 <Col span={8} className={styles['match-odds-list']}>
                                                   {
-                                                    v.odds[1] && v.odds[1].chs.map((item) => (
+                                                    v.odds[1] && v.odds[1].chs.map((item, index) => (
                                                         <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.handicap}>{index === 0 ? '大': '小'}{item.choiceHandicap}</span>
                                                           <span className={styles.odds}>
                                                               <MixedDishLayout
                                                                 choiceId={item.choiceId}
@@ -407,9 +407,9 @@ class Mixed extends PureComponent {
                                                 </Col>
                                                 <Col span={8} className={styles['match-odds-list']}>
                                                   {
-                                                    v.odds[4] && v.odds[4].chs.map((item) => (
+                                                    v.odds[4] && v.odds[4].chs.map((item, index) => (
                                                         <div className={styles['match-odds-item']} key={item.choiceId}>
-                                                          <span className={styles.handicap}>{item.choiceHandicap}</span>
+                                                          <span className={styles.handicap}>{index === 0 ? '大': '小'}{item.choiceHandicap}</span>
                                                           <span className={styles.odds}>
                                                               <MixedDishLayout
                                                                 choiceId={item.choiceId}
