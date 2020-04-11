@@ -528,19 +528,19 @@
 /* 双重机会布局特殊单独拿出来 */
 @mixin game-table-doubleResult{
   text-align: center;
-  height: 30px;
+  height: 60px;
   color: $game-table-fz-color;
   font-size: 13px;
   border-bottom: 1px solid $game-table-border-color;
   background-color: $game-table-bg-color;
   .big-tb{
-    height: 30px;
-    line-height: 30px;
+    height: 60px;
+    line-height: 60px;
     border-right: 1px solid $game-table-border-color;
     margin-right: -1px;
     .cell{
-      height: 30px;
-      line-height: 30px;
+      height: 60px;
+      line-height: 60px;
       box-sizing: border-box;
       float: left;
       flex: 0 0 auto;

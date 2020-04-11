@@ -1,35 +1,23 @@
 @import "../../../../../../styles/common";
 @import "../../../../../../styles/utils";
-.totalResult{
-  .header{
-    @include game-header();
-  }
-  .date-select{
-    @include game-date();
-  }
-  .match-box{
-    border: 1px solid $border-color1;
-    background-color: $bg-color;
-    .table{
-      @include game-table();
-    }
-    .match{
-      background-color: white;
-      height: calc(100vh - 184px);
-      @include scrollBar();
-      .competitions-name{
-        @include competition-layout();
-        .arrow{
-          text-align: center;
-        }
-        .name{
-          padding-left: 10px;
-        }
-      }
-      .match-info{
-        @include totalResult-matchInfo-layout();
 
-      }
-    }
+.table {
+  @include game-table();
+}
+
+.competitions-name {
+  @include competition-layout();
+  .arrow {
+    text-align: center;
+  }
+  .name {
+    padding-left: 10px;
   }
 }
+.match-info {
+  @include totalResult-matchInfo-layout();
+
+}
+
+
+
