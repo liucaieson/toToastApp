@@ -81,7 +81,7 @@ class Double extends PureComponent {
                               </Col>
                               <Col span={5} className={styles['match-odds']}>
                                 {
-                                  v.odds && v.odds[0].chs.map((item) => (
+                                  v.odds && v.odds[0] && v.odds[0].chs.map((item) => (
                                       <Fragment key={item.dishId}>
                                         {item.name === '1' && <div key={item.dishId}
                                                                    className={styles['match-odds-item']}
@@ -124,7 +124,7 @@ class Double extends PureComponent {
                               </Col>
                               <Col span={5} className={styles['match-odds']}>
                                 {
-                                  v.odds && v.odds[1].chs.map((item) => (
+                                  v.odds && v.odds[1] && v.odds[1].chs.map((item) => (
                                       <Fragment key={item.dishId}>
                                         {item.name === '1' &&
                                         <div key={item.dishId} className={styles['match-odds-item']}>
@@ -169,7 +169,7 @@ class Double extends PureComponent {
                               </Col>
                               <Col span={5} className={styles['match-odds']}>
                                 {
-                                  v.odds && v.odds[2].chs.map((item) => (
+                                  v.odds && v.odds[2] && v.odds[2].chs.map((item) => (
                                       <Fragment key={item.dishId}>
                                         {item.name === '1X' && <div key={item.dishId}
                                                                     className={styles['match-odds-item']}
