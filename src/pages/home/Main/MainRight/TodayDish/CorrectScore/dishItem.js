@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './index.scss';
 import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout/index'
 

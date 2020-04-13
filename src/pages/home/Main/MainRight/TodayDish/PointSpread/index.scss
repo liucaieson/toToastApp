@@ -2,93 +2,25 @@
 @import "../../../../../../styles/utils";
 @import "../../../../../../styles/bilnk";
 
-.pointSpread {
-  .header {
-    @include game-header();
+.table {
+  @include game-table();
+}
+
+.competitions-name {
+  @include competition-layout();
+  .arrow {
+    text-align: center;
+    color: $fz-color3;
   }
-  .match-box {
-    border: 1px solid $border-color1;
-    background-color: #fff;
-    .table {
-      @include game-table();
-    }
-    .match {
-      overflow-y: auto;
-      height: calc(100vh - 148px);
-      overflow: -moz-scrollbars-none;
-      &::-webkit-scrollbar {
-        width: 0 !important
-      }
-      .competitions-name {
-        @include competition-layout();
-        .arrow {
-          text-align: center;
-          color: $fz-color3;
-        }
-        .name {
-          padding-left: 10px;
-        }
-      }
-      .match-info {
-        @include pointSpread-matchInfo-layout();
-      }
-    }
+  .name {
+    padding-left: 10px;
   }
 }
 
-.single-odds {
-  float: left;
-  margin: 4px;
-  @include clearfix();
-  .oddsName {
-    background-color: $detail-odds-color;
-    height: 30px;
-    line-height: 30px;
-    font-size: 14px;
-    padding-left: 10px;
-    @include clearfix();
-  }
-  .oddsDish {
-    float: left;
-    background-color: white;
-    @include clearfix();
-    .dish-box {
-      width: 102px;
-      float: left;
-      text-align: center;
-      color: $fz-color3;
-      @include clearfix();
-      .dishName {
-        line-height: 30px;
-        text-align: center;
-        font-size: 13px;
-        border-right: 1px solid $border-color2;
-        border-bottom: 1px solid $border-color2;
-        font-weight: 700;
-        overflow: hidden;
-        background-color: $bg-color3;
-        color: $odds-modal-fz;
-        .choicehandicap {
-          padding-left: 2px;
-        }
-      }
-      .dish {
-        line-height: 30px;
-        padding: 0 10px;
-        font-size: 12px;
-        border-right: 1px solid $border-color2;
-        border-bottom: 1px solid $border-color2;
-        cursor: pointer;
-        color: $odds-modal-fz;
-        &:hover {
-          background-color: $active-color1;
-          color: $active1-fz;
-        }
-      }
-      .active {
-        background-color: $active-color1;
-        color: $active1-fz;
-      }
-    }
-  }
+.match-info {
+  @include pointSpread-matchInfo-layout();
 }
+
+
+
+

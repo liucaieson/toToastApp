@@ -4,10 +4,11 @@ import { connect } from 'dva';
 import styles from './wrapper1.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-
 import ModalLayout from '../../ModalLayout/modalLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 import PageLoading from '../../../../../../components/MbPageLoading';
+import TodayWrapper from '../TodayWarpper/wrapper1'
+import moment from 'moment';
 
 
 @connect(({ asianGG, dates, chsDB, showCompetitions,  loading }) => ({
@@ -29,11 +30,11 @@ class Main extends PureComponent {
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {
     sport: '1',
+    date: moment().format('YYYY-MM-DD'),
     page:1
   };
   /* 存储全局的参数 */
@@ -43,7 +44,6 @@ class Main extends PureComponent {
 
   componentDidMount() {
     const { gg } = this.props;
-    this.fetchDates();
     this.fetchMatchOdds({gg}, () => {
       this.setState({
         firstLoading: false,
@@ -79,17 +79,6 @@ class Main extends PureComponent {
     });
   };
 
-  /* 请求时间接口 */
-  fetchDates = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'dates/fetch',
-      payload: {
-        ...this.globalParams,
-      },
-    });
-  };
-
   /* 全局展示显示联赛的modal  */
   showCompetitionsModal = () => {
     const { dispatch } = this.props;
@@ -119,26 +108,6 @@ class Main extends PureComponent {
           refreshLoading: false,
         });
       },
-    });
-  };
-
-  /* 点击日期的请求 */
-  fetchMatchOddsWithDate = (date) => {
-    const {gg} = this.props;
-    this.setState({
-      isActiveDate: date.date,
-      firstLoading: true,
-    });
-    this.fetchMatchOdds({ ...this.globalParams,gg, page:1, date: date.date }, () => {
-      this.countRef.reset();
-      this.setState({
-        firstLoading: false,
-      });
-      this.globalParams = {
-        ...this.globalParams,
-        ...date,
-        page:1
-      };
     });
   };
 
@@ -188,28 +157,12 @@ class Main extends PureComponent {
     });
   };
 
-
-
   /*跳转到混合过关*/
   turnToAsianMixed = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'togglePageWithGg/togglePage',
       payload: '8',
-    });
-  };
-
-
-
-  /* 跳转到单程比赛所有盘口玩法赔率页面 ，
-  * pageId为标识要跳的页面为detail（比赛详情玩法）
-  * id为matchId页面初始化请求
-   */
-  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
-  openMatchAllOdds = (matchId) => {
-    this.setState({
-      isShow: true,
-      matchId
     });
   };
 
@@ -222,14 +175,13 @@ class Main extends PureComponent {
 
   render() {
     const {
-      dates: { dates },
       title,
       gg,
       asianGG: {
         count, current
       },
     } = this.props;
-    const { refreshLoading, isActiveDate, isShow, matchId, firstLoading } = this.state;
+    const { refreshLoading, isShow, matchId, firstLoading } = this.state;
     return (
       <div className={styles['main-box']}>
         <div className={styles.header}>
@@ -248,28 +200,10 @@ class Main extends PureComponent {
           </div>
           <div className={styles['competitions-select']} onClick={this.showCompetitionsModal}>选择联赛</div>
           {
-            gg === '8' ? '' :  <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
+            gg ==='8'? '' :  <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
           }
         </div>
         <div className={styles.main}>
-          <Row className={styles['date-select']}>
-            <Col
-              className={isActiveDate === '' ? styles.item + ' ' + styles.active : styles.item} span={3} offset={1}
-              onClick={() => this.fetchMatchOddsWithDate({ date: '' })}
-            >全部
-            </Col>
-            {
-              dates.map((val) => (
-                <Col
-                  className={isActiveDate === val.id ? styles.item + ' ' + styles.active : styles.item}
-                  key={val.id}
-                  span={3}
-                  onClick={() => this.fetchMatchOddsWithDate({ date: val.id })}>
-                  {val.text}
-                </Col>),
-              )
-            }
-          </Row>
           {
             <div className={styles['match-box']}>
               {this.props.children[0]}
@@ -284,7 +218,6 @@ class Main extends PureComponent {
               </div>
             </div>
           }
-
         </div>
         <Modal
           title={'比赛'}
@@ -303,7 +236,6 @@ class Main extends PureComponent {
         >
           {
             isShow ? <ModalLayout matchId={matchId}/>
-
               : ''
           }
         </Modal>

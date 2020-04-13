@@ -1,0 +1,24 @@
+@import "../../../../../../styles/common";
+@import "../../../../../../styles/utils";
+.main-box{
+  .header{
+    @include game-header();
+  }
+  .main{
+    width: 100%;
+    height: calc(100vh - 82px);
+    position: relative;
+    .date-select{
+      @include game-date();
+    }
+    .match-box{
+      border: 1px solid $border-color1;
+      background-color: $bg-color;
+      .match{
+        background-color: white;
+        height: calc(100vh - 146px);
+        @include scrollBar();
+      }
+    }
+  }
+}

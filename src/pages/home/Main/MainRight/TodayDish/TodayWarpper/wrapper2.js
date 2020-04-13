@@ -4,18 +4,15 @@ import { connect } from 'dva';
 import styles from './wrapper1.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-
 import ModalLayout from '../../ModalLayout/modalLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 import PageLoading from '../../../../../../components/MbPageLoading';
 
-
-@connect(({ asianGG, dates, chsDB, showCompetitions,  loading }) => ({
-  asianGG,
+@connect(({ asianGG6And7,chsDB, showCompetitions,  loading }) => ({
+  asianGG6And7,
   showCompetitions,
-  dates,
   chsDB,
-  loading: loading.models.asianGG,
+  loading: loading.models.asianGG6And7,
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
@@ -43,7 +40,6 @@ class Main extends PureComponent {
 
   componentDidMount() {
     const { gg } = this.props;
-    this.fetchDates();
     this.fetchMatchOdds({gg}, () => {
       this.setState({
         firstLoading: false,
@@ -73,20 +69,9 @@ class Main extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'asianGG/fetchMatchOdds',
+      type: 'asianGG6And7/fetchMatchOdds',
       payload: params,
       callback: fn,
-    });
-  };
-
-  /* 请求时间接口 */
-  fetchDates = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'dates/fetch',
-      payload: {
-        ...this.globalParams,
-      },
     });
   };
 
@@ -111,7 +96,7 @@ class Main extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'asianGG/fetchMatchOdds',
+      type: 'asianGG6And7/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();
@@ -119,26 +104,6 @@ class Main extends PureComponent {
           refreshLoading: false,
         });
       },
-    });
-  };
-
-  /* 点击日期的请求 */
-  fetchMatchOddsWithDate = (date) => {
-    const {gg} = this.props;
-    this.setState({
-      isActiveDate: date.date,
-      firstLoading: true,
-    });
-    this.fetchMatchOdds({ ...this.globalParams,gg, page:1, date: date.date }, () => {
-      this.countRef.reset();
-      this.setState({
-        firstLoading: false,
-      });
-      this.globalParams = {
-        ...this.globalParams,
-        ...date,
-        page:1
-      };
     });
   };
 
@@ -188,8 +153,6 @@ class Main extends PureComponent {
     });
   };
 
-
-
   /*跳转到混合过关*/
   turnToAsianMixed = () => {
     const { dispatch } = this.props;
@@ -219,17 +182,15 @@ class Main extends PureComponent {
     });
   };
 
-
   render() {
     const {
-      dates: { dates },
       title,
       gg,
-      asianGG: {
+      asianGG6And7: {
         count, current
       },
     } = this.props;
-    const { refreshLoading, isActiveDate, isShow, matchId, firstLoading } = this.state;
+    const { refreshLoading, isShow, matchId, firstLoading } = this.state;
     return (
       <div className={styles['main-box']}>
         <div className={styles.header}>
@@ -247,29 +208,9 @@ class Main extends PureComponent {
               s</span>
           </div>
           <div className={styles['competitions-select']} onClick={this.showCompetitionsModal}>选择联赛</div>
-          {
-            gg === '8' ? '' :  <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
-          }
+          <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
         </div>
         <div className={styles.main}>
-          <Row className={styles['date-select']}>
-            <Col
-              className={isActiveDate === '' ? styles.item + ' ' + styles.active : styles.item} span={3} offset={1}
-              onClick={() => this.fetchMatchOddsWithDate({ date: '' })}
-            >全部
-            </Col>
-            {
-              dates.map((val) => (
-                <Col
-                  className={isActiveDate === val.id ? styles.item + ' ' + styles.active : styles.item}
-                  key={val.id}
-                  span={3}
-                  onClick={() => this.fetchMatchOddsWithDate({ date: val.id })}>
-                  {val.text}
-                </Col>),
-              )
-            }
-          </Row>
           {
             <div className={styles['match-box']}>
               {this.props.children[0]}
@@ -284,7 +225,6 @@ class Main extends PureComponent {
               </div>
             </div>
           }
-
         </div>
         <Modal
           title={'比赛'}

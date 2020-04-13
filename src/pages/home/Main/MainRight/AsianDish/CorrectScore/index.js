@@ -7,20 +7,16 @@ import PaginationBox from '../../../../../../components/PaginationBox';
 import Accordion from '../../../../../../components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 
-@connect(({ asianGG, dates, chsDB, showCompetitions, competitions, loading }) => ({
+@connect(({ asianGG, chsDB}) => ({
   asianGG,
-  showCompetitions,
-  competitions,
-  dates,
   chsDB,
-  loading: loading.effects['asianGG/fetchMatchOdds'],
 }))
 class CorrectScore extends PureComponent {
 
   render() {
     const {
       asianGG: {
-        cptIds, matchListObj, count, current,
+        cptIds, matchListObj
       },
       chsDB: { chsDB },
     } = this.props;
@@ -88,7 +84,6 @@ class CorrectScore extends PureComponent {
               </div>
             ))
           }
-          <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
         </div>
       </AsianWrapper>
     );
