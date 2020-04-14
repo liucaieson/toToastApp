@@ -1,7 +1,5 @@
 import request from '../utils/request';
 
-
-
 const baseUrl =  process.env.NODE_ENV === 'development' ?
   'http://35.229.133.12:8090/api/v1' :
   'http://35.229.133.12:8090/api/v1';

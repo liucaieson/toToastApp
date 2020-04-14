@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent} from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
 import MenuColumn from './menuColumn';
@@ -6,9 +6,7 @@ import BetShopCart from './BetShopCart/index'
 import MixedShopCart from './MixedShopCart/index'
 import MyOrder from './myOrder'
 
-const time = new Date();
-
-@connect(({  toggleMainLeftTabs, loading }) => ({
+@connect(({  toggleMainLeftTabs}) => ({
   toggleMainLeftTabs
 }))
 class MainLeft extends PureComponent {

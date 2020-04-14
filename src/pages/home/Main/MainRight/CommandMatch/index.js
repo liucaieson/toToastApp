@@ -214,12 +214,10 @@ class CommandMatch extends PureComponent {
               }
 
             </div>
-
           </div>
         </div>
         <CompetitionsModal params={this.globalParams} fn={this.fetchMatchOddsWithCompetitions} />
       </div>
-
     );
   }
 }

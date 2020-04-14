@@ -4,11 +4,9 @@ import { connect } from 'dva';
 import styles from './wrapper1.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-
 import ModalLayout from '../../ModalLayout/modalLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 import PageLoading from '../../../../../../components/MbPageLoading';
-
 
 @connect(({ asianGG, dates, chsDB, showCompetitions,  loading }) => ({
   asianGG,
@@ -259,7 +257,7 @@ class Main extends PureComponent {
             >全部
             </Col>
             {
-              dates.map((val) => (
+             dates && dates.map((val) => (
                 <Col
                   className={isActiveDate === val.id ? styles.item + ' ' + styles.active : styles.item}
                   key={val.id}
@@ -284,7 +282,6 @@ class Main extends PureComponent {
               </div>
             </div>
           }
-
         </div>
         <Modal
           title={'比赛'}
@@ -303,13 +300,11 @@ class Main extends PureComponent {
         >
           {
             isShow ? <ModalLayout matchId={matchId}/>
-
               : ''
           }
         </Modal>
         <CompetitionsModal params={{...this.defaultParams, gg}} fn={this.fetchMatchOddsWithCompetitions}/>
       </div>
-
     );
   }
 }
