@@ -36,6 +36,7 @@
   }
   .area-box{
     width: 100%;
+    cursor: pointer;
     @include clearfix();
     .area-name{
       width: 100%;

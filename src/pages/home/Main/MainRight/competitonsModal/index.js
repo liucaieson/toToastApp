@@ -11,7 +11,7 @@ import styles from './index.scss'
 class CompetitionsModal extends Component {
   state = {
     checkedList: [],
-    showArea:[-1]
+    showArea:[]
   };
 
   componentDidMount() {
@@ -51,28 +51,29 @@ class CompetitionsModal extends Component {
     })
   };
 
-  showArea = (id) => {
-    const { showArea } = this.state;
-    showArea.push(id);
-    const arr = showArea.concat();
-    this.setState({
-      showArea: arr
-    })
-  };
-
-  closeArea = (id) => {
+  toggleArea = (id) => {
     const { showArea } = this.state;
     const index = showArea.indexOf(id);
-    showArea.splice(index, 1);
-    const arr = showArea.concat();
-    this.setState({
-      showArea: arr
-    })
+    if( index < 0){
+      showArea.push(id);
+      const arr = showArea.concat();
+      this.setState({
+        showArea: arr
+      })
+    }else{
+      showArea.splice(index, 1);
+      const arr = showArea.concat();
+      this.setState({
+        showArea: arr
+      })
+    }
+
   };
+
 
 
   render() {
-    const { showCompetitions : {isShow}, competitions: {competitionsModalList, areaId, competitionsObj },  area:{ areaObj}, } = this.props;
+    const { showCompetitions : {isShow}, competitions: { areaId, competitionsObj },  area:{ areaObj}, } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { showArea } = this.state;
     return (
@@ -102,14 +103,15 @@ class CompetitionsModal extends Component {
                   <Checkbox.Group style={{ width: '100%' }}>
                     {
                       areaId.map((item) => (
-                        <div className={styles['area-box']} key={item}>
-                          <div className={styles['area-name']}>
+                        <div className={styles['area-box']} key={item} >
+                          <div className={styles['area-name']} onClick={() => this.toggleArea(item)}>
                             {
                               showArea.includes(item) ?
-                                <div className={styles.arrow} onClick={() => this.closeArea(item)}>
+                                <div className={styles.arrow}>
                                 <Icon type="caret-up" />
-                                </div>:
-                                <div className={styles.arrow} onClick={() => this.showArea(item)}>
+                                </div>
+                                :
+                                <div className={styles.arrow}>
                                   <Icon type="caret-down" />
                                 </div>
                             }

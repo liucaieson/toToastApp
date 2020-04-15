@@ -36,11 +36,9 @@
       }
       .balance{
         line-height: 16px;
-        position: relative;
         .icon-load{
-          position: absolute;
-          top: 1px;
-          left: 60px;
+          padding-left: 4px;
+          display: inline-block;
         }
       }
     }
