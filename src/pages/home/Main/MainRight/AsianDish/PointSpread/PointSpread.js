@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Icon, Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './pointSpread.scss';
@@ -75,8 +75,8 @@ class Main extends PureComponent {
         <div>
           {
             cptIds.map((val) => (
-              <div key={val}>
                 <Accordion
+                  key={val}
                   cptName={matchListObj[val] && matchListObj[val][0].cptName}
                 >
                   <div className={styles['match-info']}>
@@ -258,7 +258,7 @@ class Main extends PureComponent {
                     }
                   </div>
                 </Accordion>
-              </div>
+
 
             ))
           }

@@ -8,14 +8,9 @@ import MixModalLayout from '../../DishLayout/mixedModalLayout';
 import Accordion from '../../../../../../components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 
-@connect(({ asianGG, betShopCart, dates, chsDB, showCompetitions, competitions, loading }) => ({
+@connect(({ asianGG, chsDB}) => ({
   asianGG,
-  showCompetitions,
-  competitions,
-  dates,
   chsDB,
-  loading: loading.effects['asianGG/fetchMatchOdds'],
-  addLoading: loading.effects['betShopCart/addMixedShopCart'],
 }))
 class Mixed extends PureComponent {
 
@@ -38,8 +33,6 @@ class Mixed extends PureComponent {
       isShow: false
     });
   };
-
-
 
   render() {
     const {

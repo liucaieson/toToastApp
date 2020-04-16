@@ -140,6 +140,8 @@ class GameResultTable extends Component {
       /* 如果用户没有选择联赛，就给null代表全部，时间同理 */
       if(competitions === undefined){
         competitions = null
+      }else{
+        this.competitions = competitions
       }
       if(time === undefined){
         this.start=null;
@@ -154,7 +156,7 @@ class GameResultTable extends Component {
           ...this.defaultParams,
           page:1,
           size:10,
-          competitions,
+          competitions: this.competitions,
           start: this.start,
           end: this.end
         },
