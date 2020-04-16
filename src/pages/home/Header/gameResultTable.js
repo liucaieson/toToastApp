@@ -92,9 +92,8 @@ class GameResultTable extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'gameResult/fetchCompetitions',
+      type: 'gameResult/fetchAllCompetitions',
       payload: {
-        gg:'1',
         ...this.defaultParams,
       }
     });
@@ -175,7 +174,15 @@ class GameResultTable extends Component {
           <Col md={8} sm={24}>
             <FormItem label="联赛查询">{
               getFieldDecorator('competitions')(
-                <Select className={styles['game-result-select']} placeholder='请选择联赛'>
+                <Select
+                  showSearch
+                  className={styles['game-result-select']}
+                  placeholder='可搜索'
+                  optionFilterProp="children"
+                 /* filterOption={(input, option) =>
+                    option.props.children.indexOf(input) >= 0
+                  }*/
+                >
                   <Select.Option value={null} key='a'>
                     所有联赛
                   </Select.Option>

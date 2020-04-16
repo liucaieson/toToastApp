@@ -135,6 +135,16 @@ export async function getCompetitions(params) {
   });
 }
 
+/*获取所有赛事列表*/
+export async function getAllCompetitions(params) {
+  return request(`${baseUrl}/portal/pre/getAllCompetitions`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 /*2.4.获取赛事国家列表*/
 export async function getArea(params) {
   return request(`${baseUrl}/portal/pre/getArea`, {

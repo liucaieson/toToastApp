@@ -1,5 +1,5 @@
 /* 查询比赛结果 */
-import { matchQuery, getCompetitions } from '@/services/api';
+import { matchQuery, getAllCompetitions } from '@/services/api';
 
 export default {
   namespace: 'gameResult',
@@ -18,8 +18,8 @@ export default {
       });
       if(callback) callback(data)
     },
-    *fetchCompetitions({payload, callback}, { call, put, select }) {
-      let data = yield call(getCompetitions, payload);
+    *fetchAllCompetitions({payload, callback}, { call, put, select }) {
+      let data = yield call(getAllCompetitions, payload);
       yield put({
         type: 'saveCompetitions',
         payload: data,
