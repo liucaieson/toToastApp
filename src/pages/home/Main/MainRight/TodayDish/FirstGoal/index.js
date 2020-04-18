@@ -1,29 +1,24 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import CountDown from '../../../../../../components/CountDown/index';
-import CompetitionsModal from '../../competitonsModal/index';
-import moment from 'moment';
 import Item from './item';
-import PageLoading from '../../../../../../components/MbPageLoading';
-import PaginationBox from '../../../../../../components/PaginationBox';
-import TodayWrapper from '../TodayWarpper/wrapper1';
+import TodayWrapper from '../TodayWarpper/wrapper2';
 
-@connect(({ asianGG }) => ({
-  asianGG,
+@connect(({ asianGG6And7 }) => ({
+  asianGG6And7,
 }))
 class FirstGoal extends PureComponent {
 
   render() {
     const {
-      asianGG: {
+      asianGG6And7: {
         cptIds, matchListObj
       },
     } = this.props;
     return (
       <TodayWrapper
-        gg='2'
+        gg='7'
         title='今日-最先进球/最后进球'
       >
         <Row className={styles.table}>

@@ -42,7 +42,7 @@ class Main extends PureComponent {
       chsDB: { chsDB },
     } = this.props;
 
-    const { isShow, matchId } = this.state
+    const { isShow, matchId } = this.state;
     return (
       <AsianWrapper
         gg='1'
@@ -72,9 +72,8 @@ class Main extends PureComponent {
             </Row>
           </Col>
         </Row>
-        <div>
           {
-            cptIds.map((val) => (
+            cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :  cptIds.map((val) => (
                 <Accordion
                   key={val}
                   cptName={matchListObj[val] && matchListObj[val][0].cptName}
@@ -248,7 +247,7 @@ class Main extends PureComponent {
                                   </Fragment>
                                   :*/
                                 <div className={styles.btn} onClick={() => this.openMatchAllOdds(v.matchId)}>
-                                  所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
+                                  所有玩法<span style={{marginLeft: '4px'}}>{v.amount}</span>
                                 </div>
                               }
                             </div>
@@ -258,8 +257,6 @@ class Main extends PureComponent {
                     }
                   </div>
                 </Accordion>
-
-
             ))
           }
           <Modal
@@ -282,7 +279,7 @@ class Main extends PureComponent {
                 : ''
             }
           </Modal>
-        </div>
+
 
 
       </AsianWrapper>

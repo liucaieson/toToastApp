@@ -7,15 +7,29 @@ import {
   Form,
   Button,
   Icon,
-  DatePicker,
   Select
 } from 'antd';
 import ETable from '../../../components/Etable';
 import styles from './header2.scss'
 
-const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
+const timeList = [{
+  name:'近7天',
+  value: 'all'
+}];
+let date = '';
+
+for (let i = 0; i < 7; i++) {
+  date = moment().subtract(i, 'day').format('YYYY-MM-DD');
+  timeList.push({
+    name:date,
+    value: date
+  }
+  )
+}
+
 
 @connect(({ gameResult, loading }) => ({
   gameResult,
@@ -27,9 +41,10 @@ class GameResultTable extends Component {
 
   };
 
-  competitions=null;
-  start=null;
-  end=null;
+  /* 储存联赛null代表全部  开始 */
+  competitions = null;
+  start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
+  end = date = moment().format('YYYY-MM-DD');
   defaultParams={
     sport: '1'
   };
@@ -130,6 +145,7 @@ class GameResultTable extends Component {
     });
   };
 
+  /*赛果赛事，全部联赛传null，默认查7天之内的*/
   handleSearch = (e) => {
     e.preventDefault();
     const { dispatch, form } = this.props;
@@ -142,12 +158,15 @@ class GameResultTable extends Component {
       }else{
         this.competitions = competitions
       }
-      if(time === undefined){
-        this.start=null;
-        this.end=null;
-      }else {
-        this.start = moment(time[0]).format('YYYYMMDD');
-        this.end = moment(time[1]).format('YYYYMMDD')
+      if(time === 'all' ){
+        this.start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
+        this.end = date = moment().format('YYYY-MM-DD');
+      }else if(time === undefined) {
+        this.start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
+        this.end = date = moment().format('YYYY-MM-DD');
+      }else{
+        this.start = time;
+        this.end = time
       }
       dispatch({
         type: 'gameResult/fetch',
@@ -203,8 +222,22 @@ class GameResultTable extends Component {
           <Col md={12} sm={24}>
             <FormItem label="选择时间">
               {
-                getFieldDecorator('time')(
-                  <RangePicker className={styles.input3}/>
+                getFieldDecorator('time',{
+                  initialValue: 'all'
+                })(
+                  <Select
+                    className={styles['game-result-select']}
+                  >
+                    {
+                      timeList.map((item) => (
+                        <Select.Option value={item.value} key={item.value}>
+                          {
+                            item.name
+                          }
+                        </Select.Option>
+                      ))
+                    }
+                  </Select>
                 )
               }
             </FormItem>

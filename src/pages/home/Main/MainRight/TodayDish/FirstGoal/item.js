@@ -17,10 +17,11 @@ class DoubleResultItem extends PureComponent {
       cptData, matchData,
       chsDB: { chsDB },
     } = this.props;
+    console.log(matchData)
     return (
       <div key={cptData} style={this.props.style}>
         <Accordion
-          cptName={matchData[0] &&  matchData[0].cptName}
+          cptName={matchData[0] && matchData[0].cptName}
         >
           <div className={styles['match-info']}>
             {
@@ -35,82 +36,80 @@ class DoubleResultItem extends PureComponent {
                       <div>{v.awayName}</div>
                     </Col>
                     <Col span={7} className={styles['match-odds']}>
-                      {
-                        v.odds[0].chs.map( (item) => (
-                            <Col span={8} key={item.dishId}  className={styles.item}>
-                              {item.name === '1' &&
-                              <DishItem
-                                key={item.choiceId}
-                                choiceId={item.choiceId}
-                                matchId={v.matchId}
-                                gamblingId={v.odds[0].gamblingId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                              />
-                              }
-                              {item.name === 'X' &&
-                              <DishItem
-                                key={item.choiceId}
-                                choiceId={item.choiceId}
-                                matchId={v.matchId}
-                                gamblingId={v.odds[0].gamblingId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                              />
-                              }
-                              {item.name === '2' &&
-                              <DishItem
-                                key={item.choiceId}
-                                choiceId={item.choiceId}
-                                matchId={v.matchId}
-                                gamblingId={v.odds[0].gamblingId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                              />
-                              }
-                            </Col>
-                          )
-                        )
-                      }
+                      <Col span={8} className={styles.item}>
+                        {
+                          v.odds[0].chs.list['1'] &&
+                          <DishItem
+                            key={v.odds[0].chs.list['1'].choiceId}
+                            choiceId={v.odds[0].chs.list['1'].choiceId}
+                            matchId={v.matchId}
+                            dishId={chsDB[v.odds[0].chs.list['1'].choiceId] && chsDB[v.odds[0].chs.list['1'].choiceId].dishId}
+                            dish={chsDB[v.odds[0].chs.list['1'].choiceId] && chsDB[v.odds[0].chs.list['1'].choiceId].dish}
+                          />
+                        }
+                      </Col>
+                      <Col span={8} className={styles.item}>
+                        {
+                          v.odds[0].chs.list['2'] &&
+                          <DishItem
+                            key={v.odds[0].chs.list['2'].choiceId}
+                            choiceId={v.odds[0].chs.list['2'].choiceId}
+                            matchId={v.matchId}
+                            dishId={chsDB[v.odds[0].chs.list['2'].choiceId] && chsDB[v.odds[0].chs.list['2'].choiceId].dishId}
+                            dish={chsDB[v.odds[0].chs.list['2'].choiceId] && chsDB[v.odds[0].chs.list['2'].choiceId].dish}
+                          />
+                        }
+                      </Col>
+                      <Col span={8} className={styles.item}>
+                        {
+                          v.odds[0].chs.list['X'] &&
+                          <DishItem
+                            key={v.odds[0].chs.list['X'].choiceId}
+                            choiceId={v.odds[0].chs.list['X'].choiceId}
+                            matchId={v.matchId}
+                            dishId={chsDB[v.odds[0].chs.list['X'].choiceId] && chsDB[v.odds[0].chs.list['X'].choiceId].dishId}
+                            dish={chsDB[v.odds[0].chs.list['X'].choiceId] && chsDB[v.odds[0].chs.list['X'].choiceId].dish}
+                          />
+                        }
+                      </Col>
                     </Col>
                     <Col span={7} className={styles['match-odds']}>
-                      {
-                        v.odds[1].chs.map( (item) => (
-                            <Col span={8} key={item.dishId}  className={styles.item}>
-                              {item.name === '1' &&
-                              <DishItem
-                                key={item.choiceId}
-                                choiceId={item.choiceId}
-                                matchId={v.matchId}
-                                gamblingId={v.odds[1].gamblingId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                              />
-                              }
-                              {item.name === 'X' &&
-                              <DishItem
-                                key={item.choiceId}
-                                choiceId={item.choiceId}
-                                matchId={v.matchId}
-                                gamblingId={v.odds[1].gamblingId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                              />
-                              }
-                              {item.name === '2' &&
-                              <DishItem
-                                key={item.choiceId}
-                                choiceId={item.choiceId}
-                                matchId={v.matchId}
-                                gamblingId={v.odds[1].gamblingId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                              />
-                              }
-                            </Col>
-                          )
-                        )
-                      }
+                      <Col span={8} className={styles.item}>
+                        {
+                          v.odds[1].chs.list['1'] &&
+                          <DishItem
+                            key={v.odds[1].chs.list['1'].choiceId}
+                            choiceId={v.odds[1].chs.list['1'].choiceId}
+                            matchId={v.matchId}
+                            dishId={chsDB[v.odds[1].chs.list['1'].choiceId] && chsDB[v.odds[1].chs.list['1'].choiceId].dishId}
+                            dish={chsDB[v.odds[1].chs.list['1'].choiceId] && chsDB[v.odds[1].chs.list['1'].choiceId].dish}
+                          />
+                        }
+                      </Col>
+                      <Col span={8} className={styles.item}>
+                        {
+                          v.odds[1].chs.list['2'] &&
+                          <DishItem
+                            key={v.odds[1].chs.list['2'].choiceId}
+                            choiceId={v.odds[1].chs.list['2'].choiceId}
+                            matchId={v.matchId}
+                            dishId={chsDB[v.odds[1].chs.list['2'].choiceId] && chsDB[v.odds[1].chs.list['2'].choiceId].dishId}
+                            dish={chsDB[v.odds[1].chs.list['2'].choiceId] && chsDB[v.odds[1].chs.list['2'].choiceId].dish}
+                          />
+                        }
+                      </Col>
+                      <Col span={8} className={styles.item}>
+                        {
+                          v.odds[1].chs.list['X'] &&
+                          <DishItem
+                            key={v.odds[1].chs.list['X'].choiceId}
+                            choiceId={v.odds[1].chs.list['X'].choiceId}
+                            matchId={v.matchId}
+                            dishId={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dishId}
+                            dish={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dish}
+                          />
+                        }
+                      </Col>
                     </Col>
                   </Row>
                 </Row>

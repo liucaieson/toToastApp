@@ -172,6 +172,15 @@ class Main extends PureComponent {
     });
   };
 
+  /**
+   * 返回match容器顶部
+   */
+  gotoTop = () => {
+    const container =   document.getElementById('matchContainer');
+    if(container) {
+      container.scrollIntoView()
+    }
+  };
 
   render() {
     const {
@@ -210,12 +219,13 @@ class Main extends PureComponent {
               <div className={styles.match}>
                 {
                   firstLoading ? <PageLoading/> :
-                    <Fragment>
+                    <div className={styles.container} id='matchContainer'>
                       {this.props.children[1]}
                       <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
-                    </Fragment>
+                    </div>
                 }
               </div>
+              <div className={styles['to-top']} onClick={this.gotoTop}/>
             </div>
           }
         </div>

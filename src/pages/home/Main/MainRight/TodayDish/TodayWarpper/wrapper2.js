@@ -16,7 +16,14 @@ import PageLoading from '../../../../../../components/MbPageLoading';
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
-
+  /**
+   * 60s刷新是否正在loading的标志
+   * 选中的日期
+   * 页面初始化请求的接口loading标志
+   * 请求页码
+   * 是否展示modal
+   * @type {{refreshLoading: boolean, isActiveDate: string, firstLoading: boolean, page: number, isShow: boolean}}
+   */
   state = {
     refreshLoading: false,
     isActiveDate: '',
@@ -26,7 +33,6 @@ class Main extends PureComponent {
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {
@@ -162,24 +168,20 @@ class Main extends PureComponent {
     });
   };
 
-
-
-  /* 跳转到单程比赛所有盘口玩法赔率页面 ，
-  * pageId为标识要跳的页面为detail（比赛详情玩法）
-  * id为matchId页面初始化请求
-   */
-  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
-  openMatchAllOdds = (matchId) => {
-    this.setState({
-      isShow: true,
-      matchId
-    });
-  };
-
   closeModal = () => {
     this.setState({
       isShow: false
     });
+  };
+
+  /**
+   * 返回match容器顶部
+   */
+  gotoTop = () => {
+    const container =   document.getElementById('matchContainer');
+    if(container) {
+      container.scrollIntoView()
+    }
   };
 
   render() {
@@ -217,12 +219,13 @@ class Main extends PureComponent {
               <div className={styles.match}>
                 {
                   firstLoading ? <PageLoading/> :
-                    <Fragment>
+                    <div className={styles.container} id='matchContainer'>
                       {this.props.children[1]}
                       <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
-                    </Fragment>
+                    </div>
                 }
               </div>
+              <div className={styles['to-top']} onClick={this.gotoTop}/>
             </div>
           }
         </div>

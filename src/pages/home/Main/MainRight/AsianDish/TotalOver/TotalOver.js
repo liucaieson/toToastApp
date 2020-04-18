@@ -62,7 +62,7 @@ class TotalOver extends PureComponent {
           {
             <div>
               {
-                cptIds.map((val) => (
+                cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> : cptIds.map((val) => (
                   <div key={val}>
                     <Accordion
                       cptName={matchListObj[val] && matchListObj[val][0].cptName}

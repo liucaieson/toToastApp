@@ -321,7 +321,7 @@ td{
   justify-content: center;
   align-items: center;
 }
-.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
+/*.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
   display: block;
   height: 100%;
   font-size: 12px;
@@ -332,18 +332,14 @@ td{
   outline: none;
   transition: all 0.3s;
   color: #4d4d4d;
-}
+}*/
 .ant-pagination-prev .ant-pagination-item-link{
-  border-radius: 50%;
-  color: white;
-  background-color: #35435e;
+  border-radius: 50%!important;
   border: none;
 }
 .ant-pagination-next .ant-pagination-item-link{
-  border-radius: 50%;
-  color: white;
-  background-color: #35435e;
-  border: none;
+  border-radius: 50%!important;
+
 }
 .ant-pagination-item{
   color: white;

@@ -1,8 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { calcDateToMonthAndDay, dishNameMap } from '../../../../../../utils/util';
+import { calcDateToMonthAndDay} from '../../../../../../utils/util';
 import ModalLayout from '../../ModalLayout/modalLayout';
 import DishLayout from '../../DishLayout/betDishLayout';
 import Accordion from '../../../../../../components/Accordion';
@@ -176,7 +176,7 @@ class PointSpreadItem extends PureComponent {
                   </Row>
                   <div className={styles['play-btn']}>
                     <div className={styles.btn} onClick={() => this.openMatchAllOdds(v.matchId)}>
-                      所有玩法
+                      所有玩法<span style={{marginLeft: '4px'}}>{v.amount}</span>
                     </div>
                   </div>
                 </Row>

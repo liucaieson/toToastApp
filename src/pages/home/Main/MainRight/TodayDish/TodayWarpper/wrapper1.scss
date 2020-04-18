@@ -1,23 +1,36 @@
 @import "../../../../../../styles/common";
 @import "../../../../../../styles/utils";
-.main-box{
-  .header{
+
+.main-box {
+  .header {
     @include game-header();
   }
-  .main{
+  .main {
     width: 100%;
     height: calc(100vh - 82px);
     position: relative;
-    .date-select{
+    .date-select {
       @include game-date();
     }
-    .match-box{
+    .match-box {
       border: 1px solid $border-color1;
       background-color: $bg-color;
-      .match{
+      .match {
         background-color: white;
         height: calc(100vh - 146px);
         @include scrollBar();
+        .container {
+          width: 100%;
+        }
+      }
+      .to-top {
+        z-index: 1;
+        position: absolute;
+        right: 10px;
+        bottom: 40px;
+        background: url(../../../../../../assets/to-top.png);
+        width: 25px;
+        height: 25px;
       }
     }
   }

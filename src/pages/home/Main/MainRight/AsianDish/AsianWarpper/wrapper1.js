@@ -171,6 +171,10 @@ class Main extends PureComponent {
     this.countRef = ref;
   };
 
+  /**
+   * 点击分页，进入下一页。loading期间不触发
+   * @param page 页码数
+   */
   nextPage = (page) => {
     const {gg} = this.props;
     const {loading} = this.props;
@@ -197,24 +201,18 @@ class Main extends PureComponent {
     });
   };
 
-
-
-  /* 跳转到单程比赛所有盘口玩法赔率页面 ，
-  * pageId为标识要跳的页面为detail（比赛详情玩法）
-  * id为matchId页面初始化请求
-   */
-  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
-  openMatchAllOdds = (matchId) => {
-    this.setState({
-      isShow: true,
-      matchId
-    });
-  };
-
   closeModal = () => {
     this.setState({
       isShow: false
     });
+  };
+
+  /**
+   * 返回match容器顶部
+   */
+  gotoTop = () => {
+    const container =   document.getElementById('matchContainer');
+    container.scrollIntoView()
   };
 
 
@@ -274,12 +272,14 @@ class Main extends PureComponent {
               <div className={styles.match}>
                 {
                   firstLoading ? <PageLoading/> :
-                    <Fragment>
+                    <div className={styles.container}  id='matchContainer'>
                       {this.props.children[1]}
                       <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
-                    </Fragment>
+                    </div>
                 }
+
               </div>
+              <div className={styles['to-top']} onClick={this.gotoTop}/>
             </div>
           }
         </div>

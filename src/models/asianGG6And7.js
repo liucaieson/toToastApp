@@ -18,8 +18,8 @@ export default {
       const { data, count, current } = result;
       data.forEach((item) => {
         if(cptIds.includes(item.cptId)){
-          let list = {};
           item.odds.map((val) => {
+            let list = {};
             val.chs.forEach((item) => {
               list[item.name] = item
             });
@@ -29,8 +29,8 @@ export default {
         }else{
           cptIds.push(item.cptId);
           matchListObj[item.cptId] = [];
-          let list = {};
           item.odds.map((val) => {
+            let list = {};
             val.chs.forEach((item) => {
               list[item.name] = item
             });
