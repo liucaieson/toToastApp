@@ -22,7 +22,6 @@ class Main extends PureComponent {
     refreshLoading: false,
     isActiveDate: '',
     firstLoading: true,
-    page:1,
     isShow: false,
   };
 
@@ -201,12 +200,6 @@ class Main extends PureComponent {
     });
   };
 
-  closeModal = () => {
-    this.setState({
-      isShow: false
-    });
-  };
-
   /**
    * 返回match容器顶部
    */
@@ -225,7 +218,7 @@ class Main extends PureComponent {
         count, current
       },
     } = this.props;
-    const { refreshLoading, isActiveDate, isShow, matchId, firstLoading } = this.state;
+    const { refreshLoading, isActiveDate, firstLoading } = this.state;
     return (
       <div className={styles['main-box']}>
         <div className={styles.header}>
@@ -283,26 +276,6 @@ class Main extends PureComponent {
             </div>
           }
         </div>
-        <Modal
-          title={'比赛'}
-          visible={isShow}
-          onCancel={this.closeModal}
-          width={700}
-          footer={null}
-          maskClosable={false}
-          destroyOnClose
-          getContainer={() => document.getElementById('mainRightBox')}
-          bodyStyle={{
-            height: '600px',
-            color:'white',
-            padding:'2px 4px'
-          }}
-        >
-          {
-            isShow ? <ModalLayout matchId={matchId}/>
-              : ''
-          }
-        </Modal>
         <CompetitionsModal params={{...this.defaultParams, gg}} fn={this.fetchMatchOddsWithCompetitions}/>
       </div>
     );

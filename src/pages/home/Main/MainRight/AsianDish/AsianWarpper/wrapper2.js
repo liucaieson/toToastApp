@@ -1,10 +1,9 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal } from 'antd';
+import React, { PureComponent } from 'react';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './wrapper1.scss';
 import CountDown from '../../../../../../components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
-import ModalLayout from '../../ModalLayout/modalLayout';
 import PaginationBox from '../../../../../../components/PaginationBox';
 import PageLoading from '../../../../../../components/MbPageLoading';
 
@@ -197,26 +196,6 @@ class Main extends PureComponent {
     });
   };
 
-
-
-  /* 跳转到单程比赛所有盘口玩法赔率页面 ，
-  * pageId为标识要跳的页面为detail（比赛详情玩法）
-  * id为matchId页面初始化请求
-   */
-  /* 请求比赛所有玩法的赔率赔率，参数比赛id */
-  openMatchAllOdds = (matchId) => {
-    this.setState({
-      isShow: true,
-      matchId
-    });
-  };
-
-  closeModal = () => {
-    this.setState({
-      isShow: false
-    });
-  };
-
   /**
    * 返回match容器顶部
    */
@@ -236,7 +215,7 @@ class Main extends PureComponent {
         count, current
       },
     } = this.props;
-    const { refreshLoading, isActiveDate, isShow, matchId, firstLoading } = this.state;
+    const { refreshLoading, isActiveDate, firstLoading } = this.state;
     return (
       <div className={styles['main-box']}>
         <div className={styles.header}>
@@ -292,27 +271,6 @@ class Main extends PureComponent {
           }
 
         </div>
-        <Modal
-          title={'比赛'}
-          visible={isShow}
-          onCancel={this.closeModal}
-          width={700}
-          footer={null}
-          maskClosable={false}
-          destroyOnClose
-          getContainer={() => document.getElementById('mainRightBox')}
-          bodyStyle={{
-            height: '600px',
-            color:'white',
-            padding:'2px 4px'
-          }}
-        >
-          {
-            isShow ? <ModalLayout matchId={matchId}/>
-
-              : ''
-          }
-        </Modal>
         <CompetitionsModal params={{...this.defaultParams, gg}} fn={this.fetchMatchOddsWithCompetitions}/>
       </div>
 

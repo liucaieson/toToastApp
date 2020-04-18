@@ -21,6 +21,7 @@ class Main extends PureComponent {
 
   /* 请求比赛所有玩法的赔率赔率，参数比赛id */
   openMatchAllOdds = (matchId) => {
+    console.log(1, matchId)
     this.setState({
       isShow: true,
       matchId
@@ -71,6 +72,26 @@ class Main extends PureComponent {
               <Col span={8} className={styles.cell}>独赢</Col>
             </Row>
           </Col>
+          <Modal
+            title={'比赛'}
+            visible={isShow}
+            onCancel={this.closeModal}
+            width={700}
+            footer={null}
+            maskClosable={false}
+            destroyOnClose
+            getContainer={() => document.getElementById('mainRightBox')}
+            bodyStyle={{
+              height: '600px',
+              color: 'white',
+              padding: '2px 4px',
+            }}
+          >
+            {
+              isShow ? <ModalLayout matchId={matchId}/>
+                : ''
+            }
+          </Modal>
         </Row>
           {
             cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :  cptIds.map((val) => (
@@ -259,28 +280,6 @@ class Main extends PureComponent {
                 </Accordion>
             ))
           }
-          <Modal
-            title={'比赛'}
-            visible={isShow}
-            onCancel={this.closeModal}
-            width={700}
-            footer={null}
-            maskClosable={false}
-            destroyOnClose
-            getContainer={() => document.getElementById('mainRightBox')}
-            bodyStyle={{
-              height: '600px',
-              color: 'white',
-              padding: '2px 4px',
-            }}
-          >
-            {
-              isShow ? <ModalLayout matchId={matchId}/>
-                : ''
-            }
-          </Modal>
-
-
 
       </AsianWrapper>
 
