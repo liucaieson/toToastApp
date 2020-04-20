@@ -57,7 +57,8 @@ function checkStatus(response) {
  */
 function request(url, options) {
   const defaultOptions = {
-    credentials: 'include'
+    credentials: 'include',
+    timeout: 10000
   };
   const newOptions = { ...defaultOptions, ...options };
   if (newOptions.method === 'POST' || newOptions.method === 'PUT' || newOptions.method === 'DELETE') {

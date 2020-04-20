@@ -247,7 +247,7 @@ class Mixed extends PureComponent {
                                   </Fragment>
                                   :*/
                               <div className={styles.btn} onClick={() => this.openMatchAllOdds(v.matchId)}>
-                                所有玩法<Icon style={{ marginLeft: '4px' }} type="double-right"/>
+                                所有玩法<span style={{ marginLeft: '4px' }} >{v.amount}</span>
                               </div>
                             }
 

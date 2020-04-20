@@ -174,7 +174,7 @@ class DoubleResultItem extends PureComponent {
                   </Row>
                   <div className={styles['play-btn']}>
                     <div className={styles.btn} onClick={() => this.fetchMatchAllOdds(v.matchId)}>
-                      所有玩法
+                      所有玩法<span style={{marginLeft: '4px'}}>{v.amount}</span>
                     </div>
                   </div>
                 </Row>

@@ -130,20 +130,20 @@ class BetItem extends PureComponent {
                 {
                   showSelectOption ? (
                     <ul className={styles['option-box']}>
-                      <li onClick={() => this.setAmountFromSelect(10, data.choiceId)}
-                          className={styles.option}>10
-                      </li>
                       <li onClick={() => this.setAmountFromSelect(100, data.choiceId)}
                           className={styles.option}>100
                       </li>
                       <li onClick={() => this.setAmountFromSelect(500, data.choiceId)}
                           className={styles.option}>500
                       </li>
-                      <li onClick={() => this.setAmountFromSelect(1000, data.choiceId)}
+                      <li onClick={() => this.setAmountFromSelect(100, data.choiceId)}
                           className={styles.option}>1000
                       </li>
                       <li onClick={() => this.setAmountFromSelect(2000, data.choiceId)}
                           className={styles.option}>2000
+                      </li>
+                      <li onClick={() => this.setAmountFromSelect(5000, data.choiceId)}
+                          className={styles.option}>5000
                       </li>
                     </ul>
                   ) : ''
@@ -218,9 +218,6 @@ class BetItem extends PureComponent {
                 {
                   showSelectOption ? (
                     <ul className={styles['option-box']}>
-                      <li onClick={() => this.setAmountFromSelect(10, data.choiceId)}
-                          className={styles.option}>10
-                      </li>
                       <li onClick={() => this.setAmountFromSelect(100, data.choiceId)}
                           className={styles.option}>100
                       </li>
@@ -232,6 +229,9 @@ class BetItem extends PureComponent {
                       </li>
                       <li onClick={() => this.setAmountFromSelect(2000, data.choiceId)}
                           className={styles.option}>2000
+                      </li>
+                      <li onClick={() => this.setAmountFromSelect(5000, data.choiceId)}
+                          className={styles.option}>5000
                       </li>
                     </ul>
                   ) : ''

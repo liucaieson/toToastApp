@@ -116,10 +116,12 @@ class FirstGoal extends PureComponent {
                                   </Col>
                                 }
                               </Col>
-                              <Col span={7} className={styles['match-odds']}>
-                                {
-                                  v.odds[1].chs.list['1'] &&
-                                  <Col span={8} className={styles.item}>
+                              {
+                                v.odds[1] &&
+                                <Col span={7} className={styles['match-odds']}>
+                                  {
+                                    v.odds[1].chs.list['1'] &&
+                                    <Col span={8} className={styles.item}>
                                        <span
                                          className={styles.odds}
                                        >
@@ -130,11 +132,11 @@ class FirstGoal extends PureComponent {
                                            dish={chsDB[v.odds[1].chs.list['1'].choiceId] && chsDB[v.odds[1].chs.list['1'].choiceId].dish}
                                          />
                                        </span>
-                                  </Col>
-                                }
-                                {
-                                  v.odds[1].chs.list['2'] &&
-                                  <Col span={8} className={styles.item}>
+                                    </Col>
+                                  }
+                                  {
+                                    v.odds[1].chs.list['2'] &&
+                                    <Col span={8} className={styles.item}>
                                        <span
                                          className={styles.odds}
                                        >
@@ -145,11 +147,11 @@ class FirstGoal extends PureComponent {
                                            dish={chsDB[v.odds[1].chs.list['2'].choiceId] && chsDB[v.odds[1].chs.list['2'].choiceId].dish}
                                          />
                                        </span>
-                                  </Col>
-                                }
-                                {
-                                  v.odds[1].chs.list['X'] &&
-                                  <Col span={8} className={styles.item}>
+                                    </Col>
+                                  }
+                                  {
+                                    v.odds[1].chs.list['X'] &&
+                                    <Col span={8} className={styles.item}>
                                        <span
                                          className={styles.odds}
                                        >
@@ -160,9 +162,10 @@ class FirstGoal extends PureComponent {
                                            dish={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dish}
                                          />
                                        </span>
-                                  </Col>
-                                }
-                              </Col>
+                                    </Col>
+                                  }
+                                </Col>
+                              }
                             </Row>
                           </Row>
                         ))
