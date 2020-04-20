@@ -2,7 +2,7 @@
 
 .header {
   background: $top-header-bg;
-  width: 1030px;
+  width: 1540px;
   z-index: 3;
   height: 40px;
   line-height: 40px;
@@ -23,11 +23,13 @@
     padding-left: 10px;
     padding-top: 4px;
     .user-icon{
-      background-repeat: no-repeat;
-      background-image: url("../../../assets/人物.svg");
+      background: url("../../../assets/head_acc.png") no-repeat left center;
       background-size: cover;
       width: 30px;
       height: 30px;
+      &:hover{
+        background: url("../../../assets/head_acc.png") no-repeat right center;
+      }
     }
     .user{
       padding-left: 10px;

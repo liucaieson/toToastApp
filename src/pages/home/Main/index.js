@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import styles from './index.scss';
 import MainLeft from './MainLeft/index';
 import MainRight from './MainRight';
+import MainLive from './MainLive'
 
 class Main extends PureComponent {
 
@@ -24,6 +25,7 @@ class Main extends PureComponent {
       <div className={styles['main-panel']}>
         <MainLeft />
         <MainRight />
+        <MainLive />
       </div>
     );
   }

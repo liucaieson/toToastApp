@@ -1,8 +1,109 @@
 @import "../../../../styles/common";
-.main-left-box{
-  width: 500px;
-  height: 500px;
+.main-live-box{
+  width: 480px;
+  height: calc( 100vh - 40px );
   position: relative;
+  margin-left: 10px;
   float: left;
   background-color: #fcf7ed;
+  .header{
+    width: 480px;
+    height: 40px;
+    background-color: $bg-color;
+    color: $menu-header-fz-color;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .left{
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      .icon{
+        width: 18px;
+        height: 15px;
+        background-image: url("../../../../assets/live_headerIcon.png");
+        background-size: cover;
+      }
+      .name{
+        font-size: 14px;
+        padding-left: 5px;
+        font-weight: bold;
+      }
+    }
+    .right{
+      padding-right: 20px;
+      .name{
+        background-color: $bg-color2;
+        width: 50px;
+        height: 24px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 24px;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+  .liveList{
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    height: 500px;
+    overflow-y:auto;
+    overflow-x: hidden;
+    background-color: $bg-color;
+    color: $menu-header-fz-color;
+    z-index: 2;
+    .title{
+      width: 100%;
+      height: 40px;
+      padding: 0 10px;
+      color: #cdbfa9;
+      .name{
+        font-size: 14px;
+        line-height: 40px;
+        float: left;
+      }
+      .select{
+        line-height: 40px;
+        font-size: 12px;
+        float: right;
+      }
+      .close{
+        float: right;
+        display: block;
+        margin-top: 12px;
+        width: 15px;
+        height: 15px;
+        background: url(../../../../assets/ord_miniBTN.png) no-repeat center -230px;
+        margin-left: 4px;
+      }
+    }
+    .list{
+      width: 100%;
+      background-color: #261d18;
+      .date{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        font-size: 12px;
+        padding: 0 10px;
+        background-color: $bg-color;
+        color: #cdbfa9;
+      }
+      .item{
+        height: 40px;
+        width: 100%;
+        padding: 0 10px;
+        line-height: 40px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+    }
+  }
+  .liveBox{
+    width: 480px;
+    height: 289px;
+  }
  }
