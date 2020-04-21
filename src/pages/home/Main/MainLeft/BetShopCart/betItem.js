@@ -136,7 +136,7 @@ class BetItem extends PureComponent {
                       <li onClick={() => this.setAmountFromSelect(500, data.choiceId)}
                           className={styles.option}>500
                       </li>
-                      <li onClick={() => this.setAmountFromSelect(100, data.choiceId)}
+                      <li onClick={() => this.setAmountFromSelect(1000, data.choiceId)}
                           className={styles.option}>1000
                       </li>
                       <li onClick={() => this.setAmountFromSelect(2000, data.choiceId)}

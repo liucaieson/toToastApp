@@ -21,7 +21,6 @@ class Main extends PureComponent {
 
   /* 请求比赛所有玩法的赔率赔率，参数比赛id */
   openMatchAllOdds = (matchId) => {
-    console.log(1, matchId)
     this.setState({
       isShow: true,
       matchId
