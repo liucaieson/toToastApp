@@ -12,6 +12,9 @@
   left: 270px;
   margin: 0 auto;
   color: $top-header-fz;
+  @media  (max-width:1500px) {
+    width: 1033px;
+  }
   .user-box{
     color: $top-header-fz;
     float: left;

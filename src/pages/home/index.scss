@@ -6,6 +6,9 @@
   position: relative;
   background-color:transparent;
   margin: 0 auto;
+  @media  (max-width:1500px) {
+    width: 1033px;
+  }
 }
 
 :global(.ant-modal-header){
