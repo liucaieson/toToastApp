@@ -1,13 +1,16 @@
 @import "../../styles/common";
 @import "../../styles/utils";
 .container{
-  width: 1540px;
+  width: 1514px;
   height: 100%;
   position: relative;
   background-color:transparent;
   margin: 0 auto;
-  @media  (max-width:1500px) {
+  @media  (max-width:1366px) {
     width: 1033px;
+  }
+  @media  (min-width:1366px) and (max-width: 1514px) {
+    width: 1366px;
   }
 }
 

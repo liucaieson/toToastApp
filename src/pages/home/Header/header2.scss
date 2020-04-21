@@ -2,7 +2,7 @@
 
 .header {
   background: $top-header-bg;
-  width: 1540px;
+  width: 1514px;
   z-index: 3;
   height: 40px;
   line-height: 40px;
@@ -12,8 +12,11 @@
   left: 270px;
   margin: 0 auto;
   color: $top-header-fz;
-  @media  (max-width:1500px) {
+  @media  (max-width:1366px) {
     width: 1033px;
+  }
+  @media  (min-width:1366px) and (max-width: 1514px) {
+    width: 1366px;
   }
   .user-box{
     color: $top-header-fz;

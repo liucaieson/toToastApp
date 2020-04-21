@@ -1,8 +1,11 @@
 .main-panel{
   margin: 0 auto;
-  width: 1540px;
+  width: 1514px;
   height: calc(100vh - 40px);
-  @media  (max-width:1500px) {
+  @media  (max-width:1366px) {
     width: 1033px;
+  }
+  @media  (min-width:1366px) and (max-width: 1514px) {
+    width: 1366px;
   }
 }
