@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styles from './index.scss';
 import { Icon } from 'antd';
-import CollaspeList from '../../../../components/CollapseList'
+import CollapseList from '../../../../components/CollapseList'
 
 const liveURL = [
   {
@@ -104,22 +104,22 @@ class MainLeft extends PureComponent {
                   <Icon style={{marginLeft : '4px'}} type='down'/></span>
           </div>
           <div className={styles.list}>
-            <CollaspeList>
+            <CollapseList>
               <div className={styles.date}>世界杯</div>
               {
                 liveURL.slice(0,3).map((item) => (
                   <div className={styles.item} onClick={() => this.toggleLive(item.url)}>{item.name}</div>
                 ))
               }
-            </CollaspeList>
-            <CollaspeList>
+            </CollapseList>
+            <CollapseList>
               <div className={styles.date}>youtube</div>
               {
                 liveURL.slice(3,6).map((item) => (
                   <div className={styles.item} onClick={() => this.toggleLive(item.url)}>{item.name}</div>
                 ))
               }
-            </CollaspeList>
+            </CollapseList>
           </div>
         </div>
       </div>

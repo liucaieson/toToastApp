@@ -14,6 +14,7 @@ import BetDishItem from '../../DishLayout/detailDishLayout/betDishItem';
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class ModalLayout extends PureComponent {
+
   state = {
     showOdds: [],
     firstLoading: true,

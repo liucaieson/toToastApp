@@ -13,6 +13,29 @@
 <div id="root"></div>
 </body>
 <script>
+  //拿到Performance并且初始化一些参数
+  window.onload = () => {
+    let  { timing } = performance,
+      start = timing.navigationStart,
+      dnsTime = 0,
+      tcpTime = 0,
+      firstPaintTime = 0,
+      domRenderTime = 0,
+      loadTime = 0;
+    //根据提供的api和属性，拿到对应的时间
+    dnsTime = timing.domainLookupEnd - timing.domainLookupStart;
+    tcpTime = timing.connectEnd - timing.connectStart;
+    firstPaintTime = timing.responseStart - start;
+    domRenderTime = timing.domContentLoadedEventEnd - start;
+    loadTime = timing.loadEventStart - start;
+
+    console.log('DNS解析时间:', dnsTime,
+      '\nTCP建立时间:', tcpTime,
+      '\n首屏时间:', firstPaintTime,
+      '\ndom渲染完成时间:', domRenderTime,
+      '\n页面onload时间:', loadTime,
+    );
+  }
 
 </script>
 </html>

@@ -415,14 +415,13 @@ class InplayMatchItem extends PureComponent {
           destroyOnClose
           getContainer={() => document.getElementById('mainRightBox')}
           bodyStyle={{
-            height: '600px',
+            height: '622px',
             color: 'white',
             padding: '2px 4px',
           }}
         >
           {
-            isShow ? <ModalLayout matchId={matchId}/>
-
+            isShow ? <ModalLayout matchId={matchId} />
               : ''
           }
         </Modal>

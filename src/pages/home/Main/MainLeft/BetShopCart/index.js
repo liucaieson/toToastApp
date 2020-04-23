@@ -1,6 +1,5 @@
-import React, { PureComponent,Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
 import {Icon,Modal} from 'antd';
 import BetItem from './betItem';
 import styles from './index.scss';
@@ -14,11 +13,15 @@ import {dishNameMap} from '../../../../../utils/util';
   addLoading:loading.effects['betShopCart/addBetShopCart']
 }))
 class ShopCart extends PureComponent {
-  logTotalBetAmount = 0;
+
+  /**
+   * 弹出显示的状态，下注完毕的返回值，说明下注成功了几注的文字
+   * @type {{modal: boolean, result: Array, orderText: string}}
+   */
   state = {
-    slideIn: false,
     modal: false,
-    result: []
+    result: [],
+    orderText: ''
   };
 
   submitBets  = () => {
@@ -67,9 +70,24 @@ class ShopCart extends PureComponent {
       type: 'betShopCart/postBetOrder',
       payload: params,
       callback: (data) => {
+        let successOrderNum = 0;
+        let orderText = '';
+        data.forEach((item) => {
+          if(item.code === '208'){
+             successOrderNum += 1
+          }
+        });
+
+        if(successOrderNum === data.length){
+          orderText = '下注成功'
+        }else {
+          orderText = `成功${successOrderNum}注，失败${data.length - successOrderNum}注`
+        }
+
         this.setState({
           modal: true,
-          result: data
+          result: data,
+          orderText
         })
       }
     });
@@ -83,7 +101,7 @@ class ShopCart extends PureComponent {
 
   render() {
     const  {betShopCart: { shopCart },chsDB:{ chsDB }, postLoading, addLoading} = this.props;
-    const { modal, result } = this.state;
+    const { modal, result, orderText } = this.state;
     let totalBetAmount = 0;
     let totalWinAmount = 0;
 
@@ -140,7 +158,7 @@ class ShopCart extends PureComponent {
                <Icon type="check-circle" />
              </div>
              <div className={styles.right}>
-               已下注
+               {orderText}
              </div>
            </div>
            {
@@ -181,7 +199,8 @@ class ShopCart extends PureComponent {
                      val.typeFlag === 2 && <div className={styles.spec}>注：滚球请到历史投注中查看下注是否成功</div>
                    }
                  </div>
-               ) :(
+               ) :
+                 (
                  <div className={styles['result-item']} key={val.choiceId}>
                    <div className={styles['result-item-header']}>
                      <div className={styles.left}>
@@ -207,7 +226,7 @@ class ShopCart extends PureComponent {
                    </div>
                    <div className={styles['result-item-winInfo']}>
                      <div className={styles.left}>
-                       下注失败{val.message}
+                       {val.message}
                      </div>
                    </div>
                  </div>
