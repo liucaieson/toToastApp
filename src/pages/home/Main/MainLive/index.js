@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import styles from './index.scss';
 import { Icon } from 'antd';
-import CollapseList from '../../../../components/CollapseList'
+import CollapseList from '../../../../components/CollapseList';
+import QueueAnim from 'rc-queue-anim';
 
 const liveURL = [
   {
@@ -30,7 +31,9 @@ const liveURL = [
 class MainLeft extends PureComponent {
 
   state = {
-    isShowLiveList: false
+    isShowLiveList: false,
+    isShowSportsSelect: false,
+    liveSport: '所有比赛'
   };
 
   componentDidMount() {
@@ -57,8 +60,22 @@ class MainLeft extends PureComponent {
     })
   };
 
+  toggleSportsSelect = () => {
+    const { isShowSportsSelect } =  this.state;
+    this.setState({
+      isShowSportsSelect : !isShowSportsSelect
+    })
+  };
+
+  toggleLiveSport = (value) => {
+    this.setState({
+      liveSport: value,
+      isShowSportsSelect:false
+    })
+  };
+
   render() {
-    const { isShowLiveList } = this.state;
+    const { isShowLiveList, isShowSportsSelect, liveSport } = this.state;
     return (
       <div className={styles['main-live-box']}>
         <div className={styles.header}>
@@ -100,9 +117,24 @@ class MainLeft extends PureComponent {
           <div className={styles.title}>
             <span className={styles.name}>直播日程表 </span>
            {/* <span className={styles.close} onClick={this.closeLiveList}  />*/}
-            <span className={styles.select}>所有球类
+            <span className={styles.select} onClick={this.toggleSportsSelect}>{liveSport}
                   <Icon style={{marginLeft : '4px'}} type='down'/></span>
+            {
+             isShowSportsSelect ?
+               <QueueAnim className={styles['select-list']}>
+                 <div key={'a'} onClick={() => this.toggleLiveSport('所有球类')} className={styles.item}>所有球类</div>
+                 <div key={'b'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key={'c'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key={'d'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key={'e'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key={'f'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+               </QueueAnim>
+               : null
+            }
           </div>
+
+
+
           <div className={styles.list}>
             <CollapseList>
               <div className={styles.date}>世界杯</div>

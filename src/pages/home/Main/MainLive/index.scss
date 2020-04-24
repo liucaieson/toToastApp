@@ -64,6 +64,7 @@
       height: 40px;
       padding: 0 10px;
       color: #cdbfa9;
+      position: relative;
       .name{
         font-size: 14px;
         line-height: 40px;
@@ -73,6 +74,28 @@
         line-height: 40px;
         font-size: 12px;
         float: right;
+        cursor: pointer;
+      }
+      .select-list{
+        width: 100px;
+        position: absolute;
+        background-color: #3a2d26;
+        z-index: 10;
+        top: 30px;
+        right: 1px;
+        padding: 2px;
+        .item{
+          display: block;
+          background-color: $bg-color;
+          margin-top: 1px;
+          line-height: 30px;
+          font-size: 12px;
+          padding-left: 4px;
+          cursor: pointer;
+          &:hover{
+            background-color: #735c48;
+          }
+        }
       }
       .close{
         float: right;

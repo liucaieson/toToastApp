@@ -6,6 +6,7 @@
  */
 
 import React, { PureComponent } from 'react';
+import TweenOne from 'rc-tween-one';
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import './index.less';
@@ -15,7 +16,7 @@ export default class BasicLayout extends PureComponent {
    const {children, come, clsName} = this.props;
     return (
         <CSSTransition in={come} classNames={clsName} timeout={300}>
-            {children}
+          {children}
         </CSSTransition>
     );
   }
