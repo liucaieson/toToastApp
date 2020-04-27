@@ -14,7 +14,7 @@
     }
     .refresh {
       color: #fff;
-      top: 20px;
+      top: 10px;
       right: 5px;
       position: absolute;
       float: right;
@@ -40,25 +40,25 @@
     }
     .match-info{
       width: 100%;
-      height: 80px;
+      height: 60px;
       background: url("../../../../../../assets/soccer.jpg");
       background-size: cover;
       .match-over{
         width: 100%;
-        line-height: 80px;
+        line-height: 60px;
         font-size: 18px;
         text-align: center;
         color: #303030;
       }
       .time{
-        padding-top: 8px;
+        padding-top: 2px;
         width: 100%;
         text-align: center;
         font-size: 12px;
         color: #303030;
       }
       .team{
-        margin-top: 10px;
+        margin-top: 5px;
         font-size: 13px;
         line-height: 1.4;
         display: flex;
@@ -98,7 +98,6 @@
           text-align: left;
           line-height: 1.8;
         }
-
       }
       .inRound{
         width: 16%;
@@ -123,10 +122,23 @@
     }
     .all-odds{
       width: 100%;
-      height: 520px;
+      height: 540px;
       overflow-y:auto ;
       &::-webkit-scrollbar {
         width: 0 !important
+      }
+      .my-tips{
+        background: #967e69;
+        height: 42px;
+        line-height: 42px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 12px;
+        .icon{
+          color: #ceb199;
+          padding-left: 2px;
+          padding-right: 2px;
+        }
       }
       .odds-box{
         width: 100%;
@@ -135,11 +147,11 @@
         flex-direction: column;
         .odds-name{
           width: 100%;
-          height: 32px;
-          line-height: 32px;
+          line-height: 30px;
           padding-left: 10px;
           display: flex;
           align-items: center;
+          justify-content: space-between;
           background-color: $detail-odds-color;
           color: $fz-color1;
           font-size: 13px;
@@ -150,30 +162,31 @@
             position: relative;
             transition: all .2s;
           }
-          .arrow{
+          .fav{
             cursor: pointer;
-            width: 80%;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            flex-direction: row-reverse;
-            padding-right: 14px;
-            font-size: 18px;
-            font-weight: bold;
+            color: #d4b091;
+            padding-left: 2px;
+            padding-right: 10px;
+            &:hover{
+             color:#ffaf2a;
+            }
+          }
+          .inFav{
+            cursor: pointer;
+            color: #ffaf2a;
+            padding-left: 2px;
+            padding-right: 10px;
           }
         }
         .odds-item{
           width: 100%;
           font-size: 12px;
           box-sizing: border-box;
-          padding-top: 1px;
-          padding-bottom: 1px;
           .item-box{
             padding: 2px 4px;
             display: flex;
             flex-wrap: wrap;
           }
-
         }
       }
     }

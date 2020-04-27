@@ -6,17 +6,18 @@ import PageLoading from '../../../../../../components/MbPageLoading/index';
 import { Icon } from 'antd';
 import CountDown from '../../../../../../components/CountDown/index';
 import BetDishItem from '../../DishLayout/detailDishLayout/betDishItem';
+import Accordion from '../../../../../../components/Accordion';
 
-@connect(({ chsDB, matchAllOdds, betShopCart, loading }) => ({
+@connect(({ chsDB, matchAllOdds, myFavGG, betShopCart, loading }) => ({
   chsDB,
   matchAllOdds,
   betShopCart,
+  myFavGG,
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class ModalLayout extends PureComponent {
 
   state = {
-    showOdds: [],
     firstLoading: true,
   };
 
@@ -87,12 +88,30 @@ class ModalLayout extends PureComponent {
     });
   };
 
+  addMyFav = (ggId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'myFavGG/add',
+      payload: ggId,
+    });
+  };
+
+  removeMyFav = (ggId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'myFavGG/del',
+      payload: ggId,
+    });
+  };
+
   render() {
     const {
       chsDB: { chsDB },
       matchAllOdds: { matchAllOdds },
+      myFavGG: { myFavGG },
     } = this.props;
     const { refreshLoading, firstLoading } = this.state;
+    console.log(myFavGG)
     return (
       <div className={styles.modalLayout}>
         {
@@ -104,12 +123,12 @@ class ModalLayout extends PureComponent {
                     : <Icon className={styles.icon} onClick={this.refreshMatchOdds} type="sync"/>
                 }
                 <span className={styles.time}>
-                    <CountDown
-                      onCountDownRef={this.onCountDownRef}
-                      time='60'
-                      onEnd={this.setTimeFetchMatchList}/>
-                    s
-                   </span>
+                   <CountDown
+                     onCountDownRef={this.onCountDownRef}
+                     time='60'
+                     onEnd={this.setTimeFetchMatchList}/>
+                   s
+                  </span>
               </div>
               <div className={styles['match-info']}>
                 {
@@ -126,36 +145,104 @@ class ModalLayout extends PureComponent {
                     </div> : <div className={styles['match-over']}>比赛结束</div>
                 }
               </div>
-              <div className={styles['all-odds']}>
-                {
-                  refreshLoading ?
-                    <PageLoading/> : matchAllOdds && matchAllOdds[0] && matchAllOdds[0].odds.map((val) => (
-                    <div className={styles['odds-box']} key={val.oddId}>
-                      <div className={styles['odds-name']}>
-                        <div className={styles.name}>{val.oddName}</div>
-                      </div>
-                      <div className={styles['odds-item']}>
-                        <div className={styles['item-box']}>
-                          {
-                            val.chs.map((item) => (
-                              <BetDishItem
-                                matchId={matchAllOdds[0].matchId}
-                                gamblingId={val.gamblingId}
-                                choiceId={item.choiceId}
-                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                name={item.name}
-                                choiceHandicap={item.choiceHandicap}
-                                key={item.choiceId}
-                              />
-                            ))
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                }
-              </div>
+              {
+                refreshLoading ?
+                  <PageLoading/> :
+                  <div className={styles['all-odds']}>
+                    <Accordion
+                      cptName='我的盘口'
+                      style={
+                        { lineHeight: '32px', fontSize: '14px', backgroundColor: '#533E33' }
+                      }
+                    >
+                      {
+                        myFavGG.length === 0 ?
+                          <div className={styles['my-tips']}>
+                            点击<Icon type='star' className={styles.icon} theme='filled'/>图标添加您喜欢的玩法
+                          </div>
+                          :
+                          matchAllOdds && matchAllOdds[0] && matchAllOdds[0].odds.map((val) => (
+                            myFavGG.includes(val.oddId) &&
+                            <div className={styles['odds-box']} key={val.oddId}>
+                              <div className={styles['odds-name']}>
+                                <div className={styles.name}>{val.oddName}</div>
+                                <div className={styles.inFav}>
+                                  <Icon
+                                    type='star'
+                                    className={styles.icon}
+                                    theme='filled'
+                                    onClick={() => this.removeMyFav(val.oddId)}
+                                  />
+                                </div>
+                              </div>
+                              <div className={styles['odds-item']}>
+                                <div className={styles['item-box']}>
+                                  {
+                                    val.chs.map((item) => (
+                                      <BetDishItem
+                                        matchId={matchAllOdds[0].matchId}
+                                        gamblingId={val.gamblingId}
+                                        choiceId={item.choiceId}
+                                        dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                        dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                        name={item.name}
+                                        choiceHandicap={item.choiceHandicap}
+                                        key={item.choiceId}
+                                      />
+                                    ))
+                                  }
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                      }
+                    </Accordion>
+                    <Accordion
+                      cptName='比赛盘口'
+                      style={
+                        { lineHeight: '32px', fontSize: '14px', backgroundColor: '#533E33'  }
+                      }
+                    >
+                      {
+                        matchAllOdds && matchAllOdds[0] && matchAllOdds[0].odds.map((val) => (
+                          !myFavGG.includes(val.oddId) &&
+                          <div className={styles['odds-box']} key={val.oddId}>
+                            <div className={styles['odds-name']}>
+                              <div className={styles.name}>{val.oddName}</div>
+                              <div className={styles.fav}>
+                                <Icon
+                                  type='star'
+                                  className={styles.icon}
+                                  theme='filled'
+                                  onClick={() => this.addMyFav(val.oddId)}
+                                />
+                              </div>
+                            </div>
+                            <div className={styles['odds-item']}>
+                              <div className={styles['item-box']}>
+                                {
+                                  val.chs.map((item) => (
+                                    <BetDishItem
+                                      matchId={matchAllOdds[0].matchId}
+                                      gamblingId={val.gamblingId}
+                                      choiceId={item.choiceId}
+                                      dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                      dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                      name={item.name}
+                                      choiceHandicap={item.choiceHandicap}
+                                      key={item.choiceId}
+                                    />
+                                  ))
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      }
+                    </Accordion>
+                  </div>
+              }
+
             </div>
 
         }

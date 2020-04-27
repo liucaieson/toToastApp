@@ -16,12 +16,12 @@ export default class Accordion  extends Component {
   };
 
   render() {
-    const { cptName, children } = this.props;
+    const { cptName, children , style } = this.props;
     const { isShow } = this.state;
 
     return (
         <div>
-          <Row className={styles['competitions-name']} onClick={() => this.toggleCpt()} >
+          <Row className={styles['competitions-name']} style={style} onClick={() => this.toggleCpt()} >
             <Col span={1} className={styles.arrow}>
               {
                 isShow ?
