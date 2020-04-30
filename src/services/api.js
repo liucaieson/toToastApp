@@ -63,7 +63,7 @@ export async function getFavorite(params) {
 
 /*2.1.获取玩法分组列表*/
 export async function getPreMatchOdds(params) {
-  return request(`${baseUrl}/portal/pre/getPreMatchOdds`, {
+  return request(`${baseUrl}/portal/pre/getPreMatchOdds?accessCode=${sessionStorage.getItem('accessCode')}`, {
     method: 'POST',
     body: {
       ...params,
@@ -83,7 +83,7 @@ export async function getPreCommandMatch(params) {
 
 /*2.1.获取滚球赛事*/
 export async function getInPLay(params) {
-  return request(`${baseUrl}/portal/inplay/getInplayMatchOdds`, {
+  return request(`${baseUrl}/portal/inplay/getInplayMatchOdds?accessCode=${sessionStorage.getItem('accessCode')}`, {
     method: 'POST',
     body: {
       ...params,
