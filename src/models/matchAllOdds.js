@@ -1,5 +1,5 @@
 /* 查询这场比赛的所有盘口AllGG */
-import { getPreMatchOddsAllGG } from '@/services/api';
+import { getPreMatchOdds } from '@/services/api';
 
 export default {
   namespace: 'matchAllOdds',
@@ -10,7 +10,7 @@ export default {
 
   effects: {
     *fetch({payload, callback}, { call, put, select }) {
-      let result = yield call(getPreMatchOddsAllGG, payload);
+      let result = yield call(getPreMatchOdds, payload);
       const {data} = result;
       yield put({
         type: 'saveData/saveData',

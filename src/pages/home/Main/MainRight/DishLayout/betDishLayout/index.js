@@ -90,5 +90,3 @@ class DishLayout extends PureComponent {
 
 export default DishLayout;
 
-
-

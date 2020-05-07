@@ -51,7 +51,7 @@ export async function getGg(params) {
   });
 }
 
-/*2.1.获取玩法分组列表*/
+/*2.1.获取收藏赛事*/
 export async function getFavorite(params) {
   return request(`${baseUrl}/portal/pre/getStatus`, {
     method: 'POST',
@@ -73,7 +73,7 @@ export async function getPreMatchOdds(params) {
 
 /*2.1.获取推荐赛事*/
 export async function getPreCommandMatch(params) {
-  return request(`${baseUrl}/portal/pre/getPreMatchOddsByTime`, {
+  return request(`${baseUrl}/portal/pre/getPreMatchOddsByTime?accessCode=${sessionStorage.getItem('accessCode')}`, {
     method: 'POST',
     body: {
       ...params,
@@ -103,16 +103,7 @@ export async function addShopCart(params) {
 
 
 
-/*2.1.获取玩法分组列表所有比赛测试*/
-export async function getPreMatchOddsAllGG(params) {
-  return request(`${baseUrl}/portal/pre/getPreMatchOdds`, {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  }
-  );
-}
+
 
 
 /*2.3.获取日期列表*/
@@ -137,7 +128,7 @@ export async function getCompetitions(params) {
 
 /*获取所有赛事列表*/
 export async function getAllCompetitions(params) {
-  return request(`${baseUrl}/portal/pre/getAllCompetitions`, {
+  return request(`${baseUrl}/portal/pre/getAllCompetitions?accessCode=${sessionStorage.getItem('accessCode')}`, {
     method: 'POST',
     body: {
       ...params,

@@ -242,9 +242,7 @@ class ModalLayout extends PureComponent {
                     </Accordion>
                   </div>
               }
-
             </div>
-
         }
       </div>
     );
