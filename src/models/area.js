@@ -5,14 +5,14 @@ export default {
   namespace: 'area',
 
   state: {
-    area:[],
-    areaObj:{}
+    area: [],
+    areaObj: {}
   },
 
   effects: {
-    *fetch({payload}, { call, put, select }) {
-      let data = yield call(getArea,payload);
-      let  areaObj= {};
+    *fetch({ payload }, { call, put }) {
+      const data = yield call(getArea, payload);
+      const areaObj = {};
       data.forEach((val) => {
         areaObj[val.areaId] = val.areaName
       });

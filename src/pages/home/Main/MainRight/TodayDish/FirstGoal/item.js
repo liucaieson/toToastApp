@@ -3,9 +3,8 @@ import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import DishItem from './dishItem';
-import { calcDateToMonthAndDay } from '../../../../../../utils/util';
-import DishLayout from '../../DishLayout/betDishLayout';
-import Accordion from '../../../../../../components/Accordion';
+import { calcDateToMonthAndDay } from '@/utils/util';
+import Accordion from '@/components/Accordion';
 
 @connect(({ chsDB }) => ({
   chsDB,
@@ -17,7 +16,6 @@ class DoubleResultItem extends PureComponent {
       cptData, matchData,
       chsDB: { chsDB },
     } = this.props;
-    console.log(matchData)
     return (
       <div key={cptData} style={this.props.style}>
         <Accordion

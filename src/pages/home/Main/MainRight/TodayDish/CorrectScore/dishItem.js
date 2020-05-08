@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import styles from './index.scss';
-import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout/index'
+import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout'
 
 class CorrectScoreDishItem extends PureComponent {
 

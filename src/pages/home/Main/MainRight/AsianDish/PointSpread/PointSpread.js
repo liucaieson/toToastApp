@@ -1,11 +1,11 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal } from 'antd';
+import React, { PureComponent } from 'react';
+import {  Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './pointSpread.scss';
-import { calcDateToMonthAndDay } from '../../../../../../utils/util';
+import { calcDateToMonthAndDay } from '@/utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
 import ModalLayout from '../../ModalLayout/modalLayout';
-import Accordion from '../../../../../../components/Accordion';
+import Accordion from '@/components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 
 @connect(({ asianGG, chsDB}) => ({

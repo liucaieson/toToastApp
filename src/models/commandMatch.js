@@ -1,3 +1,4 @@
+// 推荐玩法的数据
 import { getPreCommandMatch } from '@/services/api';
 
 export default {
@@ -6,20 +7,20 @@ export default {
   state: {
     cptIds: [],
     matchListObj: {},
-    count:1,
-    current:1,
+    count: 1,
+    current: 1,
   },
 
   effects: {
-    *fetchMatchOdds({payload, callback}, { call, put, select }) {
-      let result = yield call(getPreCommandMatch, {...payload, size: 40});
-      const {data, count,current } = result;
-      const cptIds=[];
+    *fetchMatchOdds({ payload, callback }, { call, put }) {
+      const result = yield call(getPreCommandMatch, { ...payload, size: 40 });
+      const { data, count, current } = result;
+      const cptIds = [];
       const matchListObj = {};
       data.forEach((item) => {
-        if(cptIds.includes(item.cptId)){
+        if (cptIds.includes(item.cptId)) {
           matchListObj[item.cptId].push(item)
-        }else{
+        } else {
           cptIds.push(item.cptId);
           matchListObj[item.cptId] = [];
           matchListObj[item.cptId].push(item)
@@ -38,7 +39,7 @@ export default {
           current
         },
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

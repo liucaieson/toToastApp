@@ -1,4 +1,4 @@
-/* 获取用户信息 */
+// 获取用户信息
 import { getUserInfo } from '@/services/api';
 
 export default {
@@ -11,8 +11,8 @@ export default {
   },
 
   effects: {
-    *fetch({payload}, { call, put, select }) {
-      let data = yield call(getUserInfo, payload);
+    *fetch({ payload }, { call, put }) {
+      const data = yield call(getUserInfo, payload);
 
       yield put({
         type: 'save',
@@ -33,7 +33,7 @@ export default {
     },
   },
 
-  /*subscriptions: {
+  /* subscriptions: {
     setup({ history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname, search }) => {
@@ -42,5 +42,5 @@ export default {
         }
       });
     },
-  },*/
+  }, */
 };

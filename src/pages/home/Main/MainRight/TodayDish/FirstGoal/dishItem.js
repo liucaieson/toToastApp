@@ -1,8 +1,6 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Col } from 'antd'
-import { connect } from 'dva';
+import React, { PureComponent } from 'react';
 import styles from './index.scss';
-import DishLayout from '../../DishLayout/betDishLayout/index';
+import DishLayout from '../../DishLayout/betDishLayout';
 
 class FirstGoalDishItem extends PureComponent {
 

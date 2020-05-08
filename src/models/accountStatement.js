@@ -1,21 +1,21 @@
-/* 这里保存用户账变记录*/
+/* 这里保存用户账变记录 */
 import { accountStatement } from '@/services/api';
 
 export default {
   namespace: 'accountStatement',
 
   state: {
-    data:[]
+    data: []
   },
 
   effects: {
-    *fetch({payload, callback}, { call, put, select }) {
-      let data = yield call(accountStatement, payload);
+    *fetch({ payload, callback }, { call, put }) {
+      const data = yield call(accountStatement, payload);
       yield put({
         type: 'save',
         payload: data,
       });
-      if(callback) callback(data)
+      if (callback) callback(data)
     }
   },
 

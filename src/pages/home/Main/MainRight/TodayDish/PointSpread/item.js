@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { calcDateToMonthAndDay} from '../../../../../../utils/util';
+import { calcDateToMonthAndDay} from '@/utils/util';
 import ModalLayout from '../../ModalLayout/modalLayout';
 import DishLayout from '../../DishLayout/betDishLayout';
-import Accordion from '../../../../../../components/Accordion';
+import Accordion from '@/components/Accordion';
 
 @connect(({ chsDB, matchAllOdds, betShopCart, loading }) => ({
   chsDB,

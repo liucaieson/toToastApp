@@ -1,14 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 
 class Mask extends PureComponent {
   render() {
-    const {bg, loadingIconSize, loadingFontSize, color} = this.props
+    const { bg, loadingIconSize, loadingFontSize, color } = this.props
     return (
       <div
         style={{
-          position:'absolute',
+          position: 'absolute',
           width: '100%',
           height: '100%',
           backgroundColor: bg,
@@ -34,11 +35,11 @@ class Mask extends PureComponent {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'space-between',
-              color:color,
+              color,
             }}
           >
-            <Icon style={{fontSize: loadingIconSize}} type='loading' size="large" />
-            <span style={{ marginTop: 8, fontSize: loadingFontSize}}>加载中...</span>
+            <Icon style={{ fontSize: loadingIconSize }} type="loading" size="large" />
+            <span style={{ marginTop: 8, fontSize: loadingFontSize }}>加载中...</span>
           </div>
         </div>
       </div>

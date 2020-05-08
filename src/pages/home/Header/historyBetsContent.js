@@ -1,33 +1,32 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Pagination, Form, Row, Col, Button, Select } from 'antd';
 import styles from './header2.scss';
-import {dishNameMap} from '@/utils/util';
-import Loading from '../../../components/MbPageLoading';
-import moment from 'moment';
+import { dishNameMap } from '@/utils/util';
+import Loading from '@/components/MbPageLoading';
+
 const FormItem = Form.Item;
 
 const betTypeMap = {
-  '1':'单注',
-  '2':'二串一',
-  '3':'三串一',
-  '4':'四串一',
-  '5':'五串一',
-  '6':'六串一',
+  1: '单注',
+  2: '二串一',
+  3: '三串一',
+  4: '四串一',
+  5: '五串一',
+  6: '六串一',
 };
 
-@connect(({ historyBets,userInfo, loading }) => ({
+@connect(({ historyBets, userInfo, loading }) => ({
   historyBets,
   userInfo,
   loading: loading.models.historyBets,
 }))
 @Form.create()
 class HistoryBetsContent extends Component {
-
   defaultParams = '';
 
   componentDidMount() {
-    const { dispatch, userInfo: {userId} } = this.props;
+    const { dispatch, userInfo: { userId } } = this.props;
     dispatch({
       type: 'historyBets/fetch',
       payload: {
@@ -42,12 +41,12 @@ class HistoryBetsContent extends Component {
   }
 
   handleTableChange = (page) => {
-    const { dispatch, userInfo: {userId} } = this.props;
+    const { dispatch, userInfo: { userId } } = this.props;
     dispatch({
       type: 'historyBets/fetch',
       payload: {
         userId,
-        sport:"1",
+        sport: '1',
         page,
         size: 5,
         betStatus: this.defaultParams
@@ -57,18 +56,18 @@ class HistoryBetsContent extends Component {
 
   handleSearch = (e) => {
     e.preventDefault();
-    const { userInfo: {userId},dispatch, form } = this.props;
+    const { userInfo: { userId }, dispatch, form } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      let { betStatus } = fieldsValue;
+      const { betStatus } = fieldsValue;
       this.defaultParams = betStatus;
       dispatch({
         type: 'historyBets/fetch',
         payload: {
           sport: '1',
           userId,
-          page:1,
-          size:5,
+          page: 1,
+          size: 5,
           betStatus
         },
       });
@@ -85,14 +84,14 @@ class HistoryBetsContent extends Component {
           <Col md={8} sm={24}>
             <FormItem label="状态查询">{
               getFieldDecorator('betStatus')(
-                <Select className={styles['status-result-select']}  placeholder='全部'>
-                  <Select.Option value='' key='a'>
+                <Select className={styles['status-result-select']} placeholder="全部">
+                  <Select.Option value="" key="a">
                     全部
                   </Select.Option>
-                  <Select.Option value='0' key='0'>
+                  <Select.Option value="0" key="0">
                     未结算
                   </Select.Option>
-                  <Select.Option value='1' key='1'>
+                  <Select.Option value="1" key="1">
                     已结算
                   </Select.Option>
                 </Select>
@@ -111,7 +110,7 @@ class HistoryBetsContent extends Component {
   }
 
   render() {
-    const { historyBets:{ data, count, current},loading } = this.props;
+    const { historyBets: { data, count, current }, loading } = this.props;
     return (
       <div>
         {this.renderSimpleForm()}
@@ -124,13 +123,13 @@ class HistoryBetsContent extends Component {
           <div className={styles.item}>结算结果</div>
         </div>
         {
-          loading?
+          loading ?
             <Loading /> :
             data.map((val) => (
             <div key={val.betId} className={styles.historyBets}>
               <div className={styles['bet-time-line']}>
                 <div className={styles.status}>{val.betStatus}</div>
-                <div className={styles.time}>{val.betTime.substring(0,19)}</div>
+                <div className={styles.time}>{val.betTime.substring(0, 19)}</div>
                 <div className={styles.text1}>订单号：</div>
                 <div className={styles.time}>{val.betId}</div>
               </div>
@@ -138,12 +137,12 @@ class HistoryBetsContent extends Component {
                 {
                   val.detailed.map((v) => (
                     <div className={styles['bet-detail-line']} key={v.matchTime}>
-                      <div>{v.matchTime && v.matchTime.substring(0,19)}</div>
+                      <div>{v.matchTime && v.matchTime.substring(0, 19)}</div>
                       <div>{v.hostName}<br/>{v.awayName}</div>
                       <div>{v.oddName}</div>
                       <div>{dishNameMap[v.choiceContent]}{v.choiceHandicap}</div>
                       <div>{v.dishRate}</div>
-                      <div>{v.resultFlag === null ? '未结算' :(v.resultFlag === '胜'? <span style={{color: '#ec0c0c'}}>{v.resultFlag}</span> : v.resultFlag)}</div>
+                      <div>{v.resultFlag === null ? '未结算' : (v.resultFlag === '胜' ? <span style={{ color: '#ec0c0c' }}>{v.resultFlag}</span> : v.resultFlag)}</div>
                     </div>
                   ))
                 }
@@ -158,7 +157,13 @@ class HistoryBetsContent extends Component {
           ))
         }
         <div className={styles['pagination-box']}>
-          <Pagination total={count} current={current} defaultCurrent={1} pageSize={5} onChange={this.handleTableChange} />
+          <Pagination
+            total={count}
+            current={current}
+            defaultCurrent={1}
+            pageSize={5}
+            onChange={this.handleTableChange}
+          />
         </div>
       </div>
     );

@@ -1,8 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import { connect } from 'dva';
 import styles from './myOrder.scss';
-import { dishNameMap } from '../../../../utils/util';
+import { dishNameMap } from '@/utils/util';
 
 const betTypeMap = {
   '1':'',
@@ -96,18 +96,27 @@ class MyOrder extends PureComponent {
               {
                 unSettlementData.map((val, index) => (
                   <li className={styles.item} key={val.betId} onClick={() => this.toggle(val.betId)}>
-
                     {
                       val.detailed && val.detailed.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
                           <div className={styles.left}>
-                            <div className={styles['odds-name']}><span className={styles.type}>{betTypeMap[val.betType]}</span>{item.oddName}</div>
-                            <div className={styles.match}>{item.cptName}</div>
-                            <div className={styles.match}>{item.hostName}---{item.awayName}</div>
+                            <div className={styles['odds-name']}>
+                              <span className={styles.type}>
+                                {betTypeMap[val.betType]}
+                              </span>
+                              {item.oddName}
+                              </div>
+                            <div className={styles.match}>
+                              {item.cptName}
+                              </div>
+                            <div className={styles.match}>
+                              {item.hostName}---{item.awayName}
+                              </div>
                             <div
                               className={styles['dish-name']}>
                             <span className={styles.name}>
-                              {dishNameMap[item.choiceContent]}{item.choiceHandicap}
+                              {dishNameMap[item.choiceContent]}
+                              {item.choiceHandicap}
                             </span>
                               @
                               <span className={styles.dish}>
@@ -116,7 +125,6 @@ class MyOrder extends PureComponent {
                             </div>
                           </div>
                           <div className={styles.right}>
-
                             <div className={styles.win}>
                               {item.resultFlag === '胜' ?
                                 <span className={styles.red}>{item.resultFlag}</span> :
@@ -150,7 +158,10 @@ class MyOrder extends PureComponent {
           }
         </div>
         <div className={styles.order}>
-          <div className={styles.title} onClick={this.toggleSettlement}>
+          <div
+            className={styles.title}
+            onClick={this.toggleSettlement}
+          >
             <div className={styles.left}>
               {
                 open2 ?  <Icon type="caret-up" /> :
@@ -166,17 +177,24 @@ class MyOrder extends PureComponent {
             open2 ?  <ul className={styles.list}>
               {
                 settlementData.map((val, index) => (
-                  <li className={styles.item} key={val.betId} onClick={() => this.toggle(val.betId)}>
-
+                  <li
+                    className={styles.item}
+                    key={val.betId}
+                    onClick={() => this.toggle(val.betId)}
+                  >
                     {
                       val.detailed && val.detailed.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
                           <div className={styles.left}>
-                            <div className={styles['odds-name']}> <span className={styles.type}>{betTypeMap[val.betType]}</span>{item.oddName}</div>
+                            <div className={styles['odds-name']}>
+                              <span className={styles.type}>
+                                {betTypeMap[val.betType]}
+                              </span>
+                              {item.oddName}
+                            </div>
                             <div className={styles.match}>{item.cptName}</div>
                             <div className={styles.match}>{item.hostName}---{item.awayName}</div>
-                            <div
-                              className={styles['dish-name']}>
+                            <div className={styles['dish-name']}>
                             <span className={styles.name}>
                               {dishNameMap[item.choiceContent]}{item.choiceHandicap}
                             </span>
@@ -217,10 +235,8 @@ class MyOrder extends PureComponent {
                   </li>
                 ))
               }
-
             </ul>: ''
           }
-
         </div>
       </div>
 

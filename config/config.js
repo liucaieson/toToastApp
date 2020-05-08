@@ -25,9 +25,6 @@ export default {
       hardSource: false,
     }],
   ],
-  alias:{
-    Components:path.resolve(__dirname,'src/components'),
-  },
   // 路由配置
   routes: PCPageRoutes,
   history: 'browser',

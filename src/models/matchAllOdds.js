@@ -1,17 +1,17 @@
-/* 查询这场比赛的所有盘口AllGG */
+// 查询这场比赛的所有盘口
 import { getPreMatchOdds } from '@/services/api';
 
 export default {
   namespace: 'matchAllOdds',
 
   state: {
-    matchAllOdds:[]
+    matchAllOdds: []
   },
 
   effects: {
-    *fetch({payload, callback}, { call, put, select }) {
-      let result = yield call(getPreMatchOdds, payload);
-      const {data} = result;
+    *fetch({ payload, callback }, { call, put }) {
+      const result = yield call(getPreMatchOdds, payload);
+      const { data } = result;
       yield put({
         type: 'saveData/saveData',
         payload: data,
@@ -20,7 +20,7 @@ export default {
         type: 'save',
         payload: data,
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

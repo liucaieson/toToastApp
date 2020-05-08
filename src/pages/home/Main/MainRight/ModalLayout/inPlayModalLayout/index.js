@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { calcDate2, dishNameMap } from '../../../../../../utils/util';
-import PageLoading from '../../../../../../components/MbPageLoading/index';
+import { calcDate2 } from '@/utils/util';
+import PageLoading from '@/components/MbPageLoading';
 import { Icon } from 'antd';
-import CountDown from '../../../../../../components/CountDown/index';
-import BetDishItem from '../../DishLayout/inPlayDeatilDishLayout/index';
+import CountDown from '@/components/CountDown';
+import BetDishItem from '../../DishLayout/inPlayDeatilDishLayout';
 
 @connect(({ chsDB, inPlay, loading }) => ({
   chsDB,

@@ -2,9 +2,9 @@ import React, { PureComponent} from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { calcDateToMonthAndDay } from '../../../../../../utils/util';
+import { calcDateToMonthAndDay } from '@/utils/util';
 import DishLayout from '../../DishLayout/betDishLayout';
-import Accordion from '../../../../../../components/Accordion';
+import Accordion from '@/components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper2';
 
 @connect(({ asianGG6And7, dates, chsDB, showCompetitions, competitions, loading }) => ({
@@ -16,7 +16,6 @@ import AsianWrapper from '../AsianWarpper/wrapper2';
   loading: loading.effects['asianGG6And7/fetchMatchOdds'],
 }))
 class DoubleResult extends PureComponent {
-
 
   render() {
     const {
@@ -56,12 +55,21 @@ class DoubleResult extends PureComponent {
                     {
                       (
                         matchListObj[val].map((v) => (
-                          <Row className={styles['match-line-box']} key={v.matchId}>
+                          <Row
+                            className={styles['match-line-box']}
+                            key={v.matchId}
+                          >
                             <Row className={styles['match-line']}>
-                              <Col span={3} className={styles['match-time']}>
+                              <Col
+                                span={3}
+                                className={styles['match-time']}
+                              >
                                 {calcDateToMonthAndDay(v.time)}
                               </Col>
-                              <Col span={5} className={styles['match-team']}>
+                              <Col
+                                span={5}
+                                className={styles['match-team']}
+                              >
                                 <div>{v.homeName}</div>
                                 <div>{v.awayName}</div>
                               </Col>

@@ -1,4 +1,4 @@
-// 保存比赛信息
+// 保存比赛投注项信息，用来更新赔率
 export default {
   namespace: 'chsDB',
 
@@ -8,10 +8,10 @@ export default {
   },
 
   effects: {
-    *saveChsData({payload}, { call, put, select }) {
+    *saveChsData({ payload }, { put }) {
       yield put({
         type: 'save',
-        payload: payload,
+        payload,
       });
     },
 

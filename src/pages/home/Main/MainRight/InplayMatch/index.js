@@ -1,10 +1,9 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal, Checkbox } from 'antd';
+import React, { PureComponent} from 'react';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import CountDown from '../../../../../components/CountDown/index';
-import { dishNameMap } from '../../../../../utils/util';
-import PageLoading from '../../../../../components/MbPageLoading';
+import CountDown from '@/components/CountDown';
+import PageLoading from '@/components/MbPageLoading';
 import Item from './cptItem'
 
 @connect(({ inPlay,inPlayFavorite, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
@@ -17,6 +16,7 @@ import Item from './cptItem'
   oddsLoading:loading.effects['inPlay/fetchAllMatchOdds']
 }))
 class InplayMatch extends PureComponent {
+
   state = {
     refreshLoading: false,
     showCompetitionsList: [],
@@ -28,7 +28,6 @@ class InplayMatch extends PureComponent {
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {

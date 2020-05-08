@@ -1,12 +1,11 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal } from 'antd';
+import React, { PureComponent} from 'react';
+import { Icon } from 'antd';
 import { connect } from 'dva';
 import styles from './wrapper1.scss';
-import CountDown from '../../../../../../components/CountDown/index';
-import CompetitionsModal from '../../competitonsModal/index';
-import ModalLayout from '../../ModalLayout/modalLayout';
-import PaginationBox from '../../../../../../components/PaginationBox';
-import PageLoading from '../../../../../../components/MbPageLoading';
+import CountDown from '@/components/CountDown';
+import CompetitionsModal from '../../competitonsModal';
+import PaginationBox from '@/components/PaginationBox';
+import PageLoading from '@/components/MbPageLoading';
 
 @connect(({ asianGG6And7,chsDB, showCompetitions,  loading }) => ({
   asianGG6And7,

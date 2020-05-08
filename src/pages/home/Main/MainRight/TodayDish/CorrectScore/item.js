@@ -1,10 +1,9 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import {  Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import DishItem from './dishItem'
-import { calcDateToMonthAndDay } from '../../../../../../utils/util';
-import Accordion from '../../../../../../components/Accordion';
+import Accordion from '@/components/Accordion';
 
 @connect(({  chsDB, betShopCart }) => ({
   chsDB,

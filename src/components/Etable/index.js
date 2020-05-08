@@ -3,7 +3,6 @@ import { Table } from 'antd';
 import styles from './index.less';
 
 class ETable extends PureComponent {
-
   handleTableChange = pagination => {
     const { onChange } = this.props;
     if (onChange) {
@@ -13,11 +12,11 @@ class ETable extends PureComponent {
 
   render() {
     const { dataSource = {}, rowKey, ...rest } = this.props;
-    const {  current, count, data  } = dataSource;
+    const { current, count, data } = dataSource;
     const paginationProps = {
-      current: current,
+      current,
       total: count,
-      pageSize:10
+      pageSize: 10
     };
 
     return (

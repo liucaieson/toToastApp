@@ -1,4 +1,4 @@
-/* 根据gg选择页面 */
+// 根据gg选择页面
 export default {
   namespace: 'togglePageWithGg',
 
@@ -8,16 +8,16 @@ export default {
   },
 
   effects: {
-    *togglePage({payload}, { call, put, select }) {
+    *togglePage({ payload }, { put }) {
       yield put({
         type: 'save',
-        payload: payload,
+        payload,
       });
     },
-    *turnToDetail({payload}, { call, put, select }) {
+    *turnToDetail({ payload }, { put }) {
       yield put({
         type: 'save2',
-        payload: payload,
+        payload,
       });
     },
   },
@@ -37,5 +37,4 @@ export default {
       };
     },
   }
-
 };

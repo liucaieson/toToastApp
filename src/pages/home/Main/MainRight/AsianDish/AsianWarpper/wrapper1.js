@@ -1,12 +1,11 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal } from 'antd';
+import React, { PureComponent} from 'react';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './wrapper1.scss';
-import CountDown from '../../../../../../components/CountDown/index';
-import CompetitionsModal from '../../competitonsModal/index';
-import ModalLayout from '../../ModalLayout/modalLayout';
-import PaginationBox from '../../../../../../components/PaginationBox';
-import PageLoading from '../../../../../../components/MbPageLoading';
+import CountDown from '@/components/CountDown';
+import CompetitionsModal from '../../competitonsModal';
+import PaginationBox from '@/components/PaginationBox';
+import PageLoading from '@/components/MbPageLoading';
 
 @connect(({ asianGG, dates, chsDB, showCompetitions,  loading }) => ({
   asianGG,
@@ -18,21 +17,26 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 }))
 class Main extends PureComponent {
 
+  /**
+   * @type {{refreshLoading: boolean, isActiveDate: string, firstLoading: boolean}}
+   * refreshLoading 点击刷新按钮的loading
+   * isActiveDate 选择的日期
+   * firstLoading 页面刚进入的loading
+   */
   state = {
     refreshLoading: false,
     isActiveDate: '',
     firstLoading: true,
-    isShow: false,
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {
     sport: '1',
     page:1
   };
+
   /* 存储全局的参数 */
   globalParams = {
     ...this.defaultParams,
@@ -225,8 +229,17 @@ class Main extends PureComponent {
           <div className={styles.name}>{title}</div>
           <div className={styles.refresh}>
             {
-              refreshLoading ? <Icon className={styles.icon} type="loading"/>
-                : <Icon className={styles.icon} onClick={this.refreshMatchOdds} type="sync"/>
+              refreshLoading ?
+                <Icon
+                  className={styles.icon}
+                  type="loading"
+                />
+                :
+                <Icon
+                  className={styles.icon}
+                  onClick={this.refreshMatchOdds}
+                  type="sync"
+                />
             }
             <span className={styles.time}>
               <CountDown
@@ -235,9 +248,20 @@ class Main extends PureComponent {
                 onEnd={this.setTimeFetchMatchList}/>
               s</span>
           </div>
-          <div className={styles['competitions-select']} onClick={this.showCompetitionsModal}>选择联赛</div>
+          <div
+            className={styles['competitions-select']}
+            onClick={this.showCompetitionsModal}
+          >
+            选择联赛
+          </div>
           {
-            gg === '8' ? '' :  <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
+            gg === '8' ? '' :
+              <div
+                className={styles.mixed}
+                onClick={this.turnToAsianMixed}
+              >
+                混合过关
+              </div>
           }
         </div>
         <div className={styles.main}>
@@ -265,18 +289,31 @@ class Main extends PureComponent {
               <div className={styles.match}>
                 {
                   firstLoading ? <PageLoading/> :
-                    <div className={styles.container}  id='matchContainer'>
+                    <div
+                      className={styles.container}
+                      id='matchContainer'
+                    >
                       {this.props.children[1]}
-                      <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                      <PaginationBox
+                        total={count}
+                        current={current}
+                        pageSize={40}
+                        onChange={this.nextPage}
+                      />
                     </div>
                 }
-
               </div>
-              <div className={styles['to-top']} onClick={this.gotoTop}/>
+              <div
+                className={styles['to-top']}
+                onClick={this.gotoTop}
+              />
             </div>
           }
         </div>
-        <CompetitionsModal params={{...this.defaultParams, gg}} fn={this.fetchMatchOddsWithCompetitions}/>
+        <CompetitionsModal
+          params={{...this.defaultParams, gg}}
+          fn={this.fetchMatchOddsWithCompetitions}
+        />
       </div>
     );
   }

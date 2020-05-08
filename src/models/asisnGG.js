@@ -1,3 +1,4 @@
+// 出去半场全场和最先进球的之外的玩法数据
 import { getPreMatchOdds } from '@/services/api';
 
 export default {
@@ -6,20 +7,20 @@ export default {
   state: {
     cptIds: [],
     matchListObj: {},
-    count:1,
-    current:1
+    count: 1,
+    current: 1
   },
 
   effects: {
-    *fetchMatchOdds({payload, callback}, { call, put, select }) {
-      let result = yield call(getPreMatchOdds, {...payload, size:40});
-      const cptIds=[];
+    *fetchMatchOdds({ payload, callback }, { call, put }) {
+      const result = yield call(getPreMatchOdds, { ...payload, size: 40 });
+      const cptIds = [];
       const matchListObj = {};
       const { data, count, current } = result;
       data.forEach((item) => {
-        if(cptIds.includes(item.cptId)){
+        if (cptIds.includes(item.cptId)) {
           matchListObj[item.cptId].push(item)
-        }else{
+        } else {
           cptIds.push(item.cptId);
           matchListObj[item.cptId] = [];
           matchListObj[item.cptId].push(item)
@@ -38,7 +39,7 @@ export default {
           current
         },
       });
-      if(callback) callback(result)
+      if (callback) callback(result)
     },
   },
 
@@ -48,8 +49,8 @@ export default {
         ...state,
         cptIds: payload.cptIds,
         matchListObj: payload.matchListObj,
-        count:payload.count,
-        current:payload.current
+        count: payload.count,
+        current: payload.current
       };
     },
   },

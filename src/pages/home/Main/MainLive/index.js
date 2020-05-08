@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styles from './index.scss';
 import { Icon } from 'antd';
-import CollapseList from '../../../../components/CollapseList';
+import CollapseList from '@/components/CollapseList';
 import QueueAnim from 'rc-queue-anim';
 
 const liveURL = [

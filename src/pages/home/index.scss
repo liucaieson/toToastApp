@@ -47,19 +47,19 @@
 /* antd checkbox样式 */
 :global(.ant-form label) {
   font-size: 12px;
-  color: $item-color;
+  color: $item-color!important;
 }
 :global(.ant-modal-confirm-body .ant-modal-confirm-title){
-  color: $modal-fz;
+  color: $modal-fz!important;
 }
 :global(.ant-modal-confirm-info .ant-modal-confirm-body > .anticon){
-  color: $modal-fz;
+  color: $modal-fz!important;
 }
 :global(.ant-modal-confirm-body .ant-modal-confirm-content){
-  color: $modal-fz
+  color: $modal-fz!important;
 }
 :global(.ant-modal-confirm-success .ant-modal-confirm-body > .anticon){
-  color: $modal-fz
+  color: $modal-fz!important;
 }
 
 

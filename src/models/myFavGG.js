@@ -1,4 +1,4 @@
-/* 用户自己喜欢的盘口 */
+// 用户自己喜欢的盘口玩法GG指代玩法
 
 export default {
   namespace: 'myFavGG',
@@ -8,17 +8,17 @@ export default {
   },
 
   effects: {
-    *add({payload, callback}, { call, put, select }) {
-      let data = yield select( state => state.myFavGG.myFavGG);
+    *add({ payload, callback }, { put, select }) {
+      const data = yield select(state => state.myFavGG.myFavGG);
       data.push(payload);
       yield put({
         type: 'save',
         payload: data,
       });
-      if(callback) callback()
+      if (callback) callback()
     },
-    *del({payload, callback}, { call, put, select }) {
-      let data = yield select( state => state.myFavGG.myFavGG);
+    *del({ payload, callback }, { put, select }) {
+      const data = yield select(state => state.myFavGG.myFavGG);
       const index = data.indexOf(payload);
       if (index > -1) {
         data.splice(index, 1);
@@ -27,7 +27,7 @@ export default {
         type: 'save',
         payload: data,
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

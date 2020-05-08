@@ -67,10 +67,7 @@ class CompetitionsModal extends Component {
         showArea: arr
       })
     }
-
   };
-
-
 
   render() {
     const { showCompetitions : {isShow}, competitions: { areaId, competitionsObj },  area:{ areaObj}, } = this.props;

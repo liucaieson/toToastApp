@@ -1,5 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon } from 'antd';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './menuColumn.scss';
 
@@ -10,12 +9,15 @@ import styles from './menuColumn.scss';
   balanceLoading:loading.models.userInfo
 }))
 class MenuColumn extends PureComponent {
+
+  /**
+   * @type {{GGMenu: string}}
+   * 展示的玩法页签
+   */
   state = {
-    isTodayDishExpend: true,
-    isRoundDishExpend: true,
     GGMenu: 'asian',
-    isMenuExpend: true
   };
+
   componentDidMount() {
     this.getAsianDish();
     this.getTodayDish();
@@ -95,11 +97,17 @@ class MenuColumn extends PureComponent {
       case 'mixed':
         return (
           <ul className={styles['dish-list']}>
-            <li className={pageId === '8' ? `${styles.item} ${styles.active}`: styles.item}  key='command'
-                onClick={() => this.getMatchOdds('mixed')}
+            <li
+              className={pageId === '8' ? `${styles.item} ${styles.active}`: styles.item}
+              key='command'
+              onClick={() => this.getMatchOdds('mixed')}
             >
-              <span className={styles.left}>混合过关</span>
-              <span className={styles.right}>{asianDish[7].matchCount}</span>
+              <span className={styles.left}>
+                混合过关
+              </span>
+              <span className={styles.right}>
+                {asianDish[7].matchCount}
+              </span>
             </li>
           </ul>
         );
@@ -108,10 +116,18 @@ class MenuColumn extends PureComponent {
           <ul className={styles['dish-list']}>
             {
               asianDish.map((val) => (
-                <li className={pageId === val.ggId ? `${styles.item} ${styles.active}` : styles.item} key={val.ggId}
-                    onClick={() => this.getMatchOdds(val.ggId)}>
-                  <span className={styles.left}>{val.ggName}</span>
-                  <span className={styles.right}>{val.matchCount}</span></li>
+                <li
+                  className={pageId === val.ggId ? `${styles.item} ${styles.active}` : styles.item}
+                  key={val.ggId}
+                  onClick={() => this.getMatchOdds(val.ggId)}
+                >
+                  <span className={styles.left}>
+                    {val.ggName}
+                  </span>
+                  <span className={styles.right}>
+                    {val.matchCount}
+                  </span>
+                </li>
               ))
             }
           </ul>
@@ -121,10 +137,18 @@ class MenuColumn extends PureComponent {
           <ul className={styles['dish-list']}>
             {
               todayDish.map((val) => (
-                <li className={pageId === ('t' + val.ggId) ? `${styles.item} ${styles.active}` : styles.item}
-                    key={val.ggId} onClick={() => this.getMatchOdds('t' + val.ggId)}>
-                  <span className={styles.left}>{val.ggName}</span>
-                  <span className={styles.right}>{val.matchCount}</span></li>
+                <li
+                  className={pageId === ('t' + val.ggId) ? `${styles.item} ${styles.active}` : styles.item}
+                  key={val.ggId}
+                  onClick={() => this.getMatchOdds('t' + val.ggId)}
+                >
+                  <span className={styles.left}>
+                    {val.ggName}
+                  </span>
+                  <span className={styles.right}>
+                    {val.matchCount}
+                  </span>
+                </li>
               ))
             }
           </ul>
@@ -151,21 +175,39 @@ class MenuColumn extends PureComponent {
           </div>
         </div>
         <ul className={styles['inPlay-list']}>
-              <li className={pageId === 'inPlay' ? `${styles.item} ${styles.active}`: styles.item}  key='inPlay'
-                  onClick={() => this.getInPlayMatchOdds('inPlay')}>
-                <span className={styles.left}>足球</span>
-              </li>
-          </ul>
-
+           <li
+             className={pageId === 'inPlay' ? `${styles.item} ${styles.active}`: styles.item}
+             key='inPlay'
+             onClick={() => this.getInPlayMatchOdds('inPlay')}
+           >
+             <span className={styles.left}>
+               足球
+             </span>
+          </li>
+        </ul>
         <div className={styles['gg-box']}>
           <div className={styles.left}>菜单</div>
         </div>
             <div>
               <div className={styles['gg-tab']}>
-                <div className={ GGMenu === 'asian' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('asian')}>早盘</div>
-                <div className={ GGMenu === 'today' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('today')}>今日</div>
-                <div className={ GGMenu === 'mixed' ? `${styles.item} ${styles.active}`: styles.item} onClick={() => this.toggleGGMenu('mixed')}>混合过关</div>
-
+                <div
+                  className={ GGMenu === 'asian' ? `${styles.item} ${styles.active}`: styles.item}
+                  onClick={() => this.toggleGGMenu('asian')}
+                >
+                  早盘
+                </div>
+                <div
+                  className={ GGMenu === 'today' ? `${styles.item} ${styles.active}`: styles.item}
+                  onClick={() => this.toggleGGMenu('today')}
+                >
+                  今日
+                </div>
+                <div
+                  className={ GGMenu === 'mixed' ? `${styles.item} ${styles.active}`: styles.item}
+                  onClick={() => this.toggleGGMenu('mixed')}
+                >
+                  混合过关
+                </div>
               </div>
               { this.renderGGMenu() }
             </div>

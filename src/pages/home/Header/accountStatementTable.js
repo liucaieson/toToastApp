@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
   Icon,
 } from 'antd';
-import ETable from '../../../components/Etable';
+import ETable from '@/components/Etable';
 import styles from './header2.scss'
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
@@ -13,14 +13,6 @@ const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
   loading: loading.models.accountStatement,
 }))
 class AccountStatementTable extends Component {
-  state = {
-    pagination: {
-      total: 0,
-      page: 1,
-      PageSize: 10,
-    },
-  };
-
   columns = [
     {
       title: '日期',
@@ -49,8 +41,8 @@ class AccountStatementTable extends Component {
     dispatch({
       type: 'accountStatement/fetch',
       payload: {
-        page:1,
-        size:10,
+        page: 1,
+        size: 10,
         sport: '1'
       }
     });

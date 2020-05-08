@@ -3,7 +3,7 @@ import { Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import DishItem from './dishIem';
-import { calcDateToMonthAndDay } from '../../../../../utils/util';
+import { calcDateToMonthAndDay } from '@/utils/util';
 import ModalLayout from '../ModalLayout/modalLayout'
 
 @connect(({ chsDB, matchAllOdds, betShopCart, loading }) => ({

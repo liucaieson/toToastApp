@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import CommandMatch from './CommandMatch/index';
+import CommandMatch from './CommandMatch';
 import PointSpread from './AsianDish/PointSpread/PointSpread';
 import TotalOver from './AsianDish/TotalOver/TotalOver';
 import TotalResult from './AsianDish/TotalResult/TotalResult';
@@ -18,8 +18,6 @@ import TodayDoubleResult from './TodayDish/DoubleResult';
 import TodayFirstGoal from './TodayDish/FirstGoal';
 import TodayMixed from './TodayDish/Mixed';
 import InPlayMatch from './InplayMatch';
-/*import MatchDetail from './Detail/asianDetail';
-import MixedMatchDetail from './Detail/asianMixedDetail';*/
 import InPlayFav from './InplayMatch/favorite';
 import styles from './index.scss';
 

@@ -1,13 +1,9 @@
-import React, { PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './header2.scss'
 import { Pagination } from 'antd';
-import Loading from '../../../components/MbPageLoading';
+import Loading from '@/components/MbPageLoading';
 
-@connect(({ announcement, loading }) => ({
-  announcement,
-  loading: loading.models.announcement,
-}))
 @connect(({ announcement, loading }) => ({
   announcement,
   loading: loading.models.announcement,
@@ -18,9 +14,9 @@ class AnnouncementContent extends PureComponent {
     dispatch({
       type: 'announcement/fetch',
       payload: {
-        sport:'1',
-        page:1,
-        size:5
+        sport: '1',
+        page: 1,
+        size: 5
       }
     });
   }
@@ -32,13 +28,13 @@ class AnnouncementContent extends PureComponent {
       payload: {
         page,
         size: 5,
-        sport:'1'
+        sport: '1'
       }
     });
   };
 
   render() {
-    const { announcement: {data :{ data, count, current}}, loading } = this.props;
+    const { announcement: { data: { data, count, current } }, loading } = this.props;
     return (
       <div className={styles.announcement}>
         {
@@ -51,7 +47,12 @@ class AnnouncementContent extends PureComponent {
             ))
         }
         <div className={styles['pagination-box']}>
-          <Pagination total={count} current={current} pageSize={5} onChange={this.handleTableChange} />
+          <Pagination
+            total={count}
+            current={current}
+            pageSize={5}
+            onChange={this.handleTableChange}
+          />
         </div>
       </div>
     );

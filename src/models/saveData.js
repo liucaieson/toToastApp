@@ -1,16 +1,16 @@
-/* 集中保存比赛数据，盘口数据，和竟猜项数据 */
+// 集中保存比赛数据，盘口数据，和竟猜项数据
 export default {
   namespace: 'saveData',
 
   state: {},
 
   effects: {
-    *saveData({payload, callback}, { call, put, select }) {
-      let chsListObj = {};
-      if(Array.isArray(payload)) {
+    *saveData({ payload, callback }, { put, select }) {
+      const chsListObj = {};
+      if (Array.isArray(payload)) {
         payload.forEach(item => {
-          item.odds.forEach( val => {
-            val.chs.forEach( v => {
+          item.odds.forEach(val => {
+            val.chs.forEach(v => {
               chsListObj[v.choiceId] = v;
             })
           })
@@ -18,7 +18,7 @@ export default {
       }
 
       /* 储存以choiceId为key的盘口竟猜项数据 */
-      const chsDB = yield select( state => state.chsDB.chsDB);
+      const chsDB = yield select(state => state.chsDB.chsDB);
 
       const newChsDB = {
         ...chsDB,
@@ -29,7 +29,7 @@ export default {
         type: 'chsDB/saveChsData',
         payload: newChsDB,
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

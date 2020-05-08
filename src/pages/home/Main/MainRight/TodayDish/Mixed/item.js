@@ -1,12 +1,11 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal } from 'antd';
+import React, { PureComponent } from 'react';
+import { Row, Col, Modal } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { calcDateToMonthAndDay, dishNameMap } from '../../../../../../utils/util';
+import { calcDateToMonthAndDay } from '@/utils/util';
 import DishItem from './dishIem'
-import PageLoading from '../../../../../../components/MbPageLoading';
-import MixModalLayout from '../../DishLayout/mixedModalLayout/index'
-import Accordion from '../../../../../../components/Accordion';
+import MixModalLayout from '../../DishLayout/mixedModalLayout'
+import Accordion from '@/components/Accordion';
 
 @connect(({ chsDB, matchAllOdds, betShopCart, loading }) => ({
   chsDB,
@@ -16,10 +15,10 @@ import Accordion from '../../../../../../components/Accordion';
   addLoading:loading.effects['betShopCart/addMixedShopCart']
 }))
 class DoubleResultItem extends PureComponent {
+
   state = {
     isShow:false
   };
-
 
   /* 请求比赛所有玩法的赔率赔率，参数比赛id */
   fetchMatchAllOdds = (matchId) => {

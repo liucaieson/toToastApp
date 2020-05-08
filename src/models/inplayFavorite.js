@@ -1,4 +1,5 @@
-import {getFavorite } from '@/services/api';
+// 滚球中最喜欢的比赛
+import { getFavorite } from '@/services/api';
 
 export default {
   namespace: 'inPlayFavorite',
@@ -11,14 +12,14 @@ export default {
   },
 
   effects: {
-    *fetchFavorite({payload, callback}, { call, put, select }) {
-      let data = yield call(getFavorite, payload);
-      const matchIds=[];
+    *fetchFavorite({ payload, callback }, { call, put }) {
+      const data = yield call(getFavorite, payload);
+      const matchIds = [];
       const matchObj = {};
       data.forEach((item) => {
-        if(matchIds.includes(item.cptId)){
+        if (matchIds.includes(item.cptId)) {
           matchObj[item.matchId].push(item)
-        }else{
+        } else {
           matchIds.push(item.matchId);
           matchObj[item.matchId] = [];
           matchObj[item.matchId].push(item)
@@ -35,13 +36,13 @@ export default {
           matchObj
         },
       });
-      if(callback) callback()
+      if (callback) callback()
     },
-    *addFav({payload, callback}, { call, put, select }) {
-      let matchIds = yield select( state => state.inPlayFavorite.favMatchIds);
-      let matchObj = yield select( state => state.inPlayFavorite.favMatchObj);
+    *addFav({ payload, callback }, { call, put, select }) {
+      const matchIds = yield select(state => state.inPlayFavorite.favMatchIds);
+      const matchObj = yield select(state => state.inPlayFavorite.favMatchObj);
       matchIds.push(payload.matchId);
-      matchObj[payload.matchId]  = payload.matchData;
+      matchObj[payload.matchId] = payload.matchData;
 
       yield put({
         type: 'save',
@@ -50,11 +51,11 @@ export default {
           matchObj
         },
       });
-      if(callback) callback()
+      if (callback) callback()
     },
-    *removeFav({payload, callback}, { call, put, select }) {
-      let matchIds = yield select( state => state.inPlayFavorite.favMatchIds);
-      let matchObj = yield select( state => state.inPlayFavorite.favMatchObj);
+    *removeFav({ payload, callback }, { call, put, select }) {
+      const matchIds = yield select(state => state.inPlayFavorite.favMatchIds);
+      const matchObj = yield select(state => state.inPlayFavorite.favMatchObj);
       const index = matchIds.indexOf(payload.matchId);
       if (index > -1) {
         delete matchObj[payload.matchId];
@@ -67,7 +68,7 @@ export default {
           matchObj
         },
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

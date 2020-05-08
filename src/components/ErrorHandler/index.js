@@ -20,7 +20,7 @@ export default function withErrorHandler (Component) {
       // Report errors
       notification.open({
         message: info,
-        description:error
+        description: error
       })
     }
 
@@ -41,6 +41,6 @@ export default function withErrorHandler (Component) {
     }
   }
 
-  WithErrorHandler.displayName = `withErrorHandler(${Component.displayName || Component.name || "Component"})`
+  WithErrorHandler.displayName = `withErrorHandler(${Component.displayName || Component.name || 'Component'})`
   return WithErrorHandler
 }

@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import styles from './index.scss';
-import MixedDishLayout from '../../DishLayout/mixedDishLayout/index'
+import MixedDishLayout from '../../DishLayout/mixedDishLayout'
 
 class MixedDishItem extends PureComponent {
 

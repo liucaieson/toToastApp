@@ -3,8 +3,7 @@ import {  Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout';
-import PaginationBox from '../../../../../../components/PaginationBox';
-import Accordion from '../../../../../../components/Accordion';
+import Accordion from '@/components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 
 @connect(({ asianGG, chsDB}) => ({
@@ -21,13 +20,17 @@ class CorrectScore extends PureComponent {
       chsDB: { chsDB },
     } = this.props;
     return (
-
       <AsianWrapper
         gg='5'
         title='波胆'
       >
         <Row className={styles.table}>
-          <Col className={styles['big-tb']} span={24}>赛事</Col>
+          <Col
+            className={styles['big-tb']}
+            span={24}
+          >
+            赛事
+          </Col>
         </Row>
         <div>
           {
@@ -76,11 +79,9 @@ class CorrectScore extends PureComponent {
                           </Row>
                         ))
                       )
-
                     }
                   </div>
                 </Accordion>
-
               </div>
             ))
           }

@@ -1,5 +1,5 @@
-import React, { PureComponent, Fragment } from 'react';
-import DishLayout from '../../DishLayout/betDishLayout/index';
+import React, { PureComponent } from 'react';
+import DishLayout from '../../DishLayout/betDishLayout';
 import styles from './index.scss';
 
 class DoubleResultDishItem extends PureComponent {

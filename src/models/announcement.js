@@ -5,17 +5,17 @@ export default {
   namespace: 'announcement',
 
   state: {
-    data:[]
+    data: []
   },
 
   effects: {
-    *fetch({payload, callback}, { call, put, select }) {
-      let data = yield call(getMessage, payload);
+    *fetch({ payload, callback }, { call, put }) {
+      const data = yield call(getMessage, payload);
       yield put({
         type: 'save',
         payload: data,
       });
-      if(callback) callback(data)
+      if (callback) callback(data)
     }
   },
 

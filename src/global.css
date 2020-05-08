@@ -315,11 +315,7 @@ td{
 /*覆盖antd表格pagination样式*/
 .ant-table-pagination.ant-pagination{
   margin: 10px auto!important;
-  float: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  float: none!important;
 }
 /*.ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
   display: block;

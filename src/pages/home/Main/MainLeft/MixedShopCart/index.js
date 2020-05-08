@@ -1,99 +1,103 @@
-import React, { PureComponent,Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
-import { Icon, Modal, Checkbox, Input } from 'antd';
+import { Icon, Modal, Input } from 'antd';
 import BetItem from './betItem'
 import styles from './index.scss';
-import { groupSplit } from '@/utils/util';
-import { dishNameMap } from '../../../../../utils/util';
+import { groupSplit, dishNameMap } from '@/utils/util';
 
 
 const betTypeArr = [
   [
-    {length:1, betType:1, }
+    { length: 1, betType: 1, }
   ],
   [
-    {name: '单注',betType: 1,length:2},
-    {name: '2串1',betType: 2,length:1},
+    { name: '单注', betType: 1, length: 2 },
+    { name: '2串1', betType: 2, length: 1 },
   ],
   [
-    {name: '单注',betType: 1,length:3},
-    {name: '2串1',betType: 2,length:3},
-    {name: '3串1',betType: 3,length:1},
+    { name: '单注', betType: 1, length: 3 },
+    { name: '2串1', betType: 2, length: 3 },
+    { name: '3串1', betType: 3, length: 1 },
   ],
   [
-    {name: '单注',betType: 1,length:4},
-    {name: '2串1',betType: 2,length:6},
-    {name: '3串1',betType: 3,length:4},
-    {name: '4串1',betType: 4,length:1},
+    { name: '单注', betType: 1, length: 4 },
+    { name: '2串1', betType: 2, length: 6 },
+    { name: '3串1', betType: 3, length: 4 },
+    { name: '4串1', betType: 4, length: 1 },
   ],
   [
-    {name: '单注',betType: 1,length:5},
-    {name: '2串1',betType: 2,length:10},
-    {name: '3串1',betType: 3,length:10},
-    {name: '4串1',betType: 4,length:5},
-    {name: '5串1',betType: 5,length:1},
+    { name: '单注', betType: 1, length: 5 },
+    { name: '2串1', betType: 2, length: 10 },
+    { name: '3串1', betType: 3, length: 10 },
+    { name: '4串1', betType: 4, length: 5 },
+    { name: '5串1', betType: 5, length: 1 },
   ],
   [
-    {name: '单注',betType: 1,length:6},
-    {name: '2串1',betType: 2,length:15},
-    {name: '3串1',betType: 3,length:20},
-    {name: '4串1',betType: 4,length:15},
-    {name: '5串1',betType: 5,length:5},
-    {name: '6串1',betType: 6,length:1},
+    { name: '单注', betType: 1, length: 6 },
+    { name: '2串1', betType: 2, length: 15 },
+    { name: '3串1', betType: 3, length: 20 },
+    { name: '4串1', betType: 4, length: 15 },
+    { name: '5串1', betType: 5, length: 5 },
+    { name: '6串1', betType: 6, length: 1 },
   ],
 
 ];
 
-@connect(({ betShopCart, userInfo,chsDB, loading}) => ({
+@connect(({ betShopCart, userInfo, chsDB, loading }) => ({
   betShopCart,
   userInfo,
   chsDB,
-  addLoading:loading.effects['betShopCart/addMixedShopCart'],
+  addLoading: loading.effects['betShopCart/addMixedShopCart'],
   postLoading: loading.effects['betShopCart/postMixedOrder'],
 }))
 class ShopCart extends PureComponent {
-  logTotalBetAmount = 0;
   state = {
-    showSelectOption:false,
-    amount1:0,
-    amount2:0,
-    amount3:0,
-    amount4:0,
-    amount5:0,
-    amount6:0,
+    showSelectOption: false,
+    amount1: 0,
+    amount2: 0,
+    amount3: 0,
+    amount4: 0,
+    amount5: 0,
+    amount6: 0,
     slideIn: false,
-    mixedType:[],
+    mixedType: [],
     modal: false,
     result: []
   };
 
-  submitBets  = () => {
-    const { dispatch, betShopCart: {mixedShopCart}, chsDB:{chsDB},  userInfo: {balance} } = this.props;
-    const { amount1, amount2, amount3, amount4, amount5, amount6} = this.state;
-    let params = [];
-    let dishParams = [];
-    let dishRate = [];
-    let amountTotal = amount1 + amount2 + amount3 + amount4 + amount5 + amount6;
+  submitBets = () => {
+    const { dispatch, betShopCart: { mixedShopCart }, chsDB: { chsDB }, userInfo: { balance } } = this.props;
+    const { amount1, amount2, amount3, amount4, amount5, amount6 } = this.state;
+    const params = [];
+    const dishParams = [];
+    const dishRate = [];
+    const amountTotal = amount1 + amount2 + amount3 + amount4 + amount5 + amount6;
 
-    if(amountTotal >= balance.balance){
+    if (amountTotal >= balance.balance) {
       Modal.info({
-        title:'提示',
-        content:'余额不足'
+        title: '提示',
+        content: '余额不足'
       });
-      return false;
+      return
     }
     /* 注意mix事宜比赛ID为key的 */
-    if(amount1  >= 1 || amount2  >= 1 || amount3  >= 1 || amount4  >= 1 || amount5  >= 1 && amount6  >= 1 ){
+    if (
+      amount1 >= 1 ||
+      amount2 >= 1 ||
+      amount3 >= 1 ||
+      amount4 >= 1 ||
+      amount5 >= 1 ||
+      amount6 >= 1
+    ) {
       mixedShopCart.ids.map((item) => {
         dishParams.push(chsDB[mixedShopCart.list[item].choiceId].dishId)
         dishRate.push(chsDB[mixedShopCart.list[item].choiceId].dish)
       });
-      betTypeArr[mixedShopCart.ids.length - 1].map((item) => {
-        if(this.state['amount'+ item.betType] >= 1){
-          if(item.betType === 1){
-            let dishValue=[];
-            for (let i = 0; i < mixedShopCart.ids.length ; i++) {
+      betTypeArr[mixedShopCart.ids.length - 1].forEach((item) => {
+        if (this.state[`amount${item.betType}`] >= 1) {
+          if (item.betType === 1) {
+            const dishValue = [];
+            for (let i = 0; i < mixedShopCart.ids.length; i += 1) {
               dishValue.push(this.state.amount1)
             }
             params.push({
@@ -102,10 +106,10 @@ class ShopCart extends PureComponent {
               dishId: dishParams.join(','),
               dishRate: dishRate.join(',')
             })
-          }else {
+          } else {
             params.push({
               betType: item.betType,
-              dishValue: this.state['amount' + item.betType],
+              dishValue: this.state[`amount${item.betType}`],
               dishId: dishParams.join(','),
               dishRate: dishRate.join(',')
 
@@ -113,14 +117,14 @@ class ShopCart extends PureComponent {
           }
         }
       });
-    }else{
+    } else {
       Modal.info({
-        title:'提示',
-        content:'至少要投一注'});
-      return false;
+        title: '提示',
+        content: '至少要投一注' });
+      return
     }
     const param = {
-      sport: "1",
+      sport: '1',
       result: params
     };
     dispatch({
@@ -143,73 +147,21 @@ class ShopCart extends PureComponent {
 
   setAmount = (e, betType) => {
     let { value } = e.target;
-    if(value.match(/[^\d]/g)){
-      return false
+    if (value.match(/[^\d]/g)) {
+      return
     }
     value = +value;
-    if(value > 999999){
-      return false
+    if (value > 999999) {
+      return
     }
     this.setState({
-      [`amount${betType}`]:value
+      [`amount${betType}`]: value
     });
   };
 
-
-  renderInput(betType){
-    if(betType === 1){
-      return (
-        <Input className={styles.input}
-               value={this.state.amount1}
-               onChange={e => this.setAmount(e, 1)}
-        />
-      )
-    }
-    if(betType === 2){
-      return (
-        <Input className={styles.input}
-               value={this.state.amount2}
-               onChange={e => this.setAmount(e, 2)}
-        />
-      )
-    }
-    if(betType === 3){
-      return (
-        <Input className={styles.input}
-               value={this.state.amount3}
-               onChange={e => this.setAmount(e, 3)}
-        />
-      )
-    }
-    if(betType === 4){
-      return (
-        <Input className={styles.input}
-               value={this.state.amount4}
-               onChange={e => this.setAmount(e, 4)}
-        />
-      )
-    }
-    if(betType === 5){
-      return (
-        <Input className={styles.input}
-               value={this.state.amount5}
-               onChange={e => this.setAmount(e, 5)}
-        />
-      )
-    }
-    if(betType === 6){
-      return (
-        <Input className={styles.input}
-               value={this.state.amount6}
-               onChange={e => this.setAmount(e, 6)}
-        />
-      )
-    }
-  }
-
   delItem = () => {
-   const {betShopCart: { mixedShopCart }} = this.props;
-   const length =  mixedShopCart.ids.length;
+   const { betShopCart: { mixedShopCart } } = this.props;
+   const { length } = mixedShopCart.ids;
     this.setState({
       [`amount${length}`]: 0
     });
@@ -221,55 +173,124 @@ class ShopCart extends PureComponent {
     })
   };
 
+  renderInput(betType) {
+    if (betType === 1) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount1}
+          onChange={e => this.setAmount(e, 1)}
+        />
+      )
+    }
+    if (betType === 2) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount2}
+          onChange={e => this.setAmount(e, 2)}
+        />
+      )
+    }
+    if (betType === 3) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount3}
+          onChange={e => this.setAmount(e, 3)}
+        />
+      )
+    }
+    if (betType === 4) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount4}
+          onChange={e => this.setAmount(e, 4)}
+        />
+      )
+    }
+    if (betType === 5) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount5}
+          onChange={e => this.setAmount(e, 5)}
+        />
+      )
+    }
+    if (betType === 6) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount6}
+          onChange={e => this.setAmount(e, 6)}
+        />
+      )
+    }
+    return ''
+  }
+
   render() {
-    const  {betShopCart: { mixedShopCart },chsDB:{ chsDB }, addLoading,postLoading} = this.props;
+    const {
+      betShopCart: { mixedShopCart },
+      chsDB: { chsDB },
+      addLoading,
+      postLoading
+    } = this.props;
     const { modal, result } = this.state;
     let minProfit = 0;
     let maxProfit = 0;
-    let totalAmount  = 0;
-    let dishArr = [];
-    const { mixedType ,showSelectOption, amount1,amount2,amount3,amount4,amount5,amount6 }= this.state;
+    let totalAmount = 0;
+    const dishArr = [];
     /* 组合讲各种玩法组合，和对象的金额相乘加入dishArr数组中 */
-    if(mixedShopCart.ids.length -1 >= 0){
-      betTypeArr[mixedShopCart.ids.length - 1].map((val) => {
-        let r = groupSplit(mixedShopCart.ids, val.betType);
-        for (let i = 0; i <r.length ; i++) {
+    if (mixedShopCart.ids.length - 1 >= 0) {
+      betTypeArr[mixedShopCart.ids.length - 1].forEach((val) => {
+        const r = groupSplit(mixedShopCart.ids, val.betType);
+        for (let i = 0; i < r.length; i += 1) {
           let c1 = 1;
           let c2 = 0;
-          for (let j = 0; j <r[i].length ; j++) {
+          for (let j = 0; j < r[i].length; j += 1) {
             c1 *= chsDB[mixedShopCart.list[r[i][j]].choiceId].dish
           }
-          c2 = c1 * this.state['amount' + val.betType];
-          if(c2 !==0){
+          c2 = c1 * this.state[`amount${val.betType}`];
+          if (c2 !== 0) {
             dishArr.push(c2)
           }
         }
       });
 
-      if(dishArr.length !== 0){
+      if (dishArr.length !== 0) {
         minProfit = Math.min.apply(null, dishArr);
         maxProfit = dishArr.reduce((prev, cur) => {
           return prev + cur
         });
       }
-      betTypeArr[mixedShopCart.ids.length - 1].map((item)=> {
-        totalAmount += item.length * this.state['amount'+ item.betType]
+      betTypeArr[mixedShopCart.ids.length - 1].forEach((item) => {
+        totalAmount += item.length * this.state[`amount${item.betType}`]
       });
     }
 
     return (
      <div className={styles.box}>
        {
-         postLoading ? <div className={styles['box-mask']}>
-           <Icon type='loading' className={styles.loading}/>
-         </div>: ''
+         postLoading ?
+           <div className={styles['box-mask']}>
+             <Icon type="loading" className={styles.loading}/>
+           </div>
+           : null
        }
        <div className={styles['bet-box']}>
          <ul className={styles['bet-list']}>
            {
              mixedShopCart.ids.length > 0 ?
-               mixedShopCart.ids.map( (val,index) => (
-                 <BetItem data={mixedShopCart.list[val]} index={index} key={val} delItem={this.delItem}/>
+               mixedShopCart.ids.map((val, index) => (
+                 <BetItem
+                   data={mixedShopCart.list[val]}
+                   index={index}
+                   key={val}
+                   delItem={this.delItem}
+                 />
                ))
                :
                (<div className={styles['bet-none']}>暂无投注</div>)
@@ -277,8 +298,8 @@ class ShopCart extends PureComponent {
            {
              addLoading ?
              <div className={styles.mask}>
-               <Icon type='loading' className={styles.loading} />
-             </div> : ''
+               <Icon type="loading" className={styles.loading} />
+             </div> : null
            }
          </ul>
        </div>
@@ -286,14 +307,28 @@ class ShopCart extends PureComponent {
           <div className={styles['mixed-total']}>
             <div className={styles.type}>
               <div className={styles.title}>
-                <div className={styles.left}>投注类型</div>
-                <div className={styles.right}>单位本金</div>
+                <div className={styles.left}>
+                  投注类型
+                </div>
+                <div className={styles.right}>
+                  单位本金
+                </div>
               </div>{
               mixedShopCart.ids.length >= 2 ?
-                  betTypeArr[mixedShopCart.ids.length - 1].map((val,index) => (
-                    <div className={styles.row} key={val.betType}>
-                      <div className={styles.name}>{val.name}</div>
-                      <div className={styles.length}>{val.length}<span className={styles.x}>X</span></div>
+                  betTypeArr[mixedShopCart.ids.length - 1].map((val) => (
+                    <div
+                      className={styles.row}
+                      key={val.betType}
+                    >
+                      <div className={styles.name}>
+                        {val.name}
+                      </div>
+                      <div className={styles.length}>
+                        {val.length}
+                        <span className={styles.x}>
+                          X
+                        </span>
+                      </div>
                       {this.renderInput(val.betType)}
                     </div>
                   ))
@@ -310,17 +345,24 @@ class ShopCart extends PureComponent {
                  {totalAmount}
                </div>
              </div>
-             <div className={styles.right}>预计收益:
-
-               <span className={styles.profit}>{minProfit.toFixed(2)}~{maxProfit.toFixed(2)}</span>
-               </div>
+             <div className={styles.right}>
+               预计收益:
+               <span className={styles.profit}>
+                 {minProfit.toFixed(2)}~{maxProfit.toFixed(2)}
+               </span>
+             </div>
            </div>
            <div className={styles.button}>
-             <button className={styles['button-submit']} onClick={this.submitBets}>
+             <button
+               className={styles['button-submit']}
+               onClick={this.submitBets}
+               type="button"
+             >
                确定投注
              </button>
              <div className={styles.warning}>
-               <Icon type="info-circle" />  系统将自动接收较佳收益率
+               <Icon type="info-circle" />
+               系统将自动接收较佳收益率
              </div>
            </div>
          </div>
@@ -355,7 +397,9 @@ class ShopCart extends PureComponent {
                      <div className={styles.text}>
                        {val.homeName}---{val.awayName}
                      </div>
-                     <div className={styles.flag}>成功</div>
+                     <div className={styles.flag}>
+                       成功
+                     </div>
                    </div>
                    <div className={styles['result-item-content']}>
                      <div className={styles['odds-name']}>
@@ -369,8 +413,11 @@ class ShopCart extends PureComponent {
                      </div>
                    </div>
                  </div>
-               ) :(
-                 <div className={styles['result-item']} key={val.choiceId}>
+               ) : (
+                 <div
+                   className={styles['result-item']}
+                   key={val.choiceId}
+                 >
                    <div className={styles['result-item-header']}>
                      <div className={styles.left}>
                        <div className={styles.title}>

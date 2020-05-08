@@ -1,26 +1,18 @@
-import React, { PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
 import MenuColumn from './menuColumn';
-import BetShopCart from './BetShopCart/index'
-import MixedShopCart from './MixedShopCart/index'
+import BetShopCart from './BetShopCart'
+import MixedShopCart from './MixedShopCart'
 import MyOrder from './myOrder'
 
-@connect(({  toggleMainLeftTabs}) => ({
+@connect(({ toggleMainLeftTabs }) => ({
   toggleMainLeftTabs
 }))
 class MainLeft extends PureComponent {
-  state = {
-
-  };
-
-  componentWillUnmount() {
-
-  }
-
   toggleTab = (id) => {
-    const {dispatch,toggleMainLeftTabs:{mainLfetId} } = this.props;
-    if( mainLfetId === id){
+    const { dispatch, toggleMainLeftTabs: { mainLeftId } } = this.props;
+    if (mainLeftId === id) {
       return false
     }
     dispatch({
@@ -29,30 +21,31 @@ class MainLeft extends PureComponent {
     });
   };
 
-  renderTab(){
+  renderTab() {
     const {
       toggleMainLeftTabs: { mainLeftId },
     } = this.props;
-    if(mainLeftId === 1){
+    if (mainLeftId === 1) {
       return (
         <MenuColumn />
       );
     }
-    if(mainLeftId === 2){
+    if (mainLeftId === 2) {
       return (
         <BetShopCart />
       );
     }
-    if(mainLeftId === 3){
+    if (mainLeftId === 3) {
       return (
         <MixedShopCart />
       );
     }
-    if(mainLeftId === 4){
+    if (mainLeftId === 4) {
       return (
         <MyOrder />
       );
     }
+    return ''
   }
 
 
@@ -63,14 +56,30 @@ class MainLeft extends PureComponent {
       return (
         <div className={styles['main-left-box']}>
           <div className={styles['tabs-header']}>
-            <div className={mainLeftId === 1 ? styles.active + ' ' + styles.tab : styles.tab}
-                 onClick={() => this.toggleTab(1)}>首页</div>
-            <div className={mainLeftId === 2 ? styles.active + ' ' + styles.tab : styles.tab}
-                 onClick={() => this.toggleTab(2)}>单注</div>
-            <div className={mainLeftId === 3 ? styles.active + ' ' + styles.tab : styles.tab}
-                 onClick={() => this.toggleTab(3)}>过关</div>
-            <div className={mainLeftId === 4 ? styles.active + ' ' + styles.tab : styles.tab}
-                 onClick={() => this.toggleTab(4)}>我的注单</div>
+            <div
+              className={mainLeftId === 1 ? `${styles.active} ${styles.tab}` : styles.tab}
+              onClick={() => this.toggleTab(1)}
+            >
+              首页
+            </div>
+            <div
+              className={mainLeftId === 2 ? `${styles.active} ${styles.tab}` : styles.tab}
+              onClick={() => this.toggleTab(2)}
+            >
+              单注
+            </div>
+            <div
+              className={mainLeftId === 3 ? `${styles.active} ${styles.tab}` : styles.tab}
+              onClick={() => this.toggleTab(3)}
+            >
+              过关
+            </div>
+            <div
+              className={mainLeftId === 4 ? `${styles.active} ${styles.tab}` : styles.tab}
+              onClick={() => this.toggleTab(4)}
+            >
+              我的注单
+            </div>
           </div>
           <div>
             {this.renderTab()}

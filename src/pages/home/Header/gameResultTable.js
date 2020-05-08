@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'dva';
 import moment from 'moment'
 import {
   Row,
@@ -9,27 +8,27 @@ import {
   Icon,
   Select
 } from 'antd';
-import ETable from '../../../components/Etable';
+import ETable from '@/components/Etable';
+import { connect } from 'dva';
 import styles from './header2.scss'
 
 const FormItem = Form.Item;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 const timeList = [{
-  name:'近7天',
+  name: '近7天',
   value: 'all'
 }];
 let date = '';
 
-for (let i = 0; i < 7; i++) {
+for (let i = 0; i < 7; i += 1) {
   date = moment().subtract(i, 'day').format('YYYY-MM-DD');
   timeList.push({
-    name:date,
+    name: date,
     value: date
   }
   )
 }
-
 
 @connect(({ gameResult, loading }) => ({
   gameResult,
@@ -37,17 +36,17 @@ for (let i = 0; i < 7; i++) {
 }))
 @Form.create()
 class GameResultTable extends Component {
-  state = {
-
-  };
-
   /* 储存联赛null代表全部  开始 */
   competitions = null;
+
   start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
+
   end = date = moment().format('YYYY-MM-DD');
+
   defaultParams={
     sport: '1'
   };
+
   columns = [
     {
       title: '联赛',
@@ -62,7 +61,7 @@ class GameResultTable extends Component {
       title: '主客队',
       dataIndex: 'type',
       width: 250,
-      render: (val,record) => (
+      render: (val, record) => (
         <div>
           <div>
             {record.hostName}
@@ -76,7 +75,7 @@ class GameResultTable extends Component {
     {
       title: '半场比分',
       dataIndex: 'amount',
-      render: (val,record) => (
+      render: (val, record) => (
         <div>
           <span>
             {record.hostHalf}:
@@ -90,7 +89,7 @@ class GameResultTable extends Component {
     {
       title: '最后比分',
       dataIndex: 'balance',
-      render: (val,record) => (
+      render: (val, record) => (
         <div>
           <span>
             {record.hostGoals}
@@ -116,13 +115,12 @@ class GameResultTable extends Component {
       type: 'gameResult/fetch',
       payload: {
         ...this.defaultParams,
-        page:1,
-        size:10,
-        start:this.start,
-        end:this.end
+        page: 1,
+        size: 10,
+        start: this.start,
+        end: this.end
       },
     });
-
   }
 
   handleStandardTableChange = page => {
@@ -131,40 +129,37 @@ class GameResultTable extends Component {
       ...this.defaultParams,
       size: page.pageSize,
       page: page.current,
-      start:this.start,
-      end:this.end,
+      start: this.start,
+      end: this.end,
       competitions: this.competitions,
     };
     dispatch({
       type: 'gameResult/fetch',
       payload: params,
-      callback: response => {
-        const { current, size } = response;
-
-      },
     });
   };
 
-  /*赛果赛事，全部联赛传null，默认查7天之内的*/
+  /* 赛果赛事，全部联赛传null，默认查7天之内的 */
   handleSearch = (e) => {
     e.preventDefault();
     const { dispatch, form } = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      let { competitions, time } = fieldsValue;
+      let { competitions } = fieldsValue;
+      const { time } = fieldsValue;
       /* 如果用户没有选择联赛，就给null代表全部，时间同理 */
-      if(competitions === undefined){
+      if (competitions === undefined) {
         competitions = null
-      }else{
+      } else {
         this.competitions = competitions
       }
-      if(time === 'all' ){
-        this.start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
-        this.end = date = moment().format('YYYY-MM-DD');
-      }else if(time === undefined) {
-        this.start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
-        this.end = date = moment().format('YYYY-MM-DD');
-      }else{
+      if (time === 'all') {
+        this.start = moment().subtract(7, 'day').format('YYYY-MM-DD');
+        this.end = moment().format('YYYY-MM-DD');
+      } else if (time === undefined) {
+        this.start = moment().subtract(7, 'day').format('YYYY-MM-DD');
+        this.end = moment().format('YYYY-MM-DD');
+      } else {
         this.start = time;
         this.end = time
       }
@@ -172,8 +167,8 @@ class GameResultTable extends Component {
         type: 'gameResult/fetch',
         payload: {
           ...this.defaultParams,
-          page:1,
-          size:10,
+          page: 1,
+          size: 10,
           competitions: this.competitions,
           start: this.start,
           end: this.end
@@ -185,7 +180,7 @@ class GameResultTable extends Component {
   renderSimpleForm() {
     const {
       form: { getFieldDecorator },
-      gameResult: {competitions}
+      gameResult: { competitions }
     } = this.props;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
@@ -196,13 +191,13 @@ class GameResultTable extends Component {
                 <Select
                   showSearch
                   className={styles['game-result-select']}
-                  placeholder='可搜索'
+                  placeholder="可搜索"
                   optionFilterProp="children"
                  /* filterOption={(input, option) =>
                     option.props.children.indexOf(input) >= 0
-                  }*/
+                  } */
                 >
-                  <Select.Option value={null} key='a'>
+                  <Select.Option value={null} key="a">
                     所有联赛
                   </Select.Option>
                   {
@@ -222,7 +217,7 @@ class GameResultTable extends Component {
           <Col md={12} sm={24}>
             <FormItem label="选择时间">
               {
-                getFieldDecorator('time',{
+                getFieldDecorator('time', {
                   initialValue: 'all'
                 })(
                   <Select

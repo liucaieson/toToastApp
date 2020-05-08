@@ -1,13 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col } from 'antd';
+import React, { PureComponent } from 'react';
+import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import CountDown from '../../../../../../components/CountDown/index';
-import CompetitionsModal from '../../competitonsModal/index';
-import moment from 'moment';
 import Item from './item';
-import PageLoading from '../../../../../../components/MbPageLoading';
-import PaginationBox from '../../../../../../components/PaginationBox';
 import TodayWrapper from '../TodayWarpper/wrapper2';
 
 

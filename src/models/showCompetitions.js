@@ -1,13 +1,13 @@
-/* 展示联赛modal是否显示 */
+// 控制展示联赛modal是否显示
 export default {
   namespace: 'showCompetitions',
 
   state: {
-    isShow : false
+    isShow: false
   },
 
   effects: {
-    *toggle({payload}, { call, put }) {
+    *toggle({ payload }, { put }) {
       yield put({
         type: 'save',
         payload,

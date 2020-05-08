@@ -1,25 +1,23 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import { Icon } from 'antd';
 import styles from './header2.scss';
 import AccountStatement from './accountStatement';
 import GameResult from './gameResult';
 import RuleDescription from './ruleDescription';
 import Announcement from './announcement';
 import HistoryBets from './historyBets';
-import { Icon } from 'antd';
 
 @connect(({ userInfo, loading }) => ({
   userInfo,
-  balanceLoading:loading.models.userInfo
+  balanceLoading: loading.models.userInfo
 }))
 class TopHeader extends PureComponent {
-
   state = {
     accountStatementVisible: false,
     ruleDescriptionVisible: false,
     gameResultVisible: false,
     announcementVisible: false,
-    balanceLoading: false,
     historyBetsVisible: false,
   };
 
@@ -104,9 +102,9 @@ class TopHeader extends PureComponent {
       historyBetsVisible,
     } = this.state;
 
-    const {balanceLoading} = this.props;
+    const { balanceLoading } = this.props;
 
-    const { userInfo: { userName, balance }} = this.props;
+    const { userInfo: { userName, balance } } = this.props;
     return (
       <header className={styles.header}>
         <div className={styles['user-box']}>

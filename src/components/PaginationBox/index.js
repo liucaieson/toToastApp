@@ -4,7 +4,6 @@ import { Pagination } from 'antd';
 import styles from './index.scss';
 
 class CommandMatch extends PureComponent {
-
   fn = (page) => {
     const { onChange } = this.props;
     onChange(page)

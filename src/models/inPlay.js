@@ -1,4 +1,5 @@
-import {getInPLay } from '@/services/api';
+// 滚球的数据
+import { getInPLay } from '@/services/api';
 
 export default {
   namespace: 'inPlay',
@@ -10,14 +11,14 @@ export default {
   },
 
   effects: {
-    *fetchMatchOdds({payload, callback}, { call, put, select }) {
-      let data = yield call(getInPLay, payload);
-      const cptIds=[];
+    *fetchMatchOdds({ payload, callback }, { call, put }) {
+      const data = yield call(getInPLay, payload);
+      const cptIds = [];
       const matchListObj = {};
       data.forEach((item) => {
-        if(cptIds.includes(item.cptId)){
+        if (cptIds.includes(item.cptId)) {
           matchListObj[item.cptId].push(item)
-        }else{
+        } else {
           cptIds.push(item.cptId);
           matchListObj[item.cptId] = [];
           matchListObj[item.cptId].push(item)
@@ -35,10 +36,10 @@ export default {
           matchListObj
         },
       });
-      if(callback) callback()
+      if (callback) callback()
     },
-    *fetchMatchAllOdds({payload, callback}, { call, put, select }) {
-      let data = yield call(getInPLay, payload);
+    *fetchMatchAllOdds({ payload, callback }, { call, put, select }) {
+      const data = yield call(getInPLay, payload);
       yield put({
         type: 'saveData/saveData',
         payload: data,
@@ -47,7 +48,7 @@ export default {
         type: 'saveAllOdds',
         payload: data,
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

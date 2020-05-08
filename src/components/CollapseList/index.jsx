@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './index.scss';
-import { Icon } from 'antd-mobile';
 
-export default class Accordion extends Component {
-
+class Accordion extends React.PureComponent {
   state = {
     isShow: true,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     const { defaultShow } = this.props;
-    if(defaultShow){
+    if (defaultShow) {
       this.setState({
         isShow: defaultShow
       })
@@ -26,7 +24,7 @@ export default class Accordion extends Component {
 
   render() {
     const { isShow } = this.state;
-    const { titleStyle} = this.props;
+    const { titleStyle } = this.props;
 
     return (
       <div>
@@ -41,4 +39,4 @@ export default class Accordion extends Component {
   }
 }
 
-
+export default Accordion;

@@ -1,8 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Row, Col, Icon } from 'antd';
+import React, { PureComponent } from 'react';
+import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import IndexDishItem from './indexDishItem';
 import MatchItem from './matchItem';
 
 @connect(({ inPlay, betShopCart, loading }) => ({

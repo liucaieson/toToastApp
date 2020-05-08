@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './wrapper1.scss';
-import CountDown from '../../../../../../components/CountDown/index';
-import CompetitionsModal from '../../competitonsModal/index';
-import PaginationBox from '../../../../../../components/PaginationBox';
-import PageLoading from '../../../../../../components/MbPageLoading';
+import CountDown from '@/components/CountDown';
+import CompetitionsModal from '../../competitonsModal';
+import PaginationBox from '@/components/PaginationBox';
+import PageLoading from '@/components/MbPageLoading';
 
 @connect(({ asianGG6And7, dates, chsDB, showCompetitions,  loading }) => ({
   asianGG6And7,
@@ -17,16 +17,19 @@ import PageLoading from '../../../../../../components/MbPageLoading';
 }))
 class Main extends PureComponent {
 
+  /**
+   * @type {{refreshLoading: boolean, isActiveDate: string, firstLoading: boolean}}
+   * refreshLoading 点击刷新按钮的loading
+   * isActiveDate 选择的日期
+   * firstLoading 页面刚进入的loading
+   */
   state = {
     refreshLoading: false,
     isActiveDate: '',
     firstLoading: true,
-    page:1,
-    isShow: false,
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {
@@ -222,8 +225,17 @@ class Main extends PureComponent {
           <div className={styles.name}>{title}</div>
           <div className={styles.refresh}>
             {
-              refreshLoading ? <Icon className={styles.icon} type="loading"/>
-                : <Icon className={styles.icon} onClick={this.refreshMatchOdds} type="sync"/>
+              refreshLoading ?
+                <Icon
+                  className={styles.icon}
+                  type="loading"
+                />
+                :
+                <Icon
+                  className={styles.icon}
+                  onClick={this.refreshMatchOdds}
+                  type="sync"
+                />
             }
             <span className={styles.time}>
               <CountDown
@@ -232,8 +244,18 @@ class Main extends PureComponent {
                 onEnd={this.setTimeFetchMatchList}/>
               s</span>
           </div>
-          <div className={styles['competitions-select']} onClick={this.showCompetitionsModal}>选择联赛</div>
-          <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
+          <div
+            className={styles['competitions-select']}
+            onClick={this.showCompetitionsModal}
+          >
+            选择联赛
+          </div>
+          <div
+            className={styles.mixed}
+            onClick={this.turnToAsianMixed}
+          >
+            混合过关
+          </div>
         </div>
         <div className={styles.main}>
           <Row className={styles['date-select']}>
@@ -262,16 +284,27 @@ class Main extends PureComponent {
                   firstLoading ? <PageLoading/> :
                     <div className={styles.container}  id='matchContainer'>
                       {this.props.children[1]}
-                      <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                      <PaginationBox
+                        total={count}
+                        current={current}
+                        pageSize={40}
+                        onChange={this.nextPage}
+                      />
                     </div>
                 }
               </div>
-              <div className={styles['to-top']} onClick={this.gotoTop}/>
+              <div
+                className={styles['to-top']}
+                onClick={this.gotoTop}
+              />
             </div>
           }
 
         </div>
-        <CompetitionsModal params={{...this.defaultParams, gg}} fn={this.fetchMatchOddsWithCompetitions}/>
+        <CompetitionsModal
+          params={{...this.defaultParams, gg}}
+          fn={this.fetchMatchOddsWithCompetitions}
+        />
       </div>
 
     );

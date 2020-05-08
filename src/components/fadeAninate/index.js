@@ -7,39 +7,44 @@
 
 import React, { PureComponent } from 'react';
 
-import { TransitionGroup, CSSTransition,Transition } from "react-transition-group";
+import { Transition } from 'react-transition-group';
 
 
-class Fade extends    PureComponent {
-
+class Fade extends PureComponent {
   done =() => {
 
   };
-  addaddEndListener = (node) => { //原生时间transition运动的事件
+
+  addaddEndListener = (node) => { // 原生时间transition运动的事件
     node.addEventListener('transitionend', this.done, false);
   };
 
   // 三个进入状态的事件，可以做你想做的事情
-  onEnter = (node, isAppearing) => {
+  onEnter = () => {
 
   };
-  onEntering = (node, isAppearing) => {
+
+  onEntering = () => {
 
   };
-  onEntered = (node, isAppearing) => {
+
+  onEntered = () => {
 
   };
 
   // 三个退出的状态的事件
-  onExit = (node) => {
+  onExit = () => {
 
   };
+
   onExiting = () => {
 
   };
+
   onExited = () => {
     this.props.self()
   };
+
   render() {
     const { in: inProp, } = this.props;
     const defaultStyle = {
@@ -49,10 +54,10 @@ class Fade extends    PureComponent {
     };
 
     const transitionStyles = {
-      entering: { transform: 'translateY(10px)', opacity: '0'},
-      entered:  { transform: 'translateY(0px)', opacity: '1' },
-      exiting: {transform: 'translateY(0px)', opacity: '1'},
-      exited: {transform: 'translateY(0px)', opacity: '0'}
+      entering: { transform: 'translateY(10px)', opacity: '0' },
+      entered: { transform: 'translateY(0px)', opacity: '1' },
+      exiting: { transform: 'translateY(0px)', opacity: '1' },
+      exited: { transform: 'translateY(0px)', opacity: '0' }
     };
     const duration = {
       enter: 100,
@@ -73,12 +78,12 @@ class Fade extends    PureComponent {
         addEndListener={this.addaddEndListener}
         in={inProp}
         unmountOnExit={false} // 为true 代表退出的时候移除dom
-        appear={true} // 为true  渲染的时候就直接执行动画，默认false，
+        appear // 为true  渲染的时候就直接执行动画，默认false，
         timeout={duration}
       >
         {
-          state => {//你可以很直观的看到组件加载和卸载时候的状态
-            return(
+          state => { // 你可以很直观的看到组件加载和卸载时候的状态
+            return (
               <div style={{
                 ...defaultStyle,
                 ...transitionStyles[state]

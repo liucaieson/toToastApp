@@ -1,4 +1,4 @@
-/* 为玩法，里面保存这早盘，和今日的比赛玩法 */
+// 玩法，里面保存这早盘，和今日的比赛玩法
 import { getGg } from '@/services/api';
 import moment from 'moment'
 
@@ -11,15 +11,15 @@ export default {
   },
 
   effects: {
-    *fetchAsianDish(_, { call, put, select }) {
-      let data = yield call(getGg,{sport: '1'});
+    *fetchAsianDish(_, { call, put }) {
+      const data = yield call(getGg, { sport: '1' });
       yield put({
         type: 'saveAsianDish',
         payload: data,
       });
     },
-    *fetchTodayDish(_, { call, put, select }) {
-      let data = yield call(getGg,{sport: '1',date: moment().format('YYYYMMDD')});
+    *fetchTodayDish(_, { call, put }) {
+      const data = yield call(getGg, { sport: '1', date: moment().format('YYYYMMDD') });
       yield put({
         type: 'saveTodayDish',
         payload: data,

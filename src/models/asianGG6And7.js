@@ -1,3 +1,4 @@
+// pc端玩法gg6和gg=7 全场全场和最先进球的数据
 import { getPreMatchOdds } from '@/services/api';
 
 export default {
@@ -6,33 +7,33 @@ export default {
   state: {
     cptIds: [],
     matchListObj: {},
-    count:1,
-    current:1
+    count: 1,
+    current: 1
   },
 
   effects: {
-    *fetchMatchOdds({payload, callback}, { call, put, select }) {
-      let result = yield call(getPreMatchOdds, {...payload, size:40});
-      const cptIds=[];
+    *fetchMatchOdds({ payload, callback }, { call, put }) {
+      const result = yield call(getPreMatchOdds, { ...payload, size: 40 });
+      const cptIds = [];
       const matchListObj = {};
       const { data, count, current } = result;
       data.forEach((item) => {
-        if(cptIds.includes(item.cptId)){
+        if (cptIds.includes(item.cptId)) {
           item.odds.map((val) => {
-            let list = {};
-            val.chs.forEach((item) => {
-              list[item.name] = item
+            const list = {};
+            val.chs.forEach((chsItem) => {
+              list[chsItem.name] = chsItem
             });
             val.chs.list = list
           });
           matchListObj[item.cptId].push(item)
-        }else{
+        } else {
           cptIds.push(item.cptId);
           matchListObj[item.cptId] = [];
           item.odds.map((val) => {
-            let list = {};
-            val.chs.forEach((item) => {
-              list[item.name] = item
+            const list = {};
+            val.chs.forEach((chsItem) => {
+              list[chsItem.name] = chsItem
             });
             val.chs.list = list
           });
@@ -52,7 +53,7 @@ export default {
           current
         },
       });
-      if(callback) callback(result)
+      if (callback) callback(result)
     },
   },
 
@@ -62,8 +63,8 @@ export default {
         ...state,
         cptIds: payload.cptIds,
         matchListObj: payload.matchListObj,
-        count:payload.count,
-        current:payload.current
+        count: payload.count,
+        current: payload.current
       };
     },
   },

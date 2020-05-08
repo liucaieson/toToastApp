@@ -1,9 +1,9 @@
 import React, { PureComponent} from 'react';
 import {  Row, Col } from 'antd';
 import { connect } from 'dva';
-import { calcDateToMonthAndDay } from '../../../../../../utils/util';
+import { calcDateToMonthAndDay } from '@/utils/util';
 import styles from './index.scss';
-import Accordion from '../../../../../../components/Accordion';
+import Accordion from '@/components/Accordion';
 import DishLayout from '../../DishLayout/betDishLayout';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 

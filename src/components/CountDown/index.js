@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,16 +10,17 @@ class CountDown extends Component {
   timer = 0;
 
   interval = 1000;
+
   state={
-    lastTime:60
+    lastTime: 60
   };
 
   componentDidMount() {
     const { time } = this.props;
     this.props.onCountDownRef(this);
     this.setState({
-      lastTime:time
-    },() => {
+      lastTime: time
+    }, () => {
       this.tick();
     });
   }
@@ -42,7 +44,7 @@ class CountDown extends Component {
           }
         );
       } else {
-        lastTime = lastTime -1;
+        lastTime -= 1;
         this.setState({
             lastTime,
           }, () => {
@@ -57,8 +59,8 @@ class CountDown extends Component {
     const { time } = this.props;
     window.clearTimeout(this.timer);
     this.setState({
-      lastTime:time
-    },() => {
+      lastTime: time
+    }, () => {
       this.tick();
     });
   };

@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { dishNameMap } from '../../../../../../utils/util';
+import { dishNameMap } from '@/utils/util';
 
 
 @connect(({ betShopCart, loading }) => ({

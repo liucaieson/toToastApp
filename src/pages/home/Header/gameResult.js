@@ -1,14 +1,11 @@
-import React, { Component,} from 'react';
+import React from 'react';
 import {
   Modal,
 } from 'antd';
 
 import GameResultTable from './gameResultTable'
 
-class GameResult extends Component {
-  render() {
-    const { gameResultVisible, closeGameResultModal } = this.props;
-    return (
+export default ({ gameResultVisible, closeGameResultModal }) => (
       <Modal
         title="比赛结果"
         visible={gameResultVisible}
@@ -19,17 +16,12 @@ class GameResult extends Component {
         bodyStyle={{
           minHeight: '400px',
           overflow: 'hidden',
-          color:'#232323',
-          padding:0
+          color: '#232323',
+          padding: 0
         }}
       >
         {!gameResultVisible || (
           <GameResultTable />
         )}
       </Modal>
-
     );
-  }
-}
-
-export default GameResult;

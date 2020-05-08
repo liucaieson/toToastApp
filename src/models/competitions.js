@@ -1,33 +1,33 @@
-/* 联赛接口，主要是联赛modal的数据 */
+// 联赛接口，主要是联赛的数据
 import { getCompetitions } from '@/services/api';
 
 export default {
   namespace: 'competitions',
 
   state: {
-    competitions:[],
-    competitionsModalList:[],
-    areaId:[],
-    competitionsObj:{}
+    competitions: [],
+    competitionsModalList: [],
+    areaId: [],
+    competitionsObj: {}
   },
 
   effects: {
-    *fetch({payload, callback}, { call, put, select }) {
-      let data = yield call(getCompetitions, payload);
+    *fetch({ payload, callback }, { call, put }) {
+      const data = yield call(getCompetitions, payload);
       yield put({
         type: 'save',
         payload: data,
       });
-      if(callback) callback(data)
+      if (callback) callback(data)
     },
-    *fetchModalList({payload, callback}, { call, put, select }) {
-      let data = yield call(getCompetitions, payload);
-      let  competitionsObj= {};
-      let areaId = [];
+    *fetchModalList({ payload, callback }, { call, put }) {
+      const data = yield call(getCompetitions, payload);
+      const competitionsObj = {};
+      const areaId = [];
       data.forEach((val) => {
-        if(areaId.includes(val.areaId)){
+        if (areaId.includes(val.areaId)) {
           competitionsObj[val.areaId].push(val)
-        }else{
+        } else {
           areaId.push(val.areaId);
           competitionsObj[val.areaId] = [];
           competitionsObj[val.areaId].push(val)
@@ -41,14 +41,14 @@ export default {
           areaId
         },
       });
-      if(callback) callback(data)
+      if (callback) callback(data)
     },
-    *toggle({payload, callback}, { call, put, select }) {
+    *toggle({ payload, callback }, { put }) {
       yield put({
         type: 'save',
-        payload: payload,
+        payload,
       });
-      if(callback) callback()
+      if (callback) callback()
     },
   },
 

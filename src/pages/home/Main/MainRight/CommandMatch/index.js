@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import CountDown from '../../../../../components/CountDown/index';
-import CompetitionsModal from '../competitonsModal/index.js';
-import PaginationBox from '../../../../../components/PaginationBox'
+import CountDown from '@/components/CountDown';
+import CompetitionsModal from '../competitonsModal';
+import PaginationBox from '@/components/PaginationBox'
 import Item from './matchItem.js';
-import PageLoading from '../../../../../components/MbPageLoading';
+import PageLoading from '@/components/MbPageLoading';
 
 @connect(({ commandMatch, showCompetitions, changeBetSectionStatus, competitions, loading }) => ({
   commandMatch,

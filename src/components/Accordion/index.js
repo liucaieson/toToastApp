@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import styles from './index.scss';
 import { Col, Icon, Row } from 'antd';
+import styles from './index.scss';
 
-export default class Accordion  extends Component {
-
+export default class Accordion extends Component {
   state={
     isShow: true
   };
@@ -16,7 +15,7 @@ export default class Accordion  extends Component {
   };
 
   render() {
-    const { cptName, children , style } = this.props;
+    const { cptName, children, style } = this.props;
     const { isShow } = this.state;
 
     return (
@@ -37,10 +36,8 @@ export default class Accordion  extends Component {
               {cptName}
             </Col>
           </Row>
-          { isShow ? children :''}
+          { isShow ? children : ''}
         </div>
     );
   }
 }
-
-

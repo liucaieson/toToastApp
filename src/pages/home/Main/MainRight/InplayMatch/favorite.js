@@ -1,10 +1,9 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Icon, Row, Col, Modal, Checkbox } from 'antd';
+import React, { PureComponent } from 'react';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
-import CountDown from '../../../../../components/CountDown/index';
-import PageLoading from '../../../../../components/MbPageLoading';
-import Item from './cptItem';
+import CountDown from '@/components/CountDown';
+import PageLoading from '@/components/MbPageLoading';
 import MatchItem from './matchItem';
 
 @connect(({ inPlay, inPlayFavorite, betShopCart, chsDB, loading }) => ({

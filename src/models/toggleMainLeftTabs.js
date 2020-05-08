@@ -1,4 +1,4 @@
-/* 根据gg选择页面 */
+// 根据id选择左侧的tab页面
 export default {
   namespace: 'toggleMainLeftTabs',
 
@@ -7,10 +7,10 @@ export default {
   },
 
   effects: {
-    *toggleMainLeftTabs({payload}, { call, put, select }) {
+    *toggleMainLeftTabs({ payload }, { put }) {
       yield put({
         type: 'save',
-        payload: payload,
+        payload,
       });
     },
   },
