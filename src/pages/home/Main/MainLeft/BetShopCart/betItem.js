@@ -65,7 +65,7 @@ class BetItem extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'betShopCart/addShopCartItemAmount',
-      payload: { id, betAmount },
+      payload: { id, amount: betAmount },
     });
     this.setState({
       amount: betAmount,
