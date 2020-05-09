@@ -1,4 +1,3 @@
-/* global window */
 import request from './request'
 
 export {

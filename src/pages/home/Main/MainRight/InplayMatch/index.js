@@ -1,4 +1,4 @@
-import React, { PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
@@ -6,24 +6,18 @@ import CountDown from '@/components/CountDown';
 import PageLoading from '@/components/MbPageLoading';
 import Item from './cptItem'
 
-@connect(({ inPlay,inPlayFavorite, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
+@connect(({ inPlay, inPlayFavorite, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
   inPlay,
   showCompetitions,
   competitions,
   betShopCart,
   chsDB,
   inPlayFavorite,
-  oddsLoading:loading.effects['inPlay/fetchAllMatchOdds']
+  oddsLoading: loading.effects['inPlay/fetchAllMatchOdds']
 }))
 class InplayMatch extends PureComponent {
-
   state = {
     refreshLoading: false,
-    showCompetitionsList: [],
-    isShowMatch: -1,
-    isActiveDate: '',
-    allMatchExpend: -1,
-    isShowMatchDetail: false,
     firstLoading: true,
   };
 
@@ -34,6 +28,7 @@ class InplayMatch extends PureComponent {
     sport: '1',
     gg: '1',
   };
+
   /* 存储全局的参数 */
   globalParams = {
     ...this.defaultParams,
@@ -88,7 +83,7 @@ class InplayMatch extends PureComponent {
     this.setState({
       refreshLoading: true,
     });
-    let params = {
+    const params = {
       sport: '1',
       gg: '1',
     };
@@ -113,13 +108,25 @@ class InplayMatch extends PureComponent {
     });
   };
 
+  renderTemplate() {
+    const { inPlay: { cptIds, matchListObj } } = this.props;
+
+    if (cptIds.length === 0) {
+      return (
+        <div className="match-loading">暂无滚球</div>
+      )
+    }
+      return (
+        cptIds.map((val) => (
+          <Item key={val} cptData={val} matchData={matchListObj[val]}/>
+        ))
+      )
+  }
+
 
   render() {
     const {
-      inPlay: {
-        cptIds, matchListObj
-      },
-      inPlayFavorite:{ favMatchIds }
+      inPlayFavorite: { favMatchIds }
     } = this.props;
     const { refreshLoading, firstLoading } = this.state;
     return (
@@ -134,7 +141,7 @@ class InplayMatch extends PureComponent {
             <span className={styles.time}>
               <CountDown
                 onCountDownRef={this.onCountDownRef}
-                time='15'
+                time="15"
                 onEnd={this.setTimeFetchMatchList}/>
               s
             </span>
@@ -142,12 +149,12 @@ class InplayMatch extends PureComponent {
           {
             favMatchIds.length > 0 ?
               <div className={styles.fav} onClick={this.turnToFav}>
-                <Icon type='star' style={{color:'#F9C100'}} className={styles.icon} theme="filled" />
+                <Icon type="star" style={{ color: '#F9C100' }} className={styles.icon} theme="filled" />
                 <div className={styles['fav-num']}>{favMatchIds.length}</div>
               </div>
               :
               <div className={styles.fav}>
-                <Icon type='star' className={styles.icon} theme="filled" />
+                <Icon type="star" className={styles.icon} theme="filled" />
               </div>
           }
         </div>
@@ -180,10 +187,7 @@ class InplayMatch extends PureComponent {
             <div className={styles.match}>
               {
                 firstLoading ? <PageLoading/> :
-                  cptIds.length === 0 ? <div className="match-loading">暂无滚球</div>:
-                      cptIds.map((val) => (
-                        <Item key={val} cptData={val} matchData={matchListObj[val]}/>
-                      ))
+                  this.renderTemplate()
               }
             </div>
           </div>

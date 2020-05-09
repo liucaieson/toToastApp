@@ -11,13 +11,12 @@ import Accordion from '@/components/Accordion';
   chsDB,
   matchAllOdds,
   betShopCart,
-  matchAllOddsLoading:loading.models.matchAllOdds,
-  addLoading:loading.effects['betShopCart/addMixedShopCart']
+  matchAllOddsLoading: loading.models.matchAllOdds,
+  addLoading: loading.effects['betShopCart/addMixedShopCart']
 }))
 class DoubleResultItem extends PureComponent {
-
   state = {
-    isShow:false
+    isShow: false
   };
 
   /* 请求比赛所有玩法的赔率赔率，参数比赛id */
@@ -38,10 +37,10 @@ class DoubleResultItem extends PureComponent {
   render() {
     const {
       cptData, matchData,
-      chsDB:{ chsDB }
+      chsDB: { chsDB }
     } = this.props;
-    const {isShow} = this.state;
-    const {matchId} = this.state;
+    const { isShow } = this.state;
+    const { matchId } = this.state;
     return (
       <div key={cptData} style={this.props.style}>
         <Accordion
@@ -83,7 +82,7 @@ class DoubleResultItem extends PureComponent {
                           {
                             v.odds[1] && v.odds[1].chs.map((item, index) => (
                                 <div className={styles['match-odds-item']}>
-                                  <span className={styles.handicap}>{index === 0 ? '大': '小'}{item.choiceHandicap}</span>
+                                  <span className={styles.handicap}>{index === 0 ? '大' : '小'}{item.choiceHandicap}</span>
                                   <DishItem
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
@@ -138,7 +137,7 @@ class DoubleResultItem extends PureComponent {
                           {
                             v.odds[4] && v.odds[4].chs.map((item, index) => (
                                 <div className={styles['match-odds-item']}>
-                                  <span className={styles.handicap}>{index === 0 ? '大': '小'}{item.choiceHandicap}</span>
+                                  <span className={styles.handicap}>{index === 0 ? '大' : '小'}{item.choiceHandicap}</span>
                                   <DishItem
                                     matchId={v.matchId}
                                     choiceId={item.choiceId}
@@ -173,7 +172,7 @@ class DoubleResultItem extends PureComponent {
                   </Row>
                   <div className={styles['play-btn']}>
                     <div className={styles.btn} onClick={() => this.fetchMatchAllOdds(v.matchId)}>
-                      所有玩法<span style={{marginLeft: '4px'}}>{v.amount}</span>
+                      所有玩法<span style={{ marginLeft: '4px' }}>{v.amount}</span>
                     </div>
                   </div>
                 </Row>
@@ -182,7 +181,7 @@ class DoubleResultItem extends PureComponent {
           </div>
         </Accordion>
         <Modal
-          title='比赛'
+          title="比赛"
           visible={isShow}
           onCancel={this.closeModal}
           width={700}
@@ -192,8 +191,8 @@ class DoubleResultItem extends PureComponent {
           getContainer={() => document.getElementById('mainRightBox')}
           bodyStyle={{
             height: '600px',
-            color:'white',
-            padding:'2px 4px'
+            color: 'white',
+            padding: '2px 4px'
           }}
         >
           {

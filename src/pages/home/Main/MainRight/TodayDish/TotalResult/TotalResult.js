@@ -9,7 +9,6 @@ import TodayWrapper from '../TodayWarpper/wrapper1';
   asianGG,
 }))
 class TotalResult extends PureComponent {
-
   render() {
     const {
       asianGG: {
@@ -18,8 +17,8 @@ class TotalResult extends PureComponent {
     } = this.props;
     return (
       <TodayWrapper
-        gg='1'
-        title='今日-全场 上半场 单/双'
+        gg="1"
+        title="今日-全场 上半场 单/双"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={3}>时间</Col>
@@ -47,7 +46,11 @@ class TotalResult extends PureComponent {
           {
             cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :
               cptIds.map((val) => (
-                <Item cptData={val} matchData={matchListObj[val]} key={val}/>
+                <Item
+                  cptData={val}
+                  matchData={matchListObj[val]}
+                  key={val}
+                />
               ))
           }
         </div>

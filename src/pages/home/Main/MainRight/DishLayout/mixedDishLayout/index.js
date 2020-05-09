@@ -1,4 +1,4 @@
-import React, { PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import styles from './index.scss';
 
@@ -8,7 +8,6 @@ import styles from './index.scss';
   addLoading: loading.effects['betShopCart/addMixedShopCart'],
 }))
 class MixedDishItem extends PureComponent {
-
   state = {
     up: 0,
     prevDish: 0,
@@ -45,7 +44,7 @@ class MixedDishItem extends PureComponent {
     if (mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) {
       dispatch({
         type: 'betShopCart/delMixedShopCart',
-        payload:matchId
+        payload: matchId
       });
     } else {
       dispatch({
@@ -65,22 +64,29 @@ class MixedDishItem extends PureComponent {
 
   renderUp() {
     const { up } = this.state;
-    if (up === 0) {
-      return '';
-    }
     if (up === 1) {
       return <div className={styles.up}/>;
     }
     if (up === -1) {
       return <div className={styles.down}/>;
     }
+    return null
   }
 
   render() {
-    const { matchId, gamblingId, choiceId, dishId, dish, betShopCart: { mixedShopCart } } = this.props;
+    const {
+      matchId,
+      gamblingId,
+      choiceId,
+      dishId,
+      dish,
+      betShopCart: { mixedShopCart }
+    } = this.props;
     return (
       <span
-        className={(mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) ? `${styles.dish} ${styles.active}` : styles.dish}
+        className={(mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) ?
+          `${styles.dish} ${styles.active}` :
+          styles.dish}
         onClick={() => this.addMixedShopCart(matchId, gamblingId, choiceId, dishId)}>
           {dish}
         {this.renderUp()}

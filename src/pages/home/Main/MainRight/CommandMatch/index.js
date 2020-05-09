@@ -13,30 +13,24 @@ import PageLoading from '@/components/MbPageLoading';
   showCompetitions,
   competitions,
   changeBetSectionStatus,
-  commandLoading:loading.models.commandMatch,
+  commandLoading: loading.models.commandMatch,
 }))
 class CommandMatch extends PureComponent {
   state = {
     refreshLoading: false,
-    showCompetitionsList: [],
-    isShowMatch: -1,
-    isActiveDate: '',
-    isShowMatchDetail: false,
     firstLoading: true,
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   globalParams = {
     sport: '1',
     gg: '1',
-    page:1
+    page: 1
   };
 
   componentDidMount() {
-    this.scrollWrapper = React.createRef();
     const { dispatch } = this.props;
     dispatch({
       type: 'commandMatch/fetchMatchOdds',
@@ -81,11 +75,11 @@ class CommandMatch extends PureComponent {
 
   /* 展开比赛详细信息 */
   nextPage = (page) => {
-    const {commandLoading} = this.props
-    if(commandLoading){
+    const { commandLoading } = this.props
+    if (commandLoading) {
       return
     }
-    this.fetchMatchOdds({page,size:40});
+    this.fetchMatchOdds({ page, size: 40 });
   };
 
   /* 全局展示显示联赛的modal  */
@@ -106,7 +100,7 @@ class CommandMatch extends PureComponent {
     this.setState({
       refreshLoading: true,
     });
-    let params = {
+    const params = {
       ...this.globalParams,
     };
     const { dispatch } = this.props;
@@ -128,7 +122,7 @@ class CommandMatch extends PureComponent {
     }
     this.setState({
       firstLoading: true,
-    }, () =>  {
+    }, () => {
         const ids = [];
         param.competitions.map((val) => {
           ids.push(val.competitionId);
@@ -167,7 +161,7 @@ class CommandMatch extends PureComponent {
             <span className={styles.time}>
               <CountDown
                 onCountDownRef={this.onCountDownRef}
-                time='60'
+                time="60"
                 onEnd={this.setTimeFetchMatchList}/>
               s
             </span>
@@ -200,7 +194,7 @@ class CommandMatch extends PureComponent {
                 </Row>
               </Col>
             </Row>
-            <div className={styles.match} id='commandMatch' >
+            <div className={styles.match} id="commandMatch" >
               {firstLoading ? <PageLoading/> :
                 <div>
                   {
@@ -209,7 +203,12 @@ class CommandMatch extends PureComponent {
                         <Item cptData={val} matchData={matchListObj[val]} key={val} />
                       ))
                   }
-                  <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage} />
+                  <PaginationBox
+                    total={count}
+                    current={current}
+                    pageSize={40}
+                    onChange={this.nextPage}
+                  />
                 </div>
               }
 

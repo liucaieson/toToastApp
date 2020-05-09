@@ -1,28 +1,17 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import DishLayout from '../../DishLayout/betDishLayout';
 import styles from './index.scss';
 
-class DoubleResultDishItem extends PureComponent {
-
-  render() {
-    const { matchId, gamblingId, choiceId, dishId, dish } = this.props;
-    return (
-      <div
-        className={styles.item}
-      >
-        <DishLayout
-          choiceId={choiceId}
-          matchId={matchId}
-          gamblingId={gamblingId}
-          dishId={dishId}
-          dish={dish}
-        />
-     </div>
-    );
-  }
-}
-
-export default DoubleResultDishItem;
-
-
-
+export default ({ matchId, gamblingId, choiceId, dishId, dish }) => (
+  <div
+    className={styles.item}
+  >
+    <DishLayout
+      choiceId={choiceId}
+      matchId={matchId}
+      gamblingId={gamblingId}
+      dishId={dishId}
+      dish={dish}
+    />
+  </div>
+)

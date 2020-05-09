@@ -13,30 +13,28 @@ import ModalLayout from '../ModalLayout/inPlayModalLayout';
   oddsLoading: loading.effects['inPlay/fetchAllMatchOdds'],
 }))
 class InplayMatchItem extends PureComponent {
-
   state = {
-    inTime: 0,
     prevPeriod: 0,
     isShow: false,
   };
 
   componentDidMount() {
     this.timer = window.setInterval(() => {
-      let { prevPeriod } = this.state;
+      const { prevPeriod } = this.state;
       let minute = prevPeriod.split(':')[0];
       let second = prevPeriod.split(':')[1];
       if (prevPeriod.split(':')[0] === 45 || prevPeriod.split(':')[0] === 90) {
         return false;
-      } else {
+      }
         if (second >= 59) {
           minute = +minute + 1;
           second = 0;
         } else {
           second = +second + 1;
         }
-      }
+
       const newSecond = second.toString().padStart(2, '0');
-      const newPeriod = minute + ':' + newSecond;
+      const newPeriod = `${minute}:${newSecond}`;
       this.setState({
         prevPeriod: newPeriod
       });
@@ -66,7 +64,7 @@ class InplayMatchItem extends PureComponent {
     dispatch({
       type: 'inPlayFavorite/addFav',
       payload: {
-        matchId: matchId,
+        matchId,
         matchData: data,
       },
     });
@@ -77,16 +75,15 @@ class InplayMatchItem extends PureComponent {
     dispatch({
       type: 'inPlayFavorite/removeFav',
       payload: {
-        matchId: matchId,
+        matchId,
       },
     });
   };
 
   /* 请求比赛所有玩法的赔率赔率，参数比赛id */
-  openMatchAllOdds = (matchId) => {
+  openMatchAllOdds = () => {
     this.setState({
       isShow: true,
-      matchId,
     });
   };
 
@@ -101,7 +98,7 @@ class InplayMatchItem extends PureComponent {
       time, period, soccer, homeName, awayName, odds, matchId, chsDB: { chsDB },
       inPlayFavorite: { favMatchIds },
     } = this.props;
-    const { prevPeriod, second, isShow } = this.state;
+    const { prevPeriod, isShow } = this.state;
     return (
       <Row className={styles['match-line-box']} key={matchId}>
         <Row className={styles['match-line']}>
@@ -147,12 +144,12 @@ class InplayMatchItem extends PureComponent {
                       <Fragment>
                         <div className={styles['home-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                         <div className={styles['away-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                       </Fragment> :
@@ -223,17 +220,17 @@ class InplayMatchItem extends PureComponent {
                     odds[2].chs.length === 0 ? <Fragment>
                         <div className={styles['home-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                         <div className={styles['away-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                         <div className={styles['pie-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                       </Fragment> :
@@ -344,17 +341,17 @@ class InplayMatchItem extends PureComponent {
                       <Fragment>
                         <div className={styles['home-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                         <div className={styles['away-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                         <div className={styles['pie-item']}>
                           <div className={styles.lock}>
-                            <Icon type='lock'/>
+                            <Icon type="lock"/>
                           </div>
                         </div>
                       </Fragment> :
@@ -406,7 +403,7 @@ class InplayMatchItem extends PureComponent {
           </div>
         </div>
         <Modal
-          title={'比赛'}
+          title="比赛"
           visible={isShow}
           onCancel={this.closeModal}
           width={700}

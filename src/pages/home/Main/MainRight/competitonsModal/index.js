@@ -3,19 +3,18 @@ import { connect } from 'dva';
 import { Checkbox, Modal, Row, Form, Icon } from 'antd';
 import styles from './index.scss'
 
-@connect(({ showCompetitions,area, competitions }) => ({
+@connect(({ showCompetitions, area, competitions }) => ({
   showCompetitions,
   area,
   competitions
 }))
 class CompetitionsModal extends Component {
   state = {
-    checkedList: [],
-    showArea:[]
+    showArea: []
   };
 
   componentDidMount() {
-    const { dispatch,params } = this.props;
+    const { dispatch, params } = this.props;
     dispatch({
       type: 'competitions/fetchModalList',
       payload: {
@@ -26,9 +25,9 @@ class CompetitionsModal extends Component {
 
   onCheck = () => {
     const { fn } = this.props;
-    if(this.props.form.getFieldsValue().competitions ===undefined){
+    if (this.props.form.getFieldsValue().competitions === undefined) {
       this.closeShowCompetitionsModal()
-    }else{
+    } else {
       const params = this.props.form.getFieldsValue().competitions.join(',');
       fn(params);
       this.closeShowCompetitionsModal()
@@ -38,7 +37,7 @@ class CompetitionsModal extends Component {
   onCancel = () => {
     const { dispatch } = this.props;
     dispatch({
-      type:'showCompetitions/toggle',
+      type: 'showCompetitions/toggle',
       payload: false
     })
   };
@@ -46,7 +45,7 @@ class CompetitionsModal extends Component {
   closeShowCompetitionsModal = () => {
     const { dispatch } = this.props;
     dispatch({
-      type:'showCompetitions/toggle',
+      type: 'showCompetitions/toggle',
       payload: false
     })
   };
@@ -54,13 +53,13 @@ class CompetitionsModal extends Component {
   toggleArea = (id) => {
     const { showArea } = this.state;
     const index = showArea.indexOf(id);
-    if( index < 0){
+    if (index < 0) {
       showArea.push(id);
       const arr = showArea.concat();
       this.setState({
         showArea: arr
       })
-    }else{
+    } else {
       showArea.splice(index, 1);
       const arr = showArea.concat();
       this.setState({
@@ -70,7 +69,11 @@ class CompetitionsModal extends Component {
   };
 
   render() {
-    const { showCompetitions : {isShow}, competitions: { areaId, competitionsObj },  area:{ areaObj}, } = this.props;
+    const {
+      showCompetitions: { isShow },
+      competitions: { areaId, competitionsObj },
+      area: { areaObj }
+    } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { showArea } = this.state;
     return (
@@ -84,15 +87,15 @@ class CompetitionsModal extends Component {
         bodyStyle={{
           minHeight: '400px',
           overflow: 'hidden',
-          color:'white',
-          padding:0
+          color: 'white',
+          padding: 0
         }}
       >
         <div className={styles.box}>
           <Row className={styles['submit-line']}>
             <div className={styles.submit} onClick={this.onCheck}>提交</div>
             <div className={styles.cancel} onClick={this.onCancel}>取消</div>
-            </Row>
+          </Row>
           {
             <Form>
               <Form.Item>
@@ -122,7 +125,7 @@ class CompetitionsModal extends Component {
                                   {val.competitionName}
                                 </Checkbox>
                               </div>
-                            )): ''
+                            )) : ''
                           }
                         </div>
                       ))
@@ -139,4 +142,4 @@ class CompetitionsModal extends Component {
   }
 }
 
-export default Form.create({name: 'competitions'})(CompetitionsModal);
+export default Form.create({ name: 'competitions' })(CompetitionsModal);

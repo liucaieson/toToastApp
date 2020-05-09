@@ -6,7 +6,7 @@ import DishItem from './dishItem';
 import { calcDateToMonthAndDay } from '@/utils/util';
 import Accordion from '@/components/Accordion';
 
-@connect(({  chsDB, betShopCart }) => ({
+@connect(({ chsDB, betShopCart }) => ({
   betShopCart,
   chsDB,
 }))
@@ -16,12 +16,12 @@ class TotalResultItem extends Component {
   render() {
     const {
       cptData, matchData,
-      chsDB:{ chsDB }
+      chsDB: { chsDB }
     } = this.props;
     return (
       <div key={cptData} style={this.props.style} >
         <Accordion
-          cptName={matchData[0] &&  matchData[0].cptName}
+          cptName={matchData[0] && matchData[0].cptName}
         >
           <div className={styles['match-info']}>
             {

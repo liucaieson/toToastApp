@@ -1,6 +1,5 @@
-import React, { PureComponent} from 'react';
-import {  Row, Col } from 'antd';
-import { connect } from 'dva';
+import React, { PureComponent } from 'react';
+import { Row, Col } from 'antd';import { connect } from 'dva';
 import { calcDateToMonthAndDay } from '@/utils/util';
 import styles from './index.scss';
 import Accordion from '@/components/Accordion';
@@ -12,7 +11,6 @@ import AsianWrapper from '../AsianWarpper/wrapper1';
   chsDB,
 }))
 class TotalOver extends PureComponent {
-
   render() {
     const {
       asianGG: {
@@ -23,8 +21,8 @@ class TotalOver extends PureComponent {
     } = this.props;
     return (
       <AsianWrapper
-        title='全场 上半场 进球总数'
-        gg='3'
+        title="全场 上半场 进球总数"
+        gg="3"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={2}>时间</Col>
@@ -80,41 +78,41 @@ class TotalOver extends PureComponent {
                                     <div>{v.homeName}</div>
                                     <div>{v.awayName}</div>
                                   </Col>
-                                  {/*全场投注区*/}
+                                  {/* 全场投注区 */}
                                   <Col span={10} className={styles['match-odds']}>
                                     {
                                       v.odds[0].chs.map((item) => (
-                                          <Col key={item.dishId} span={3} className={styles['odds-item']}>
-                                                      <span
-                                                        className={styles.odds}
-                                                      >
-                                                        <DishLayout
-                                                          choiceId={item.choiceId}
-                                                          matchId={v.matchId}
-                                                          dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                          dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                        />
-                                                      </span>
-                                          </Col>
+                                        <Col key={item.dishId} span={3} className={styles['odds-item']}>
+                                          <span
+                                            className={styles.odds}
+                                          >
+                                            <DishLayout
+                                              choiceId={item.choiceId}
+                                              matchId={v.matchId}
+                                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                            />
+                                          </span>
+                                        </Col>
                                         ),
                                       )
                                     }
                                   </Col>
-                                  {/* 上半场投注区*/}
+                                  {/* 上半场投注区 */}
                                   <Col span={8} className={styles['match-odds']}>
                                     {
                                       v.odds[1] ? v.odds[1].chs.map((item) => (
-                                          <Col key={item.dishId} span={4} className={styles['odds-item']}>
-                                                      <span
-                                                        className={styles.odds}>
-                                                        <DishLayout
-                                                          choiceId={item.choiceId}
-                                                          matchId={v.matchId}
-                                                          dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                                          dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                                        />
-                                                      </span>
-                                          </Col>
+                                        <Col key={item.dishId} span={4} className={styles['odds-item']}>
+                                          <span
+                                            className={styles.odds}>
+                                            <DishLayout
+                                              choiceId={item.choiceId}
+                                              matchId={v.matchId}
+                                              dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                              dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                                            />
+                                          </span>
+                                        </Col>
                                         ),
                                       ) : ''
                                     }

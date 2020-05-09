@@ -10,11 +10,11 @@ import ModalLayout from '../ModalLayout/modalLayout'
   chsDB,
   matchAllOdds,
   betShopCart,
-  matchAllOddsLoading:loading.models.matchAllOdds,
+  matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class PointSpreadItem extends PureComponent {
   state = {
-    isShow:false
+    isShow: false
   };
 
   /* 请求比赛所有玩法的赔率赔率，参数比赛id */
@@ -34,14 +34,13 @@ class PointSpreadItem extends PureComponent {
   render() {
     const {
       cptData, matchData,
-      chsDB: {chsDB}
+      chsDB: { chsDB }
     } = this.props;
-    const {isShow, matchId} = this.state;
+    const { isShow, matchId } = this.state;
     return (
       <div key={cptData} style={this.props.style}>
         <Row className={styles['competitions-name']}>
-          <Col span={1} className={styles.arrow}>
-          </Col>
+          <Col span={1} className={styles.arrow} />
           <Col span={20} className={styles.name}>
             {matchData[0].cptName}
           </Col>
@@ -272,7 +271,7 @@ class PointSpreadItem extends PureComponent {
           }
         </div>
         <Modal
-          title={'比赛'}
+          title="比赛"
           visible={isShow}
           onCancel={this.closeModal}
           width={700}
@@ -282,8 +281,8 @@ class PointSpreadItem extends PureComponent {
           getContainer={() => document.getElementById('mainRightBox')}
           bodyStyle={{
             height: '600px',
-            color:'white',
-            padding:'2px 4px'
+            color: 'white',
+            padding: '2px 4px'
           }}
         >
           {

@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import { connect } from 'dva';
+import moment from 'moment';
 import styles from './wrapper1.scss';
 import CountDown from '@/components/CountDown/index';
 import CompetitionsModal from '../../competitonsModal/index';
 import PaginationBox from '@/components/PaginationBox';
 import PageLoading from '@/components/MbPageLoading';
-import moment from 'moment';
 
 
-@connect(({ asianGG, dates, chsDB, showCompetitions,  loading }) => ({
+@connect(({ asianGG, dates, chsDB, showCompetitions, loading }) => ({
   asianGG,
   showCompetitions,
   dates,
@@ -18,12 +18,9 @@ import moment from 'moment';
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
-
   state = {
     refreshLoading: false,
-    isActiveDate: '',
     firstLoading: true,
-    page:1,
   };
 
   timer = null;
@@ -32,8 +29,9 @@ class Main extends PureComponent {
   defaultParams = {
     sport: '1',
     date: moment().format('YYYY-MM-DD'),
-    page:1
+    page: 1
   };
+
   /* 存储全局的参数 */
   globalParams = {
     ...this.defaultParams,
@@ -41,7 +39,7 @@ class Main extends PureComponent {
 
   componentDidMount() {
     const { gg } = this.props;
-    this.fetchMatchOdds({gg}, () => {
+    this.fetchMatchOdds({ gg }, () => {
       this.setState({
         firstLoading: false,
       });
@@ -53,8 +51,8 @@ class Main extends PureComponent {
   }
 
   setTimeFetchMatchList = () => {
-    const {gg} = this.props;
-    this.fetchMatchOdds({gg});
+    const { gg } = this.props;
+    this.fetchMatchOdds({ gg });
   };
 
   /* 请求比赛赔率 */
@@ -87,11 +85,11 @@ class Main extends PureComponent {
 
   /* 刷新比赛数据 */
   refreshMatchOdds = () => {
-    const {gg} = this.props;
+    const { gg } = this.props;
     this.setState({
       refreshLoading: true,
     });
-    let params = {
+    const params = {
       gg,
       ...this.globalParams,
     };
@@ -114,14 +112,14 @@ class Main extends PureComponent {
    * 保存全局参数
     * */
   fetchMatchOddsWithCompetitions = (param) => {
-    const {gg} = this.props;
+    const { gg } = this.props;
     if (param === undefined) {
       return;
     }
     this.setState({
       firstLoading: true,
     });
-    this.fetchMatchOdds({ competitions: param,gg }, () => {
+    this.fetchMatchOdds({ competitions: param, gg }, () => {
       /* 刷新倒计时的时间 */
       this.countRef.reset();
       this.globalParams = {
@@ -140,12 +138,12 @@ class Main extends PureComponent {
   };
 
   nextPage = (page) => {
-    const {gg} = this.props;
-    const {loading} = this.props;
-    if(loading){
+    const { gg } = this.props;
+    const { loading } = this.props;
+    if (loading) {
       return
     }
-    this.fetchMatchOdds({page,size:40, gg}, (result) => {
+    this.fetchMatchOdds({ page, size: 40, gg }, (result) => {
       const { current } = result;
       this.globalParams = {
         ...this.globalParams,
@@ -154,7 +152,7 @@ class Main extends PureComponent {
     });
   };
 
-  /*跳转到混合过关*/
+  /* 跳转到混合过关 */
   turnToAsianMixed = () => {
     const { dispatch } = this.props;
     dispatch({
@@ -162,12 +160,13 @@ class Main extends PureComponent {
       payload: '8',
     });
   };
+
   /**
    * 返回match容器顶部
    */
   gotoTop = () => {
-    const container =   document.getElementById('matchContainer');
-    if(container) {
+    const container = document.getElementById('matchContainer');
+    if (container) {
       container.scrollIntoView()
     }
   };
@@ -193,13 +192,13 @@ class Main extends PureComponent {
             <span className={styles.time}>
               <CountDown
                 onCountDownRef={this.onCountDownRef}
-                time='60'
+                time="60"
                 onEnd={this.setTimeFetchMatchList}/>
               s</span>
           </div>
           <div className={styles['competitions-select']} onClick={this.showCompetitionsModal}>选择联赛</div>
           {
-            gg ==='8'? '' :  <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
+            gg === '8' ? '' : <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
           }
         </div>
         <div className={styles.main}>
@@ -209,17 +208,28 @@ class Main extends PureComponent {
               <div className={styles.match}>
                 {
                   firstLoading ? <PageLoading/> :
-                    <div className={styles.container} id='matchContainer'>
+                    <div className={styles.container} id="matchContainer">
                       {this.props.children[1]}
-                      <PaginationBox total={count} current={current} pageSize={40} onChange={this.nextPage}/>
+                      <PaginationBox
+                        total={count}
+                        current={current}
+                        pageSize={40}
+                        onChange={this.nextPage}
+                      />
                     </div>
                 }
               </div>
-              <div className={styles['to-top']} onClick={this.gotoTop}/>
+              <div
+                className={styles['to-top']}
+                onClick={this.gotoTop}
+              />
             </div>
           }
         </div>
-        <CompetitionsModal params={{...this.defaultParams, gg}} fn={this.fetchMatchOddsWithCompetitions}/>
+        <CompetitionsModal
+          params={{ ...this.defaultParams, gg }}
+          fn={this.fetchMatchOddsWithCompetitions}
+        />
       </div>
 
     );

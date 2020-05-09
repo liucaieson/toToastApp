@@ -6,12 +6,11 @@ import DishItem from './dishItem'
 import { calcDateToMonthAndDay } from '@/utils/util';
 import Accordion from '@/components/Accordion';
 
-@connect(({  chsDB, betShopCart }) => ({
+@connect(({ chsDB, betShopCart }) => ({
   chsDB,
   betShopCart,
 }))
 class TotalOverItem extends PureComponent {
-
   render() {
     const {
       cptData, matchData,
@@ -20,7 +19,7 @@ class TotalOverItem extends PureComponent {
     return (
       <div key={cptData} style={this.props.style}>
         <Accordion
-          cptName={matchData[0] &&  matchData[0].cptName}
+          cptName={matchData[0] && matchData[0].cptName}
         >
           <div className={styles['match-info']}>
             {
@@ -51,7 +50,7 @@ class TotalOverItem extends PureComponent {
                         )
                       }
                     </Col>
-                    {/* 上半场投注区*/}
+                    {/* 上半场投注区 */}
                     <Col span={8} className={styles['match-odds']}>
                       {
                         v.odds[1] ? v.odds[1].chs.map((item) => (
@@ -66,7 +65,7 @@ class TotalOverItem extends PureComponent {
                               />
                             </Col>
                           ),
-                        ) : ''
+                        ) : null
                       }
                     </Col>
                   </Row>
@@ -76,8 +75,6 @@ class TotalOverItem extends PureComponent {
           </div>
         </Accordion>
       </div>
-
-
     );
   }
 }

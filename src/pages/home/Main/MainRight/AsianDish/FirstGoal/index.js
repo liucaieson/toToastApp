@@ -12,7 +12,6 @@ import AsianWrapper from '../AsianWarpper/wrapper2';
   chsDB,
 }))
 class FirstGoal extends PureComponent {
-
   render() {
     const {
       asianGG6And7: {
@@ -22,8 +21,8 @@ class FirstGoal extends PureComponent {
     } = this.props;
     return (
       <AsianWrapper
-        gg='7'
-        title='最先进球/最后进球'
+        gg="7"
+        title="最先进球/最后进球"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={3}>时间</Col>
@@ -79,8 +78,10 @@ class FirstGoal extends PureComponent {
                                          <DishLayout
                                            choiceId={v.odds[0].chs.list['1'].choiceId}
                                            matchId={v.matchId}
-                                           dishId={chsDB[v.odds[0].chs.list['1'].choiceId] && chsDB[v.odds[0].chs.list['1'].choiceId].dishId}
-                                           dish={chsDB[v.odds[0].chs.list['1'].choiceId] && chsDB[v.odds[0].chs.list['1'].choiceId].dish}
+                                           dishId={chsDB[v.odds[0].chs.list['1'].choiceId] &&
+                                           chsDB[v.odds[0].chs.list['1'].choiceId].dishId}
+                                           dish={chsDB[v.odds[0].chs.list['1'].choiceId] &&
+                                           chsDB[v.odds[0].chs.list['1'].choiceId].dish}
                                          />
                                        </span>
                                      </Col>
@@ -94,23 +95,27 @@ class FirstGoal extends PureComponent {
                                          <DishLayout
                                            choiceId={v.odds[0].chs.list['2'].choiceId}
                                            matchId={v.matchId}
-                                           dishId={chsDB[v.odds[0].chs.list['2'].choiceId] && chsDB[v.odds[0].chs.list['2'].choiceId].dishId}
-                                           dish={chsDB[v.odds[0].chs.list['2'].choiceId] && chsDB[v.odds[0].chs.list['2'].choiceId].dish}
+                                           dishId={chsDB[v.odds[0].chs.list['2'].choiceId] &&
+                                           chsDB[v.odds[0].chs.list['2'].choiceId].dishId}
+                                           dish={chsDB[v.odds[0].chs.list['2'].choiceId] &&
+                                           chsDB[v.odds[0].chs.list['2'].choiceId].dish}
                                          />
                                        </span>
                                   </Col>
                                 }
                                 {
-                                  v.odds[0].chs.list['X'] &&
+                                  v.odds[0].chs.list.X &&
                                   <Col span={8} className={styles.item}>
                                        <span
                                          className={styles.odds}
                                        >
                                          <DishLayout
-                                           choiceId={v.odds[0].chs.list['X'].choiceId}
+                                           choiceId={v.odds[0].chs.list.X.choiceId}
                                            matchId={v.matchId}
-                                           dishId={chsDB[v.odds[0].chs.list['X'].choiceId] && chsDB[v.odds[0].chs.list['X'].choiceId].dishId}
-                                           dish={chsDB[v.odds[0].chs.list['X'].choiceId] && chsDB[v.odds[0].chs.list['X'].choiceId].dish}
+                                           dishId={chsDB[v.odds[0].chs.list.X.choiceId] &&
+                                           chsDB[v.odds[0].chs.list.X.choiceId].dishId}
+                                           dish={chsDB[v.odds[0].chs.list.X.choiceId] &&
+                                           chsDB[v.odds[0].chs.list.X.choiceId].dish}
                                          />
                                        </span>
                                   </Col>
@@ -128,8 +133,10 @@ class FirstGoal extends PureComponent {
                                          <DishLayout
                                            choiceId={v.odds[1].chs.list['1'].choiceId}
                                            matchId={v.matchId}
-                                           dishId={chsDB[v.odds[1].chs.list['1'].choiceId] && chsDB[v.odds[1].chs.list['1'].choiceId].dishId}
-                                           dish={chsDB[v.odds[1].chs.list['1'].choiceId] && chsDB[v.odds[1].chs.list['1'].choiceId].dish}
+                                           dishId={chsDB[v.odds[1].chs.list['1'].choiceId] &&
+                                           chsDB[v.odds[1].chs.list['1'].choiceId].dishId}
+                                           dish={chsDB[v.odds[1].chs.list['1'].choiceId] &&
+                                           chsDB[v.odds[1].chs.list['1'].choiceId].dish}
                                          />
                                        </span>
                                     </Col>
@@ -143,23 +150,27 @@ class FirstGoal extends PureComponent {
                                          <DishLayout
                                            choiceId={v.odds[1].chs.list['2'].choiceId}
                                            matchId={v.matchId}
-                                           dishId={chsDB[v.odds[1].chs.list['2'].choiceId] && chsDB[v.odds[1].chs.list['2'].choiceId].dishId}
-                                           dish={chsDB[v.odds[1].chs.list['2'].choiceId] && chsDB[v.odds[1].chs.list['2'].choiceId].dish}
+                                           dishId={chsDB[v.odds[1].chs.list['2'].choiceId] &&
+                                           chsDB[v.odds[1].chs.list['2'].choiceId].dishId}
+                                           dish={chsDB[v.odds[1].chs.list['2'].choiceId] &&
+                                           chsDB[v.odds[1].chs.list['2'].choiceId].dish}
                                          />
                                        </span>
                                     </Col>
                                   }
                                   {
-                                    v.odds[1].chs.list['X'] &&
+                                    v.odds[1].chs.list.X &&
                                     <Col span={8} className={styles.item}>
                                        <span
                                          className={styles.odds}
                                        >
                                          <DishLayout
-                                           choiceId={v.odds[1].chs.list['X'].choiceId}
+                                           choiceId={v.odds[1].chs.list.X.choiceId}
                                            matchId={v.matchId}
-                                           dishId={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dishId}
-                                           dish={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dish}
+                                           dishId={chsDB[v.odds[1].chs.list.X.choiceId] &&
+                                           chsDB[v.odds[1].chs.list.X.choiceId].dishId}
+                                           dish={chsDB[v.odds[1].chs.list.X.choiceId] &&
+                                           chsDB[v.odds[1].chs.list.X.choiceId].dish}
                                          />
                                        </span>
                                     </Col>

@@ -11,16 +11,17 @@ import Accordion from '@/components/Accordion';
   betShopCart,
 }))
 class DoubleResultItem extends PureComponent {
-
   render() {
     const {
       cptData, matchData,
       chsDB: { chsDB },
     } = this.props;
     return (
-      <div key={cptData} style={this.props.style}>
+      <div
+        key={cptData}
+      >
         <Accordion
-          cptName={matchData[0] &&  matchData[0].cptName}
+          cptName={matchData[0] && matchData[0].cptName}
         >
           <div className={styles['match-info']}>
             {
@@ -117,39 +118,39 @@ class DoubleResultItem extends PureComponent {
 
                       <div className={styles['match-odds']}>
                         {
-                          v.odds[0].chs.list['X1'] &&
+                          v.odds[0].chs.list.X1 &&
                           <span className={styles.item}>
                                                <DishLayout
-                                                 choiceId={v.odds[0].chs.list['X1'].choiceId}
+                                                 choiceId={v.odds[0].chs.list.X1.choiceId}
                                                  matchId={v.matchId}
-                                                 dishId={chsDB[v.odds[0].chs.list['X1'].choiceId] && chsDB[v.odds[0].chs.list['X1'].choiceId].dishId}
-                                                 dish={chsDB[v.odds[0].chs.list['X1'].choiceId] && chsDB[v.odds[0].chs.list['X1'].choiceId].dish}
+                                                 dishId={chsDB[v.odds[0].chs.list.X1.choiceId] && chsDB[v.odds[0].chs.list.X1.choiceId].dishId}
+                                                 dish={chsDB[v.odds[0].chs.list.X1.choiceId] && chsDB[v.odds[0].chs.list.X1.choiceId].dish}
                                                />
                                       </span>
                         }
                       </div>
                       <div className={styles['match-odds']}>
                         {
-                          v.odds[0].chs.list['X2'] &&
+                          v.odds[0].chs.list.X2 &&
                           <span className={styles.item}>
                                                <DishLayout
-                                                 choiceId={v.odds[0].chs.list['X2'].choiceId}
+                                                 choiceId={v.odds[0].chs.list.X2.choiceId}
                                                  matchId={v.matchId}
-                                                 dishId={chsDB[v.odds[0].chs.list['X2'].choiceId] && chsDB[v.odds[0].chs.list['X2'].choiceId].dishId}
-                                                 dish={chsDB[v.odds[0].chs.list['X2'].choiceId] && chsDB[v.odds[0].chs.list['X2'].choiceId].dish}
+                                                 dishId={chsDB[v.odds[0].chs.list.X2.choiceId] && chsDB[v.odds[0].chs.list.X2.choiceId].dishId}
+                                                 dish={chsDB[v.odds[0].chs.list.X2.choiceId] && chsDB[v.odds[0].chs.list.X2.choiceId].dish}
                                                />
                                       </span>
                         }
                       </div>
                       <div className={styles['match-odds']}>
                         {
-                          v.odds[0].chs.list['XX'] &&
+                          v.odds[0].chs.list.XX &&
                           <span className={styles.item}>
                                                <DishLayout
-                                                 choiceId={v.odds[0].chs.list['XX'].choiceId}
+                                                 choiceId={v.odds[0].chs.list.XX.choiceId}
                                                  matchId={v.matchId}
-                                                 dishId={chsDB[v.odds[0].chs.list['XX'].choiceId] && chsDB[v.odds[0].chs.list['XX'].choiceId].dishId}
-                                                 dish={chsDB[v.odds[0].chs.list['XX'].choiceId] && chsDB[v.odds[0].chs.list['XX'].choiceId].dish}
+                                                 dishId={chsDB[v.odds[0].chs.list.XX.choiceId] && chsDB[v.odds[0].chs.list.XX.choiceId].dishId}
+                                                 dish={chsDB[v.odds[0].chs.list.XX.choiceId] && chsDB[v.odds[0].chs.list.XX.choiceId].dish}
                                                />
                                       </span>
                         }

@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react';
-import {  Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout';
 import Accordion from '@/components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 
-@connect(({ asianGG, chsDB}) => ({
+@connect(({ asianGG, chsDB }) => ({
   asianGG,
   chsDB,
 }))
 class CorrectScore extends PureComponent {
-
   render() {
     const {
       asianGG: {
@@ -21,8 +20,8 @@ class CorrectScore extends PureComponent {
     } = this.props;
     return (
       <AsianWrapper
-        gg='5'
-        title='波胆'
+        gg="5"
+        title="波胆"
       >
         <Row className={styles.table}>
           <Col
@@ -34,7 +33,7 @@ class CorrectScore extends PureComponent {
         </Row>
         <div>
           {
-            cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> :  cptIds.map((val) => (
+            cptIds && cptIds.length === 0 ? <div className="no-match">暂无比赛</div> : cptIds.map((val) => (
               <div key={val}>
                 <Accordion
                   cptName={matchListObj[val] && matchListObj[val][0].cptName}

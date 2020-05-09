@@ -28,7 +28,9 @@ class MainRight extends PureComponent {
   state = {
 
   };
+
   timer = null;
+
   componentDidMount() {
 
   }
@@ -37,78 +39,79 @@ class MainRight extends PureComponent {
     clearInterval(this.timer);
   }
 
-  renderPage(){
+  renderPage() {
     const {
-      togglePageWithGg: { pageId , matchId },
+      togglePageWithGg: { pageId },
     } = this.props;
-    if(pageId === 'command'){
-      return  <CommandMatch />
+    if (pageId === 'command') {
+      return <CommandMatch />
     }
-    if(pageId === '1'){
-      return  <PointSpread />
+    if (pageId === '1') {
+      return <PointSpread />
     }
-    if(pageId === '2'){
-      return  <TotalResult />
+    if (pageId === '2') {
+      return <TotalResult />
     }
-    if(pageId === '3'){
-      return  <TotalOver />
+    if (pageId === '3') {
+      return <TotalOver />
     }
-    if(pageId === '4'){
-      return  <Double />
+    if (pageId === '4') {
+      return <Double />
     }
-    if(pageId === '5'){
-      return  <CorrectScore />
+    if (pageId === '5') {
+      return <CorrectScore />
     }
-    if(pageId === '6'){
-      return  <DoubleResult />
+    if (pageId === '6') {
+      return <DoubleResult />
     }
-    if(pageId === '7'){
-      return  <FirstGoal />
+    if (pageId === '7') {
+      return <FirstGoal />
     }
-    if(pageId === '8'){
-      return  <Mixed />
+    if (pageId === '8') {
+      return <Mixed />
     }
-    if(pageId === 't1'){
-      return  <TodayPointSpread />
+    if (pageId === 't1') {
+      return <TodayPointSpread />
     }
-    if(pageId === 't2'){
-      return  <TodayTotalResult />
+    if (pageId === 't2') {
+      return <TodayTotalResult />
     }
-    if(pageId === 't3'){
-      return  <TodayTotalOver />
+    if (pageId === 't3') {
+      return <TodayTotalOver />
     }
-    if(pageId === 't4'){
-      return  <TodayDouble />
+    if (pageId === 't4') {
+      return <TodayDouble />
     }
-    if(pageId === 't5'){
-      return  <TodayCorrectScore />
+    if (pageId === 't5') {
+      return <TodayCorrectScore />
     }
-    if(pageId === 't6'){
-      return  <TodayDoubleResult />
+    if (pageId === 't6') {
+      return <TodayDoubleResult />
     }
-    if(pageId === 't7'){
-      return  <TodayFirstGoal />
+    if (pageId === 't7') {
+      return <TodayFirstGoal />
     }
-    if(pageId === 't8'){
-      return  <TodayMixed />
+    if (pageId === 't8') {
+      return <TodayMixed />
     }
-    if(pageId === 'inPlay'){
-      return  <InPlayMatch />
+    if (pageId === 'inPlay') {
+      return <InPlayMatch />
     }
   /*  if(pageId === 'detail'){
       return  <MatchDetail matchId={matchId} />
     }
     if(pageId === 'mixedDetail'){
       return  <MixedMatchDetail matchId={matchId} />
-    }*/
-    if(pageId === 'inPlayFav'){
-      return  <InPlayFav />
+    } */
+    if (pageId === 'inPlayFav') {
+      return <InPlayFav />
     }
+    return null
   }
 
   render() {
     return (
-      <div className={styles['main-right-box']} id='mainRightBox'>
+      <div className={styles['main-right-box']} id="mainRightBox">
         {this.renderPage()}
       </div>
 

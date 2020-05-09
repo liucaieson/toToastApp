@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import styles from './index.scss';
 import { Icon } from 'antd';
 import CollapseList from '@/components/CollapseList';
 import QueueAnim from 'rc-queue-anim';
+import styles from './index.scss';
 
 const liveURL = [
   {
@@ -29,7 +29,6 @@ const liveURL = [
 
 
 class MainLeft extends PureComponent {
-
   state = {
     isShowLiveList: false,
     isShowSportsSelect: false,
@@ -41,7 +40,7 @@ class MainLeft extends PureComponent {
   }
 
   showLiveList = () => {
-    const { isShowLiveList} = this.state;
+    const { isShowLiveList } = this.state;
     this.setState({
       isShowLiveList: !isShowLiveList
     })
@@ -54,28 +53,28 @@ class MainLeft extends PureComponent {
   };
 
   toggleLive = (url) => {
-    window.frames['videoIFrame'].location.href = url;
+    window.frames.videoIFrame.location.href = url;
     this.setState({
       isShowLiveList: false
     })
   };
 
   toggleSportsSelect = () => {
-    const { isShowSportsSelect } =  this.state;
+    const { isShowSportsSelect } = this.state;
     this.setState({
-      isShowSportsSelect : !isShowSportsSelect
+      isShowSportsSelect: !isShowSportsSelect
     })
   };
 
   toggleLiveSport = (value) => {
     this.setState({
       liveSport: value,
-      isShowSportsSelect:false
+      isShowSportsSelect: false
     })
   };
 
   render() {
-    const { isShowLiveList, isShowSportsSelect, liveSport } = this.state;
+    const { isShowSportsSelect, liveSport } = this.state;
     return (
       <div className={styles['main-live-box']}>
         <div className={styles.header}>
@@ -88,67 +87,63 @@ class MainLeft extends PureComponent {
             </div>
           </div>
         </div>
-      {/*  {
-          isShowLiveList ?
-            <div className={styles.liveList}>
-              <div className={styles.title}>
-                <span className={styles.name}>直播日程表 </span>
-                <span className={styles.close} onClick={this.closeLiveList}  />
-                <span className={styles.select}>所有球类
-                  <Icon style={{marginLeft : '4px'}} type='down'/></span>
-              </div>
-              <div className={styles.list}>
-                <div className={styles.date}>2018</div>
-                {
-                  liveURL.map((item) => (
-                    <div className={styles.item} onClick={() => this.toggleLive(item.url)}>{item.name}</div>
-                  ))
-                }
-              </div>
-            </div>
-            : ''
-        }*/}
         <div className={styles.liveBox}>
-          <iframe name='videoIFrame'  width="100%" height="100%" src="https://player.youku.com/embed/XNDY0MDc0MTcwNA==" frameBorder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen />
+          <iframe
+            title="videoIFrame"
+            name="videoIFrame"
+            width="100%"
+            height="100%"
+            src="https://player.youku.com/embed/XNDY0MDc0MTcwNA=="
+            frameBorder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
         </div>
         <div className={styles.liveList}>
           <div className={styles.title}>
             <span className={styles.name}>直播日程表 </span>
-           {/* <span className={styles.close} onClick={this.closeLiveList}  />*/}
+           {/* <span className={styles.close} onClick={this.closeLiveList}  /> */}
             <span className={styles.select} onClick={this.toggleSportsSelect}>{liveSport}
-                  <Icon style={{marginLeft : '4px'}} type='down'/></span>
+                  <Icon style={{ marginLeft: '4px' }} type="down"/></span>
             {
              isShowSportsSelect ?
                <QueueAnim className={styles['select-list']}>
-                 <div key={'a'} onClick={() => this.toggleLiveSport('所有球类')} className={styles.item}>所有球类</div>
-                 <div key={'b'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
-                 <div key={'c'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
-                 <div key={'d'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
-                 <div key={'e'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
-                 <div key={'f'} onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key="a" onClick={() => this.toggleLiveSport('所有球类')} className={styles.item}>所有球类</div>
+                 <div key="b" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key="c" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key="d" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key="e" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
+                 <div key="f" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
                </QueueAnim>
                : null
             }
           </div>
 
 
-
           <div className={styles.list}>
             <CollapseList>
               <div className={styles.date}>世界杯</div>
               {
-                liveURL.slice(0,3).map((item) => (
-                  <div className={styles.item} onClick={() => this.toggleLive(item.url)}>{item.name}</div>
+                liveURL.slice(0, 3).map((item) => (
+                  <div
+                    className={styles.item}
+                    onClick={() => this.toggleLive(item.url)}
+                  >
+                    {item.name}
+                    </div>
                 ))
               }
             </CollapseList>
             <CollapseList>
               <div className={styles.date}>youtube</div>
               {
-                liveURL.slice(3,6).map((item) => (
-                  <div className={styles.item} onClick={() => this.toggleLive(item.url)}>{item.name}</div>
+                liveURL.slice(3, 6).map((item) => (
+                  <div
+                    className={styles.item}
+                    onClick={() => this.toggleLive(item.url)}
+                  >
+                    {item.name}
+                  </div>
                 ))
               }
             </CollapseList>

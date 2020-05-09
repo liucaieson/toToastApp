@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import { Icon } from 'antd';
 import styles from './index.scss';
 import { calcDate2 } from '@/utils/util';
 import PageLoading from '@/components/MbPageLoading';
-import { Icon } from 'antd';
 import CountDown from '@/components/CountDown';
 import MixedDishItem from '../detailDishLayout/mixedDishItem';
 
@@ -15,12 +15,10 @@ import MixedDishItem from '../detailDishLayout/mixedDishItem';
 }))
 class ModalLayout extends PureComponent {
   state = {
-    showOdds: [],
     firstLoading: true,
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   globalParams = {
@@ -106,7 +104,7 @@ class ModalLayout extends PureComponent {
                 <span className={styles.time}>
                     <CountDown
                       onCountDownRef={this.onCountDownRef}
-                      time='60'
+                      time="60"
                       onEnd={this.setTimeFetchMatchList}/>
                     s
                    </span>
@@ -129,7 +127,8 @@ class ModalLayout extends PureComponent {
               <div className={styles['all-odds']}>
                 {
                   refreshLoading ?
-                    <PageLoading/> : matchAllOdds && matchAllOdds[0] && matchAllOdds[0].odds.map((val) => (
+                    <PageLoading/> :
+                    matchAllOdds && matchAllOdds[0] && matchAllOdds[0].odds.map((val) => (
                     <div className={styles['odds-box']} key={val.oddId}>
                       <div className={styles['odds-name']}>
                         <div className={styles.name}>{val.oddName}</div>
@@ -157,7 +156,6 @@ class ModalLayout extends PureComponent {
                 }
               </div>
             </div>
-
         }
       </div>
     );

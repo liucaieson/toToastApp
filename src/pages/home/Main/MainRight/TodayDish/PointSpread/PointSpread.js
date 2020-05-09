@@ -1,24 +1,23 @@
-import React, { PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import Item from './item';
 import TodayWrapper from '../TodayWarpper/wrapper1';
 
-@connect(({ asianGG}) => ({
+@connect(({ asianGG }) => ({
   asianGG,
 }))
 class TodayPointSpread extends PureComponent {
-
   render() {
     const {
       asianGG: {
         cptIds, matchListObj
-    }} = this.props;
+    } } = this.props;
     return (
       <TodayWrapper
-        gg='1'
-        title='让球&大小'
+        gg="1"
+        title="让球&大小"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={2}>时间</Col>

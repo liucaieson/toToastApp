@@ -9,14 +9,13 @@ import { dishNameMap } from '@/utils/util';
   addLoading: loading.effects['betShopCart/addMixedShopCart'],
 }))
 class MixedDishItem extends PureComponent {
-
   state = {
     up: 0,
     prevDish: 0,
   };
 
   static getDerivedStateFromProps (props, state) {
-    if(state.prevDish === 0 ){
+    if (state.prevDish === 0) {
       return {
         up: 0,
         prevDish: props.dish
@@ -39,8 +38,8 @@ class MixedDishItem extends PureComponent {
 
 
   /* 添加投注单到购物车 */
-  addMixedShopCart = (matchId , gamblingId, choiceId, id) => {
-    const { dispatch, betShopCart: { mixedShopCart } , addLoading} = this.props;
+  addMixedShopCart = (matchId, gamblingId, choiceId, id) => {
+    const { dispatch, betShopCart: { mixedShopCart }, addLoading } = this.props;
     if (addLoading) {
       return;
     }
@@ -65,15 +64,15 @@ class MixedDishItem extends PureComponent {
     }
   };
 
-  renderUp(){
+  renderUp() {
     const { up } = this.state;
-    if(up === 0){
+    if (up === 0) {
       return ''
     }
-    if( up === 1){
+    if (up === 1) {
       return <div className={styles.up}/>
     }
-    if( up === -1){
+    if (up === -1) {
       return <div className={styles.down}/>
     }
   }
@@ -91,7 +90,7 @@ class MixedDishItem extends PureComponent {
     } = this.props;
     return (
       <div key={choiceId}
-           className={(mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId)? `${styles.item} ${styles.active}` : styles.item}
+           className={(mixedShopCart.list[matchId] && mixedShopCart.list[matchId].choiceId === choiceId) ? `${styles.item} ${styles.active}` : styles.item}
            onClick={() => this.addMixedShopCart(matchId, gamblingId, choiceId, dishId)}
       >
         <div className={styles.name}>

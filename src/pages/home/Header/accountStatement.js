@@ -6,7 +6,6 @@ import {
 import AccountStatementTable from './accountStatementTable';
 
 export default ({ accountStatementVisible, closeAccountStatementModal }) => (
-
     <Modal
       title="账变记录"
       visible={accountStatementVisible}

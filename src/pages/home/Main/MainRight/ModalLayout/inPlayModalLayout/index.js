@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import { Icon } from 'antd';
 import styles from './index.scss';
 import { calcDate2 } from '@/utils/util';
 import PageLoading from '@/components/MbPageLoading';
-import { Icon } from 'antd';
 import CountDown from '@/components/CountDown';
 import BetDishItem from '../../DishLayout/inPlayDeatilDishLayout';
 
@@ -14,7 +14,6 @@ import BetDishItem from '../../DishLayout/inPlayDeatilDishLayout';
 }))
 class ModalLayout extends PureComponent {
   state = {
-    showOdds: [],
     firstLoading: true,
     prevPeriod: '0:00',
     calcPeriod: '0:00',
@@ -22,13 +21,13 @@ class ModalLayout extends PureComponent {
 
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {
     sport: '1',
     gg: '1',
   };
+
   /* 存储全局的参数 */
   globalParams = {
     ...this.defaultParams,
@@ -47,33 +46,36 @@ class ModalLayout extends PureComponent {
     });
 
     this.timer = setInterval(() => {
-      const { prevPeriod} = this.state;
+      const { prevPeriod } = this.state;
       let minute = prevPeriod.split(':')[0];
       let second = prevPeriod.split(':')[1];
-      if(minute === '45' ){
+      if (minute === '45') {
         this.setState({
           prevPeriod: '45:00'
         })
-      }else if(minute === '90'){
+      } else if (minute === '90') {
         this.setState({
           prevPeriod: '90:00'
         })
-      }else {
+      } else {
         second = +second + 1;
-        if(second >= 59){
+        if (second >= 59) {
           minute = +minute + 1;
           second = 0
         }
-        const newPeriod = minute + ':' + second.toString().padStart(2, '0');
+        const newPeriod = `${minute}:${second.toString().padStart(2, '0')}`;
         this.setState({
           prevPeriod: newPeriod
         })
       }
-    },1000)
+    }, 1000)
   }
 
   static getDerivedStateFromProps (props, state) {
-    if (props.inPlay.inPlayAllOdds && props.inPlay.inPlayAllOdds[0] && props.inPlay.inPlayAllOdds[0].period !== state.calcPeriod) {
+    if (props.inPlay.inPlayAllOdds &&
+      props.inPlay.inPlayAllOdds[0] &&
+      props.inPlay.inPlayAllOdds[0].period !== state.calcPeriod
+    ) {
       return {
         prevPeriod: props.inPlay.inPlayAllOdds[0].period,
         calcPeriod: props.inPlay.inPlayAllOdds[0].period
@@ -148,7 +150,7 @@ class ModalLayout extends PureComponent {
                 <span className={styles.time}>
                     <CountDown
                       onCountDownRef={this.onCountDownRef}
-                      time='15'
+                      time="15"
                       onEnd={this.setTimeFetchMatchList}/>
                     s
                    </span>
@@ -181,7 +183,11 @@ class ModalLayout extends PureComponent {
               <div className={styles['all-odds']}>
                 {
                   refreshLoading ?
-                    <PageLoading/> : inPlayAllOdds && inPlayAllOdds[0] && inPlayAllOdds[0].odds && inPlayAllOdds[0].odds.map((val) => (
+                    <PageLoading/> :
+                    inPlayAllOdds &&
+                    inPlayAllOdds[0] &&
+                    inPlayAllOdds[0].odds &&
+                    inPlayAllOdds[0].odds.map((val) => (
                     <div className={styles['odds-box']} key={val.oddId}>
                       <div className={styles['odds-name']}>
                         <div className={styles.name}>{val.oddName}</div>

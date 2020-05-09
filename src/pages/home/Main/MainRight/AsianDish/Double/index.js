@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import {  Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import { connect } from 'dva';
 import styles from './index.scss';
 import { calcDateToMonthAndDay } from '@/utils/util';
@@ -7,12 +7,11 @@ import DishLayout from '../../DishLayout/betDishLayout';
 import Accordion from '@/components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
 
-@connect(({ asianGG,chsDB}) => ({
+@connect(({ asianGG, chsDB }) => ({
   asianGG,
   chsDB,
 }))
 class Double extends PureComponent {
-
   render() {
     const {
       asianGG: {
@@ -22,8 +21,8 @@ class Double extends PureComponent {
     } = this.props;
     return (
       <AsianWrapper
-        gg='4'
-        title='1X2 双重机会'
+        gg="4"
+        title="1X2 双重机会"
       >
         <Row className={styles.table}>
           <Col

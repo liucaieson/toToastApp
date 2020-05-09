@@ -10,7 +10,6 @@ import TodayWrapper from '../TodayWarpper/wrapper2';
   asianGG6And7,
 }))
 class DoubleResult extends PureComponent {
-
   render() {
     const {
       asianGG6And7: {
@@ -19,8 +18,8 @@ class DoubleResult extends PureComponent {
     } = this.props;
     return (
       <TodayWrapper
-        gg='6'
-        title='今日-半场/全场'
+        gg="6"
+        title="今日-半场/全场"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={3}>时间</Col>

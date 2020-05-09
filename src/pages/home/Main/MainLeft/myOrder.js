@@ -5,12 +5,12 @@ import styles from './myOrder.scss';
 import { dishNameMap } from '@/utils/util';
 
 const betTypeMap = {
-  '1':'',
-  '2':'二串一',
-  '3':'三串一',
-  '4':'四串一',
-  '5':'五串一',
-  '6':'六串一',
+  1: '',
+  2: '二串一',
+  3: '三串一',
+  4: '四串一',
+  5: '五串一',
+  6: '六串一',
 };
 
 @connect(({ historyBets, loading }) => ({
@@ -18,21 +18,14 @@ const betTypeMap = {
   loading: loading.models.historyBets,
 }))
 class MyOrder extends PureComponent {
-
   state = {
-    isShowLoading: true,
-    total: 1,
-    current: 1,
-    size: 20,
+    open1: false,
+    open2: false
   };
 
-  /* 请求投注记录 betStatus1未结算，2为未结算*/
+  /* 请求投注记录 betStatus1未结算，2为未结算 */
   componentDidMount() {
     const { dispatch } = this.props;
-    this.setState({
-      isShowLoading: true,
-      betStatus: '',
-    });
     dispatch({
       type: 'historyBets/fetchUnSettlement',
       payload: {
@@ -40,8 +33,8 @@ class MyOrder extends PureComponent {
         size: 20,
         betStatus: 0,
         sport: '1',
-        /*start_time: +(moment(startDate).valueOf()/1000).toFixed(0),
-        end_time: +(moment(moment(endDate).format('YYYY-MM-DD 23:59:59'))/1000).toFixed(0)*/
+        /* start_time: +(moment(startDate).valueOf()/1000).toFixed(0),
+        end_time: +(moment(moment(endDate).format('YYYY-MM-DD 23:59:59'))/1000).toFixed(0) */
       },
     });
     dispatch({
@@ -51,30 +44,30 @@ class MyOrder extends PureComponent {
         size: 20,
         betStatus: 1,
         sport: '1',
-        /*start_time: +(moment(startDate).valueOf()/1000).toFixed(0),
-        end_time: +(moment(moment(endDate).format('YYYY-MM-DD 23:59:59'))/1000).toFixed(0)*/
+        /* start_time: +(moment(startDate).valueOf()/1000).toFixed(0),
+        end_time: +(moment(moment(endDate).format('YYYY-MM-DD 23:59:59'))/1000).toFixed(0) */
       },
     });
   }
 
   toggleSettlement = () => {
-    const {open2} = this.state;
+    const { open2 } = this.state;
     this.setState({
-      open2 : !open2
+      open2: !open2
     })
   };
 
   toggleUnSettlement = () => {
-    const {open1} = this.state;
+    const { open1 } = this.state;
     this.setState({
-      open1 : !open1
+      open1: !open1
     })
   };
 
   render() {
     const { historyBets: { settlementData, unSettlementData } } = this.props;
     const {
-      open1,open2
+      open1, open2
     } = this.state;
     return (
       <div className={styles.myOrder}>
@@ -82,7 +75,7 @@ class MyOrder extends PureComponent {
           <div className={styles.title} onClick={this.toggleUnSettlement}>
             <div className={styles.left}>
               {
-                open1 ?  <Icon type="caret-up" /> :
+                open1 ? <Icon type="caret-up" /> :
                   <Icon type="caret-down" />
               }
             </div>
@@ -92,10 +85,14 @@ class MyOrder extends PureComponent {
             </div>
           </div>
           {
-            open1 ?   <ul className={styles.list}>
+            open1 ? <ul className={styles.list}>
               {
-                unSettlementData.map((val, index) => (
-                  <li className={styles.item} key={val.betId} onClick={() => this.toggle(val.betId)}>
+                unSettlementData.map((val) => (
+                  <li
+                    className={styles.item}
+                    key={val.betId}
+                    onClick={() => this.toggle(val.betId)}
+                  >
                     {
                       val.detailed && val.detailed.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
@@ -147,7 +144,9 @@ class MyOrder extends PureComponent {
                       </div>
                       <div className={styles.left}>
                         <span className={styles.text}>下注时间：</span>
-                        <span className={styles.time}>{val.betTime &&  val.betTime.substring(0,19)}</span>
+                        <span className={styles.time}>
+                          {val.betTime && val.betTime.substring(0, 19)}
+                        </span>
                       </div>
                     </div>
                   </li>
@@ -164,7 +163,7 @@ class MyOrder extends PureComponent {
           >
             <div className={styles.left}>
               {
-                open2 ?  <Icon type="caret-up" /> :
+                open2 ? <Icon type="caret-up" /> :
                   <Icon type="caret-down" />
               }
             </div>
@@ -174,9 +173,9 @@ class MyOrder extends PureComponent {
             </div>
           </div>
           {
-            open2 ?  <ul className={styles.list}>
+            open2 ? <ul className={styles.list}>
               {
-                settlementData.map((val, index) => (
+                settlementData.map((val) => (
                   <li
                     className={styles.item}
                     key={val.betId}
@@ -227,7 +226,9 @@ class MyOrder extends PureComponent {
                       </div>
                       <div className={styles.left}>
                         <span className={styles.text}>下注时间：</span>
-                        <span className={styles.time}>{val.betTime &&  val.betTime.substring(0,19)}</span>
+                        <span className={styles.time}>
+                          {val.betTime && val.betTime.substring(0, 19)}
+                        </span>
                       </div>
                     </div>
 
@@ -235,11 +236,10 @@ class MyOrder extends PureComponent {
                   </li>
                 ))
               }
-            </ul>: ''
+            </ul> : ''
           }
         </div>
       </div>
-
     );
   }
 }

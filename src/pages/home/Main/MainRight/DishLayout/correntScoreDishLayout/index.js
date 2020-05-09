@@ -4,18 +4,17 @@ import { connect } from 'dva';
 import styles from './index.scss';
 
 
-@connect(({  betShopCart}) => ({
+@connect(({ betShopCart }) => ({
   betShopCart,
 }))
 class CorrectScoreDishLayout extends PureComponent {
-
   state = {
     up: 0,
     prevDish: 0,
   };
 
   static getDerivedStateFromProps (props, state) {
-    if(state.prevDish === 0 ){
+    if (state.prevDish === 0) {
       return {
         up: 0,
         prevDish: props.dish
@@ -61,24 +60,13 @@ class CorrectScoreDishLayout extends PureComponent {
     }
   };
 
-  renderUp(){
-    const { up } = this.state;
-    if(up === 0){
-      return ''
-    }
-    if( up === 1){
-      return <div className={styles.up}/>
-    }
-    if( up === -1){
-      return <div className={styles.down}/>
-    }
-  }
-
   render() {
-    const { matchId, gamblingId, choiceId, dishId, dish, betShopCart: {shopCart} } = this.props;
+    const { matchId, gamblingId, choiceId, dishId, dish, betShopCart: { shopCart } } = this.props;
     return (
       <span
-        className={shopCart.ids.includes(choiceId) ? `${styles.CorrectScoreDish} ${styles.active}` : styles.CorrectScoreDish}
+        className={shopCart.ids.includes(choiceId) ?
+          `${styles.CorrectScoreDish} ${styles.active}` :
+          styles.CorrectScoreDish}
         onClick={() => this.addShopCart(matchId, gamblingId, choiceId, dishId)}
       >
         {dish}
@@ -88,6 +76,3 @@ class CorrectScoreDishLayout extends PureComponent {
 }
 
 export default CorrectScoreDishLayout;
-
-
-

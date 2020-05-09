@@ -1,9 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
-import Header from './Header/header2';
-import Main from './Main';
 import { connect } from 'dva';
 import { Modal } from 'antd';
 import withRouter from 'umi/withRouter';
+import Main from './Main';
+import Header from './Header/header2';
 import styles from './index.scss';
 import { getQueryString } from '../../utils/util';
 
@@ -11,10 +11,10 @@ import { getQueryString } from '../../utils/util';
   login,
 }))
 class HomePage extends PureComponent {
-
   state = {
     isLogin: true,
   };
+
   timer = null;
 
   componentDidMount() {
@@ -40,7 +40,6 @@ class HomePage extends PureComponent {
       });
       this.getUserInfo();
     }
-
   }
 
   getUserInfo = () => {

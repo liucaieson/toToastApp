@@ -1,4 +1,4 @@
-export const baseUrl = window.location.origin + '/';
+export const baseUrl = `${window.location.origin}/`;
 
 
 export const setFormData = (obj) => {
@@ -16,12 +16,12 @@ export const setFormData = (obj) => {
 
 export const setUrlEncoded = (obj) => {
     let urlEncoded = '';
-    if(obj && obj instanceof Object) {
+    if (obj && obj instanceof Object) {
         const keys = Object.keys(obj);
-        if(keys && keys.length) {
+        if (keys && keys.length) {
             keys.forEach((key, index) => {
                 urlEncoded += `${key}=${obj[key]}`;
-                if(index + 1 < keys.length){
+                if (index + 1 < keys.length) {
                     urlEncoded += '&';
                 }
             });

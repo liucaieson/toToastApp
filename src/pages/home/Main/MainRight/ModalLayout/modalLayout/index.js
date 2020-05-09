@@ -16,7 +16,6 @@ import Accordion from '@/components/Accordion';
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class ModalLayout extends PureComponent {
-
   state = {
     firstLoading: true,
   };
@@ -110,7 +109,6 @@ class ModalLayout extends PureComponent {
       myFavGG: { myFavGG },
     } = this.props;
     const { refreshLoading, firstLoading } = this.state;
-    console.log(myFavGG)
     return (
       <div className={styles.modalLayout}>
         {
@@ -124,7 +122,7 @@ class ModalLayout extends PureComponent {
                 <span className={styles.time}>
                    <CountDown
                      onCountDownRef={this.onCountDownRef}
-                     time='60'
+                     time="60"
                      onEnd={this.setTimeFetchMatchList}/>
                    s
                   </span>
@@ -149,7 +147,7 @@ class ModalLayout extends PureComponent {
                   <PageLoading/> :
                   <div className={styles['all-odds']}>
                     <Accordion
-                      cptName='我的盘口'
+                      cptName="我的盘口"
                       style={
                         { lineHeight: '32px', fontSize: '14px', backgroundColor: '#533E33' }
                       }
@@ -157,7 +155,7 @@ class ModalLayout extends PureComponent {
                       {
                         myFavGG.length === 0 ?
                           <div className={styles['my-tips']}>
-                            点击<Icon type='star' className={styles.icon} theme='filled'/>图标添加您喜欢的玩法
+                            点击<Icon type="star" className={styles.icon} theme="filled"/>图标添加您喜欢的玩法
                           </div>
                           :
                           matchAllOdds && matchAllOdds[0] && matchAllOdds[0].odds.map((val) => (
@@ -167,9 +165,9 @@ class ModalLayout extends PureComponent {
                                 <div className={styles.name}>{val.oddName}</div>
                                 <div className={styles.inFav}>
                                   <Icon
-                                    type='star'
+                                    type="star"
                                     className={styles.icon}
-                                    theme='filled'
+                                    theme="filled"
                                     onClick={() => this.removeMyFav(val.oddId)}
                                   />
                                 </div>
@@ -197,9 +195,9 @@ class ModalLayout extends PureComponent {
                       }
                     </Accordion>
                     <Accordion
-                      cptName='比赛盘口'
+                      cptName="比赛盘口"
                       style={
-                        { lineHeight: '32px', fontSize: '14px', backgroundColor: '#533E33'  }
+                        { lineHeight: '32px', fontSize: '14px', backgroundColor: '#533E33' }
                       }
                     >
                       {
@@ -210,9 +208,9 @@ class ModalLayout extends PureComponent {
                               <div className={styles.name}>{val.oddName}</div>
                               <div className={styles.fav}>
                                 <Icon
-                                  type='star'
+                                  type="star"
                                   className={styles.icon}
-                                  theme='filled'
+                                  theme="filled"
                                   onClick={() => this.addMyFav(val.oddId)}
                                 />
                               </div>

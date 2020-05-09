@@ -16,21 +16,17 @@ import MatchItem from './matchItem';
 class Favorite extends PureComponent {
   state = {
     refreshLoading: false,
-    isShowMatch: -1,
-    isActiveDate: '',
-    allMatchExpend: -1,
-    isShowMatchDetail: false,
     firstLoading: true,
   };
 
   timer = null;
-  competitionsParams = {};
 
   /* 存储全局的参数 */
   defaultParams = {
     sport: '1',
     gg: '1',
   };
+
   /* 存储全局的参数 */
   globalParams = {
     ...this.defaultParams,
@@ -85,7 +81,7 @@ class Favorite extends PureComponent {
     this.setState({
       refreshLoading: true,
     });
-    let params = {
+    const params = {
       sport: '1',
       gg: '1',
     };
@@ -119,7 +115,7 @@ class Favorite extends PureComponent {
             <span className={styles.time}>
               <CountDown
                 onCountDownRef={this.onCountDownRef}
-                time='15'
+                time="15"
                 onEnd={this.setTimeFetchMatchList}/>
               s
             </span>
@@ -155,17 +151,17 @@ class Favorite extends PureComponent {
               <div className={styles['match-info']}>
                 {
                   firstLoading ? <PageLoading/> :
-                      favMatchIds.map((val) => (
-                          <MatchItem
-                            time={favMatchObj[val].time}
-                            matchId={favMatchObj[val].matchId}
-                            soccer={favMatchObj[val].soccer}
-                            period={favMatchObj[val].period}
-                            homeName={favMatchObj[val].homeName}
-                            awayName={favMatchObj[val].awayName}
-                            odds={favMatchObj[val].odds}
-                          />
-                      ))
+                    favMatchIds.map((val) => (
+                      <MatchItem
+                        time={favMatchObj[val].time}
+                        matchId={favMatchObj[val].matchId}
+                        soccer={favMatchObj[val].soccer}
+                        period={favMatchObj[val].period}
+                        homeName={favMatchObj[val].homeName}
+                        awayName={favMatchObj[val].awayName}
+                        odds={favMatchObj[val].odds}
+                      />
+                    ))
                 }
               </div>
             </div>

@@ -28,7 +28,7 @@ function checkStatus(response) {
     sessionStorage.clear();
     const errortext = codeMessage[response.status] || response.statusText;
     notification.error({
-      message: `Token失效`,
+      message: 'Token失效',
       description: '请在平台重新登录',
       duration: 1.5,
       onClose: () => {
@@ -96,12 +96,11 @@ function proxyRequest(url, options) {
     if (response.code === '200') {
       return response.result;
     }
-    else{
+
       notification.error({
         message: response.message,
       });
       console.log(response)
-    }
   }).catch((e) => {
      notification.error({
          message: e.message,

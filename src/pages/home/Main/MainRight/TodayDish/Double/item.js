@@ -10,7 +10,6 @@ import Accordion from '@/components/Accordion';
   chsDB,
 }))
 class Double extends PureComponent {
-
   render() {
     const {
       cptData, matchData,
@@ -19,7 +18,7 @@ class Double extends PureComponent {
     return (
       <div key={cptData} style={this.props.style}>
         <Accordion
-          cptName={matchData[0] &&  matchData[0].cptName}
+          cptName={matchData[0] && matchData[0].cptName}
         >
           <div className={styles['match-info']}>
             {
@@ -36,55 +35,65 @@ class Double extends PureComponent {
                     <Col span={5} className={styles['match-odds']}>
                       {
                         v.odds && v.odds[0].chs.map((item) => (
-                            <Fragment key={item.dishId}>
-                              {item.name === '1' && <div key={item.dishId}
-                                                         className={styles['match-odds-item']}
-                              >
-                                <DishItem
-                                  key={item.choiceId}
-                                  choiceId={item.choiceId}
-                                  matchId={v.matchId}
-                                  gamblingId={v.odds[0].gamblingId}
-                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                />
-                              </div>}
-                              {item.name === 'X' && <div key={item.dishId}
-                                                         className={styles['match-odds-item']}
-                              >
-                                <DishItem
-                                  key={item.choiceId}
-                                  choiceId={item.choiceId}
-                                  matchId={v.matchId}
-                                  gamblingId={v.odds[0].gamblingId}
-                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                />
-                              </div>}
-                              {item.name === '2' && <div key={item.dishId}
-                                                         className={styles['match-odds-item']}
-                              >
-                                <DishItem
-                                  key={item.choiceId}
-                                  choiceId={item.choiceId}
-                                  matchId={v.matchId}
-                                  gamblingId={v.odds[0].gamblingId}
-                                  dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
-                                  dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
-                                />
-                              </div>}
-                            </Fragment>
+                          <Fragment key={item.dishId}>
+                            {item.name === '1' &&
+                            <div
+                              key={item.dishId}
+                              className={styles['match-odds-item']}
+                            >
+                              <DishItem
+                                key={item.choiceId}
+                                choiceId={item.choiceId}
+                                matchId={v.matchId}
+                                gamblingId={v.odds[0].gamblingId}
+                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                              />
+                            </div>}
+                            {item.name === 'X' &&
+                            <div
+                              key={item.dishId}
+                              className={styles['match-odds-item']}
+                            >
+                              <DishItem
+                                key={item.choiceId}
+                                choiceId={item.choiceId}
+                                matchId={v.matchId}
+                                gamblingId={v.odds[0].gamblingId}
+                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                              />
+                            </div>}
+                            {item.name === '2' &&
+                            <div
+                              key={item.dishId}
+                              className={styles['match-odds-item']}
+                            >
+                              <DishItem
+                                key={item.choiceId}
+                                choiceId={item.choiceId}
+                                matchId={v.matchId}
+                                gamblingId={v.odds[0].gamblingId}
+                                dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
+                                dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
+                              />
+                            </div>}
+                           </Fragment>
                           ),
                         )
                       }
                     </Col>
-                    <Col span={5} className={styles['match-odds']}>
-
+                    <Col
+                      span={5}
+                      className={styles['match-odds']}
+                    >
                       {
                         v.odds && v.odds[1].chs.map((item) => (
                             <Fragment key={item.dishId}>
-                              {item.name === '1' && <div key={item.dishId}
-                                                         className={styles['match-odds-item']}
+                              {item.name === '1' &&
+                              <div
+                                key={item.dishId}
+                                className={styles['match-odds-item']}
                               >
                                 <DishItem
                                   key={item.choiceId}
@@ -95,8 +104,10 @@ class Double extends PureComponent {
                                   dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
-                              {item.name === 'X' && <div key={item.dishId}
-                                                         className={styles['match-odds-item']}
+                              {item.name === 'X' &&
+                              <div
+                                key={item.dishId}
+                                className={styles['match-odds-item']}
                               >
                                 <DishItem
                                   key={item.choiceId}
@@ -107,8 +118,10 @@ class Double extends PureComponent {
                                   dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
-                              {item.name === '2' && <div key={item.dishId}
-                                                         className={styles['match-odds-item']}
+                              {item.name === '2' &&
+                              <div
+                                key={item.dishId}
+                                className={styles['match-odds-item']}
                               >
                                 <DishItem
                                   key={item.choiceId}
@@ -128,8 +141,10 @@ class Double extends PureComponent {
                       {
                         v.odds && v.odds[2].chs.map((item) => (
                             <Fragment key={item.dishId}>
-                              {item.name === '1X' && <div key={item.dishId}
-                                                          className={styles['match-odds-item']}
+                              {item.name === '1X' &&
+                              <div
+                                key={item.dishId}
+                                className={styles['match-odds-item']}
                               >
                                 <DishItem
                                   key={item.choiceId}
@@ -140,9 +155,10 @@ class Double extends PureComponent {
                                   dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
-                              {item.name === '12' && <div key={item.dishId}
-                                                          className={styles['match-odds-item']}
-
+                              {item.name === '12' &&
+                              <div
+                                key={item.dishId}
+                                className={styles['match-odds-item']}
                               >
                                 <DishItem
                                   key={item.choiceId}
@@ -153,8 +169,10 @@ class Double extends PureComponent {
                                   dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                                 />
                               </div>}
-                              {item.name === 'X2' && <div key={item.dishId}
-                                                          className={styles['match-odds-item']}
+                              {item.name === 'X2' &&
+                              <div
+                                key={item.dishId}
+                                className={styles['match-odds-item']}
                               >
                                 <DishItem
                                   key={item.choiceId}
@@ -176,9 +194,7 @@ class Double extends PureComponent {
             }
           </div>
         </Accordion>
-
       </div>
-
     );
   }
 }

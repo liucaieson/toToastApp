@@ -13,7 +13,7 @@ class MainLeft extends PureComponent {
   toggleTab = (id) => {
     const { dispatch, toggleMainLeftTabs: { mainLeftId } } = this.props;
     if (mainLeftId === id) {
-      return false
+      return
     }
     dispatch({
       type: 'toggleMainLeftTabs/toggleMainLeftTabs',

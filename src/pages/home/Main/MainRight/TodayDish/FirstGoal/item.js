@@ -10,14 +10,13 @@ import Accordion from '@/components/Accordion';
   chsDB,
 }))
 class DoubleResultItem extends PureComponent {
-
   render() {
     const {
       cptData, matchData,
       chsDB: { chsDB },
     } = this.props;
     return (
-      <div key={cptData} style={this.props.style}>
+      <div key={cptData}>
         <Accordion
           cptName={matchData[0] && matchData[0].cptName}
         >
@@ -60,13 +59,13 @@ class DoubleResultItem extends PureComponent {
                       </Col>
                       <Col span={8} className={styles.item}>
                         {
-                          v.odds[0].chs.list['X'] &&
+                          v.odds[0].chs.list.X &&
                           <DishItem
-                            key={v.odds[0].chs.list['X'].choiceId}
-                            choiceId={v.odds[0].chs.list['X'].choiceId}
+                            key={v.odds[0].chs.list.X.choiceId}
+                            choiceId={v.odds[0].chs.list.X.choiceId}
                             matchId={v.matchId}
-                            dishId={chsDB[v.odds[0].chs.list['X'].choiceId] && chsDB[v.odds[0].chs.list['X'].choiceId].dishId}
-                            dish={chsDB[v.odds[0].chs.list['X'].choiceId] && chsDB[v.odds[0].chs.list['X'].choiceId].dish}
+                            dishId={chsDB[v.odds[0].chs.list.X.choiceId] && chsDB[v.odds[0].chs.list.X.choiceId].dishId}
+                            dish={chsDB[v.odds[0].chs.list.X.choiceId] && chsDB[v.odds[0].chs.list.X.choiceId].dish}
                           />
                         }
                       </Col>
@@ -98,13 +97,13 @@ class DoubleResultItem extends PureComponent {
                       </Col>
                       <Col span={8} className={styles.item}>
                         {
-                          v.odds[1].chs.list['X'] &&
+                          v.odds[1].chs.list.X &&
                           <DishItem
-                            key={v.odds[1].chs.list['X'].choiceId}
-                            choiceId={v.odds[1].chs.list['X'].choiceId}
+                            key={v.odds[1].chs.list.X.choiceId}
+                            choiceId={v.odds[1].chs.list.X.choiceId}
                             matchId={v.matchId}
-                            dishId={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dishId}
-                            dish={chsDB[v.odds[1].chs.list['X'].choiceId] && chsDB[v.odds[1].chs.list['X'].choiceId].dish}
+                            dishId={chsDB[v.odds[1].chs.list.X.choiceId] && chsDB[v.odds[1].chs.list.X.choiceId].dishId}
+                            dish={chsDB[v.odds[1].chs.list.X.choiceId] && chsDB[v.odds[1].chs.list.X.choiceId].dish}
                           />
                         }
                       </Col>
@@ -115,7 +114,6 @@ class DoubleResultItem extends PureComponent {
             }
           </div>
         </Accordion>
-
       </div>
 
     );

@@ -9,7 +9,6 @@ import TodayWrapper from '../TodayWarpper/wrapper1';
   asianGG,
 }))
 class Double extends PureComponent {
-
   render() {
     const {
       asianGG: {
@@ -18,8 +17,8 @@ class Double extends PureComponent {
     } = this.props;
     return (
       <TodayWrapper
-        gg='4'
-        title='今日 1X2 双重机会'
+        gg="4"
+        title="今日 1X2 双重机会"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={3}>时间</Col>

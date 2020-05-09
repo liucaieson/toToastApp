@@ -11,13 +11,8 @@ import MatchItem from './matchItem';
 }))
 class InplayItem extends PureComponent {
 
-  state = {
-    isShow: false,
-    time:0
-  };
-
   static getDerivedStateFromProps (props, state) {
-    if(state.prevDish === 0 ){
+    if (state.prevDish === 0) {
       return {
         prevDish: props.dish
       }
@@ -44,8 +39,7 @@ class InplayItem extends PureComponent {
     return (
       <div key={cptData} style={this.props.style}>
         <Row className={styles['competitions-name']}>
-          <Col span={1} className={styles.arrow}>
-          </Col>
+          <Col span={1} className={styles.arrow} />
           <Col span={20} className={styles.name}>
             {matchData[0].cptName}
           </Col>
@@ -67,7 +61,6 @@ class InplayItem extends PureComponent {
           }
         </div>
       </div>
-
     );
   }
 }

@@ -3,7 +3,6 @@ import styles from './index.scss';
 import InpalyDishLayout from '../DishLayout/inplayDishLayout';
 
 class IndexDishItem extends PureComponent {
-
   render() {
     const {
       matchId,

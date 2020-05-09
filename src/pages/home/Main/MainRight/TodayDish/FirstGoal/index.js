@@ -9,7 +9,6 @@ import TodayWrapper from '../TodayWarpper/wrapper2';
   asianGG6And7,
 }))
 class FirstGoal extends PureComponent {
-
   render() {
     const {
       asianGG6And7: {
@@ -18,8 +17,8 @@ class FirstGoal extends PureComponent {
     } = this.props;
     return (
       <TodayWrapper
-        gg='7'
-        title='今日-最先进球/最后进球'
+        gg="7"
+        title="今日-最先进球/最后进球"
       >
         <Row className={styles.table}>
           <Col className={styles['big-tb']} span={3}>时间</Col>
@@ -53,8 +52,6 @@ class FirstGoal extends PureComponent {
               ))
           }
         </div>
-
-
       </TodayWrapper>
 
     );
