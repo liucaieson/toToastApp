@@ -89,10 +89,11 @@ class ShopCart extends PureComponent {
       amount5 >= 1 ||
       amount6 >= 1
     ) {
-      mixedShopCart.ids.map((item) => {
+      mixedShopCart.ids.forEach((item) => {
         dishParams.push(chsDB[mixedShopCart.list[item].choiceId].dishId)
         dishRate.push(chsDB[mixedShopCart.list[item].choiceId].dish)
       });
+      // 根据混合过的ids的长度包含了混合过关的下注方法
       betTypeArr[mixedShopCart.ids.length - 1].forEach((item) => {
         if (this.state[`amount${item.betType}`] >= 1) {
           if (item.betType === 1) {
@@ -120,7 +121,7 @@ class ShopCart extends PureComponent {
     } else {
       Modal.info({
         title: '提示',
-        content: '至少要投一注' });
+        content: '至少要选择2场比赛' });
       return
     }
     const param = {
@@ -228,7 +229,7 @@ class ShopCart extends PureComponent {
         />
       )
     }
-    return ''
+    return null
   }
 
   render() {
@@ -332,7 +333,6 @@ class ShopCart extends PureComponent {
                       {this.renderInput(val.betType)}
                     </div>
                   ))
-
                 : <div className={styles.row}>至少要选择2场比赛</div>
             }
             </div>
@@ -381,7 +381,7 @@ class ShopCart extends PureComponent {
                <Icon type="check-circle" />
              </div>
              <div className={styles.right}>
-               混合过关已下注
+               混合过关
              </div>
            </div>
            {
@@ -440,9 +440,9 @@ class ShopCart extends PureComponent {
                        {val.dish}
                      </div>
                    </div>
-                   <div className={styles['result-item-winInfo']}>
-                     <div className={styles.left}>
-                       下注失败{val.message}
+                   <div className={styles['result-item-message']}>
+                     <div className={styles.mes}>
+                       下注失败：{val.message}
                      </div>
                    </div>
                  </div>

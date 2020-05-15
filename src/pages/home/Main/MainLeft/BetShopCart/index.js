@@ -34,10 +34,16 @@ class ShopCart extends PureComponent {
     let params = {};
     if (shopCart.ids.length <= 0) { return }
     for (let i = 0; i < shopCart.ids.length; i += 1) {
+      if (shopCart.list[shopCart.ids[i]].code === '3001' || shopCart.list[shopCart.ids[i]].code === '2111') {
+        Modal.info({
+          title: '提示',
+          content: '请删掉无法下注的投注项' });
+        return
+      }
       if (shopCart.list[shopCart.ids[i]].amount < 1) {
         Modal.info({
           title: '提示',
-          content: '购物车有未投注项' });
+          content: '投注区有未投注项' });
         return
       }
     }

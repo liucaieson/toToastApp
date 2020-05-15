@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import styles from './index.scss';
 import CountDown from '@/components/CountDown';
 import PageLoading from '@/components/MbPageLoading';
-import Item from './cptItem'
+import CptItem from './cptItem';
 
 @connect(({ inPlay, inPlayFavorite, betShopCart, chsDB, showCompetitions, competitions, loading }) => ({
   inPlay,
@@ -64,16 +64,6 @@ class InplayMatch extends PureComponent {
     });
   };
 
-
-  /* 全局展示显示联赛的modal  */
-  showCompetitionsModal = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'showCompetitions/toggle',
-      payload: true,
-    });
-  };
-
   /* 获取倒计时组件的this */
   onCountDownRef = (ref) => {
     this.countRef = ref;
@@ -118,11 +108,10 @@ class InplayMatch extends PureComponent {
     }
       return (
         cptIds.map((val) => (
-          <Item key={val} cptData={val} matchData={matchListObj[val]}/>
+          <CptItem key={val} matchData={matchListObj[val]} />
         ))
       )
   }
-
 
   render() {
     const {
@@ -142,7 +131,8 @@ class InplayMatch extends PureComponent {
               <CountDown
                 onCountDownRef={this.onCountDownRef}
                 time="15"
-                onEnd={this.setTimeFetchMatchList}/>
+                onEnd={this.setTimeFetchMatchList}
+              />
               s
             </span>
           </div>

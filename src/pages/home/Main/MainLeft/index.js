@@ -81,9 +81,7 @@ class MainLeft extends PureComponent {
               我的注单
             </div>
           </div>
-          <div>
-            {this.renderTab()}
-          </div>
+          {this.renderTab()}
         </div>
       );
   }

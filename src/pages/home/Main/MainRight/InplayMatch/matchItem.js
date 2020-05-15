@@ -21,10 +21,11 @@ class InplayMatchItem extends PureComponent {
   componentDidMount() {
     this.timer = window.setInterval(() => {
       const { prevPeriod } = this.state;
+
       let minute = prevPeriod.split(':')[0];
       let second = prevPeriod.split(':')[1];
       if (prevPeriod.split(':')[0] === 45 || prevPeriod.split(':')[0] === 90) {
-        return false;
+        return
       }
         if (second >= 59) {
           minute = +minute + 1;
@@ -95,7 +96,7 @@ class InplayMatchItem extends PureComponent {
 
   render() {
     const {
-      time, period, soccer, homeName, awayName, odds, matchId, chsDB: { chsDB },
+      time, period, soccer, homeName, awayName, odds, matchId, isInPlay, chsDB: { chsDB },
       inPlayFavorite: { favMatchIds },
     } = this.props;
     const { prevPeriod, isShow } = this.state;
@@ -104,12 +105,13 @@ class InplayMatchItem extends PureComponent {
         <Row className={styles['match-line']}>
           <Col span={2} className={styles['match-time']}>
             {
-              period < 0 ?
+              isInPlay === 0 ?
                 <div>
                   {time.substring(4, 6)}-{time.substring(6, 8)}
                   <br/>
                   {time.substring(8, 10)}:{time.substring(10, 12)}
-                </div> :
+                </div>
+                :
                 <div>
                   <div className={styles.soccer}>
                     {soccer}
@@ -128,9 +130,12 @@ class InplayMatchItem extends PureComponent {
               favMatchIds.includes(matchId) ?
                 <div className={styles.favorite2} onClick={() => this.removeFav(matchId)}>
                   <Icon className={styles.icon} type="star" theme="filled"/>
-                </div> :
-                <div className={styles.favorite1}
-                     onClick={() => this.addFav(matchId, { time, period, soccer, homeName, awayName, odds, matchId })}>
+                </div>
+                :
+                <div
+                  className={styles.favorite1}
+                  onClick={() => this.addFav(matchId, { time, period, soccer, homeName, awayName, odds, matchId })}
+                >
                   <Icon className={styles.icon} type="star"/>
                 </div>
             }
@@ -236,7 +241,8 @@ class InplayMatchItem extends PureComponent {
                       </Fragment> :
                       odds[2].chs.map((item) => (
                           <Fragment key={item.dishId}>
-                            {item.name === '1' && <div className={styles['home-item']}>
+                            {
+                              item.name === '1' && <div className={styles['home-item']}>
                               <IndexDishItem
                                 choiceHandicap={item.choiceHandicap}
                                 matchId={matchId}
@@ -245,8 +251,10 @@ class InplayMatchItem extends PureComponent {
                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                               />
-                            </div>}
-                            {item.name === '2' && <div className={styles['away-item']}>
+                            </div>
+                            }
+                            {
+                              item.name === '2' && <div className={styles['away-item']}>
                               <IndexDishItem
                                 choiceHandicap={item.choiceHandicap}
                                 matchId={matchId}
@@ -255,8 +263,10 @@ class InplayMatchItem extends PureComponent {
                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                               />
-                            </div>}
-                            {item.name === 'X' && <div className={styles['pie-item']}>
+                            </div>
+                            }
+                            {
+                              item.name === 'X' && <div className={styles['pie-item']}>
                               <IndexDishItem
                                 choiceHandicap={item.choiceHandicap}
                                 matchId={matchId}
@@ -265,7 +275,8 @@ class InplayMatchItem extends PureComponent {
                                 dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                                 dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                               />
-                            </div>}
+                            </div>
+                            }
                           </Fragment>
                         ),
                       )
@@ -280,7 +291,8 @@ class InplayMatchItem extends PureComponent {
                 {
                   odds[3] && odds[3].chs.map((item) => (
                       <Fragment key={item.dishId}>
-                        {item.name === '1' && <div className={styles['home-item']}>
+                        {
+                          item.name === '1' && <div className={styles['home-item']}>
                           <IndexDishItem
                             choiceHandicap={item.choiceHandicap}
                             matchId={matchId}
@@ -289,8 +301,10 @@ class InplayMatchItem extends PureComponent {
                             dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                             dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                           />
-                        </div>}
-                        {item.name === '2' && <div className={styles['away-item']}>
+                        </div>
+                        }
+                        {
+                          item.name === '2' && <div className={styles['away-item']}>
                           <IndexDishItem
                             choiceHandicap={item.choiceHandicap}
                             matchId={matchId}
@@ -299,7 +313,8 @@ class InplayMatchItem extends PureComponent {
                             dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                             dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                           />
-                        </div>}
+                        </div>
+                        }
                       </Fragment>
                     ),
                   )
@@ -309,7 +324,8 @@ class InplayMatchItem extends PureComponent {
                 {
                   odds[4] && odds[4].chs.map((item) => (
                       <Fragment key={item.dishId}>
-                        {item.name === 'Over' && <div className={styles['home-item']}>
+                        {
+                          item.name === 'Over' && <div className={styles['home-item']}>
                           <IndexDishItem
                             choiceHandicap={item.choiceHandicap}
                             matchId={matchId}
@@ -318,8 +334,10 @@ class InplayMatchItem extends PureComponent {
                             dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                             dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                           />
-                        </div>}
-                        {item.name === 'Under' && <div className={styles['away-item']}>
+                        </div>
+                        }
+                        {
+                          item.name === 'Under' && <div className={styles['away-item']}>
                           <IndexDishItem
                             choiceHandicap={item.choiceHandicap}
                             matchId={matchId}
@@ -328,7 +346,8 @@ class InplayMatchItem extends PureComponent {
                             dishId={chsDB[item.choiceId] && chsDB[item.choiceId].dishId}
                             dish={chsDB[item.choiceId] && chsDB[item.choiceId].dish}
                           />
-                        </div>}
+                        </div>
+                        }
                       </Fragment>
                     ),
                   )
@@ -390,7 +409,6 @@ class InplayMatchItem extends PureComponent {
                           </Fragment>
                         ),
                       )
-
                   )
                 }
               </Col>

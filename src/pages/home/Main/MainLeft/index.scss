@@ -4,7 +4,7 @@
   position: relative;
   float: left;
   font-size: 12px;
-  height: 100%;
+  height: calc(100vh - 40px);
   background-color: $main-header-color;
   .tabs-header{
     width: 100%;

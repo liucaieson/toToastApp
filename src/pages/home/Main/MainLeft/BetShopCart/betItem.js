@@ -73,7 +73,6 @@ class BetItem extends PureComponent {
     });
   };
 
-
   selectAmount = () => {
     const { showSelectOption } = this.state;
     this.setState({
@@ -179,7 +178,7 @@ class BetItem extends PureComponent {
                         5000
                       </li>
                     </ul>
-                  ) : ''
+                  ) : null
                 }
               </div>
               <span className={styles.equal}>
@@ -306,7 +305,7 @@ class BetItem extends PureComponent {
                         5000
                       </li>
                     </ul>
-                  ) : ''
+                  ) : null
                 }
               </div>
               <span className={styles.equal}>
@@ -314,7 +313,7 @@ class BetItem extends PureComponent {
               </span>
               <span className={styles.money}>
                 ￥{(chsDB[data.choiceId].dish * this.state.amount).toFixed(2)}
-                </span>
+              </span>
             </div>
           </div>
         </Fragment>
@@ -392,7 +391,7 @@ class BetItem extends PureComponent {
           data.matchId ?
             this.renderTemplate()
             :
-            <PageLoading height="110px" top="30px" color="#232323"/>
+            <PageLoading height="110px" top="30px" color="#232323" />
         }
       </li>
     );
