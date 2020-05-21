@@ -108,7 +108,7 @@ class CompetitionsModal extends Component {
                             {
                               showArea.includes(item) ?
                                 <div className={styles.arrow}>
-                                <Icon type="caret-up" />
+                                  <Icon type="caret-up" />
                                 </div>
                                 :
                                 <div className={styles.arrow}>

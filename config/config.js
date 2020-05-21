@@ -1,5 +1,6 @@
 import PCPageRoutes from './router.config';
 import MBPageRoutes from './mbRouter.config';
+
 const path = require('path');
 
 export default {
@@ -35,5 +36,5 @@ export default {
       "changeOrigin": true,
       "pathRewrite": { "^/test" : "/api/v1" }
     }
-  }*/
+  } */
 }

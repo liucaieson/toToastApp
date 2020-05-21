@@ -17,7 +17,7 @@ class TotalOver extends PureComponent {
     } = this.props;
     return (
       <TodayWrapper
-        gg="2"
+        gg="3"
         title="今日-全场 上半场 进球总数"
       >
         <Row className={styles.table}>

@@ -66,7 +66,11 @@ class ShopCart extends PureComponent {
   };
 
   submitBets = () => {
-    const { dispatch, betShopCart: { mixedShopCart }, chsDB: { chsDB }, userInfo: { balance } } = this.props;
+    const { dispatch,
+      betShopCart: { mixedShopCart },
+      chsDB: { chsDB },
+      userInfo: { balance
+    } } = this.props;
     const { amount1, amount2, amount3, amount4, amount5, amount6 } = this.state;
     const params = [];
     const dishParams = [];
@@ -80,7 +84,7 @@ class ShopCart extends PureComponent {
       });
       return
     }
-    /* 注意mix事宜比赛ID为key的 */
+    /* 注意mixed是以比赛ID为key的 */
     if (
       amount1 >= 1 ||
       amount2 >= 1 ||
@@ -244,7 +248,7 @@ class ShopCart extends PureComponent {
     let maxProfit = 0;
     let totalAmount = 0;
     const dishArr = [];
-    /* 组合讲各种玩法组合，和对象的金额相乘加入dishArr数组中 */
+    // 组合讲各种玩法组合，和对象的金额相乘加入dishArr数组中
     if (mixedShopCart.ids.length - 1 >= 0) {
       betTypeArr[mixedShopCart.ids.length - 1].forEach((val) => {
         const r = groupSplit(mixedShopCart.ids, val.betType);

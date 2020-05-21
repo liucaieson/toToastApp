@@ -8,7 +8,6 @@ import CompetitionsModal from '../../competitonsModal/index';
 import PaginationBox from '@/components/PaginationBox';
 import PageLoading from '@/components/MbPageLoading';
 
-
 @connect(({ asianGG, dates, chsDB, showCompetitions, loading }) => ({
   asianGG,
   showCompetitions,

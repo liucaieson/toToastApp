@@ -17,7 +17,7 @@ class TotalResult extends PureComponent {
     } = this.props;
     return (
       <TodayWrapper
-        gg="1"
+        gg="2"
         title="今日-全场 上半场 单/双"
       >
         <Row className={styles.table}>

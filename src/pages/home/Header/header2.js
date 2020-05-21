@@ -32,7 +32,6 @@ class TopHeader extends PureComponent {
     });
   };
 
-
   showAccountStatementModal = () => {
     this.setState({
       accountStatementVisible: true,

@@ -35,7 +35,7 @@ function checkStatus(response) {
         localStorage.clear()
       }
     });
-    return;
+    return false;
   }
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
@@ -96,16 +96,13 @@ function proxyRequest(url, options) {
     if (response.code === '200') {
       return response.result;
     }
-
-      notification.error({
-        message: response.message,
-      });
-      console.log(response)
+      return false
   }).catch((e) => {
      notification.error({
          message: e.message,
      });
-    console.log(e)
+     console.log(e)
+     return false
   });
 }
 

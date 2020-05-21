@@ -12,7 +12,7 @@ import { getQueryString } from '../../utils/util';
 }))
 class HomePage extends PureComponent {
   state = {
-    isLogin: true,
+    isLogin:false,
   };
 
   timer = null;
@@ -25,6 +25,10 @@ class HomePage extends PureComponent {
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',
       });
+      this.getUserInfo();
+      this.setState({
+        isLogin: true
+      })
     } else if (accessCode) {
       sessionStorage.setItem('accessCode', accessCode);
       Modal.success({
@@ -32,6 +36,9 @@ class HomePage extends PureComponent {
         content: '欢迎来到亚冠体育',
       });
       this.getUserInfo();
+      this.setState({
+        isLogin: true
+      })
     } else {
       sessionStorage.setItem('accessCode', 'faeb2ead70b74948ae3b7c4cd73243f1');
      Modal.success({
@@ -39,6 +46,9 @@ class HomePage extends PureComponent {
         content: '欢迎来到亚冠体育,当前为试玩账号',
       });
       this.getUserInfo();
+      this.setState({
+        isLogin: true
+      })
     }
   }
 

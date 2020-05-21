@@ -165,7 +165,7 @@ class InplayMatch extends PureComponent {
               </Col>
               <Col className={styles['middle-tb']} span={8}>
                 <Row className={styles['cell-th']}>
-                  上半场
+                  上半场~
                 </Row>
                 <Row>
                   <Col span={8} className={styles.cell}>让球</Col>

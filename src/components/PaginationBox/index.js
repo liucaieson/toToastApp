@@ -1,22 +1,16 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Pagination } from 'antd';
 
 import styles from './index.scss';
 
-class CommandMatch extends PureComponent {
-  fn = (page) => {
-    const { onChange } = this.props;
-    onChange(page)
+export default ({ total, current, pageSize, onChange }) => {
+  const fn = (page) => {
+    onChange(page);
   };
 
-  render() {
-    const { total, current, pageSize } = this.props;
-    return (
-      <div className={styles['pagination-box']}>
-        <Pagination total={total} current={current} pageSize={pageSize} onChange={this.fn} />
-      </div>
-    );
-  }
+  return (
+    <div className={styles['pagination-box']}>
+      <Pagination total={total} current={current} pageSize={pageSize} onChange={fn} />
+    </div>
+  );
 }
-
-export default CommandMatch;

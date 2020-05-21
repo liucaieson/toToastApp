@@ -125,11 +125,27 @@ class Main extends PureComponent {
   /* 点击日期的请求 */
   fetchMatchOddsWithDate = (date) => {
     const { gg } = this.props;
+    let params = '';
     this.setState({
       isActiveDate: date.date,
       firstLoading: true,
     });
-    this.fetchMatchOdds({ ...this.globalParams, gg, page: 1, date: date.date }, () => {
+    // 如果点击日期为全部则选择全部联赛，讲competitions置为null
+    if (date.date === '') {
+      params = {
+        date: date.date,
+        competitions: null
+      };
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: null,
+      };
+    } else {
+      params = {
+        date: date.date,
+      }
+    }
+    this.fetchMatchOdds({ ...this.globalParams, gg, page: 1, ...params }, () => {
       this.countRef.reset();
       this.setState({
         firstLoading: false,
@@ -192,7 +208,6 @@ class Main extends PureComponent {
     });
   };
 
-
   /* 跳转到混合过关 */
   turnToAsianMixed = () => {
     const { dispatch } = this.props;
@@ -207,9 +222,8 @@ class Main extends PureComponent {
    */
   gotoTop = () => {
     const container = document.getElementById('matchContainer');
-    container.scrollIntoView()
+    container.scrollIntoView();
   };
-
 
   render() {
     const {
