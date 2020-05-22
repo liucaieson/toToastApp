@@ -1,5 +1,4 @@
 import React from 'react';
-import { notification } from 'antd';
 import ErrorFallBackComponent from '../ErrorFallBackComponent'
 
 export default function withErrorHandler (Component) {
@@ -16,12 +15,9 @@ export default function withErrorHandler (Component) {
 
     componentDidCatch (error, info) {
       // Update state if error happens
-      this.setState({ hasError: true, error, errorInfo: info })
+      this.setState({ hasError: true, error, errorInfo: info });
       // Report errors
-      notification.open({
-        message: info,
-        description: error
-      })
+      console.log(info, error)
     }
 
     render () {

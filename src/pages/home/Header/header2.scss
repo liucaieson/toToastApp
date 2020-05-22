@@ -28,13 +28,40 @@
     flex-direction: row;
     padding-left: 10px;
     padding-top: 4px;
+    position: relative;
     .user-icon{
       background: url("../../../assets/head_acc.png") no-repeat left center;
       background-size: cover;
       width: 30px;
       height: 30px;
+      cursor: pointer;
       &:hover{
         background: url("../../../assets/head_acc.png") no-repeat right center;
+      }
+    }
+    .select-list{
+      width: 100px;
+      position: absolute;
+      background-color: #ccb77d;
+      z-index: 10;
+      top: 40px;
+      left: 0;
+      padding: 1px;
+      .item{
+        display: block;
+        background-color: $bg-color2;
+        margin-bottom: 1px;
+        line-height: 30px;
+        font-size: 12px;
+        padding-left: 4px;
+        cursor: pointer;
+        color: white;
+        &:hover{
+          background-color: #735c48;
+        }
+        &:last-child{
+          margin: 0;
+        }
       }
     }
     .user{
@@ -215,6 +242,7 @@
   border-radius: 4px;
 }
 
+/* 赛果的选择框 */
 .game-result-select {
   width: 180px !important;
   background-color: $bg-color !important;

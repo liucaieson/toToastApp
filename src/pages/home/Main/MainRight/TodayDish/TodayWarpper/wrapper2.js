@@ -6,6 +6,7 @@ import CountDown from '@/components/CountDown';
 import CompetitionsModal from '../../competitonsModal';
 import PaginationBox from '@/components/PaginationBox';
 import PageLoading from '@/components/MbPageLoading';
+import moment from 'moment';
 
 @connect(({ asianGG6And7, chsDB, showCompetitions, loading }) => ({
   asianGG6And7,
@@ -33,6 +34,7 @@ class Main extends PureComponent {
   /* 存储全局的参数 */
   defaultParams = {
     sport: '1',
+    date: moment().format('YYYY-MM-DD'),
     page: 1
   };
 

@@ -171,7 +171,7 @@ class Main extends PureComponent {
     this.setState({
       firstLoading: true,
     });
-    this.fetchMatchOdds({ competitions: param, gg }, () => {
+    this.fetchMatchOdds({ competitions: param, gg, page: 1, size: 40 }, () => {
       /* 刷新倒计时的时间 */
       this.countRef.reset();
       this.globalParams = {

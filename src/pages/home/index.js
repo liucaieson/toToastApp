@@ -12,7 +12,7 @@ import { getQueryString } from '../../utils/util';
 }))
 class HomePage extends PureComponent {
   state = {
-    isLogin:false,
+    isLogin: false,
   };
 
   timer = null;
@@ -20,6 +20,10 @@ class HomePage extends PureComponent {
   componentDidMount() {
     const accessCode = getQueryString('accessCode');
     const code = sessionStorage.getItem('accessCode');
+  /*  // 如果url没有 而且本地也没有 则不改变登录状态
+    if (!accessCode && !code) {
+      return
+    } */
     if (code && code !== 'faeb2ead70b74948ae3b7c4cd73243f1') {
       Modal.success({
         title: '亚冠体育',

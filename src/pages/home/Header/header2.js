@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Icon } from 'antd';
+import QueueAnim from 'rc-queue-anim';
 import styles from './header2.scss';
 import AccountStatement from './accountStatement';
 import GameResult from './gameResult';
@@ -19,6 +20,8 @@ class TopHeader extends PureComponent {
     gameResultVisible: false,
     announcementVisible: false,
     historyBetsVisible: false,
+    userBoardVisible: false,
+    balanceVisible: true
   };
 
   componentDidMount() {
@@ -92,6 +95,25 @@ class TopHeader extends PureComponent {
     });
   };
 
+  toggleUserBoard = () => {
+    const { userBoardVisible } = this.state;
+    this.setState({
+      userBoardVisible: !userBoardVisible
+    });
+  };
+
+  toggleShowBalance = () => {
+    const { balanceVisible } = this.state;
+    this.setState({
+      balanceVisible: !balanceVisible
+    });
+  };
+
+  loginOut = () => {
+    localStorage.clear();
+    window.location.href = '/'
+  };
+
   render() {
     const {
       accountStatementVisible,
@@ -99,6 +121,8 @@ class TopHeader extends PureComponent {
       ruleDescriptionVisible,
       announcementVisible,
       historyBetsVisible,
+      userBoardVisible,
+      balanceVisible
     } = this.state;
 
     const { balanceLoading } = this.props;
@@ -107,11 +131,24 @@ class TopHeader extends PureComponent {
     return (
       <header className={styles.header}>
         <div className={styles['user-box']}>
-          <div className={styles['user-icon']} />
+          <div className={styles['user-icon']} onClick={this.toggleUserBoard} />
+              <QueueAnim
+                type="bottom"
+                duration={200}
+              >
+                {
+                  userBoardVisible ?
+                  <ul key="a" className={styles['select-list']}>
+                    <div onClick={this.toggleShowBalance} className={styles.item}>{balanceVisible ? '隐藏余额' : '显示余额'}</div>
+                    <div onClick={this.loginOut} className={styles.item}>退出登录</div>
+                  </ul>
+                  : null
+                }
+              </QueueAnim>
           <div className={styles.user}>
             <div className={styles.name}>{userName}</div>
             <div className={styles.balance}>
-              {balance}
+              {balanceVisible ? balance : '***'}
               {
                 balanceLoading ?
                   <Icon type="loading" className={styles['icon-load']} /> :
