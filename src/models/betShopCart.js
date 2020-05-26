@@ -29,7 +29,7 @@ export default {
         const chsDB = yield select(state => state.chsDB.chsDB);
         const ids = [];
         const list = {};
-        data.data.map((val) => {
+        data.data.forEach((val) => {
           // 不等于208标识错误交给购物车,并更新赔率
           if (val.code !== '208') {
             chsListObj[val.choiceId] = val;
@@ -239,28 +239,6 @@ export default {
       yield put({
         type: 'save',
         payload: data
-      })
-    },
-    /* 清除购物车，并清除盘口列表的高亮效果 */
-    *clearShopCart(_, { put, select }) {
-      const data = yield select(state => state.betShopCart.shopCart);
-      const newData = {
-        ids: [],
-        list: {}
-      };
-      const delShopArr = [];
-      for (const key in data.list) {
-        if (data.list.hasOwnProperty(key)) {
-          delShopArr.push(data.list[key].choiceId)
-        }
-      }
-      yield put({
-        type: 'handicapItemDB/handicapItemOutShopCart',
-        payload: delShopArr
-      });
-      yield put({
-        type: 'save',
-        payload: newData
       })
     },
   },

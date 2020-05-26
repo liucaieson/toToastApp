@@ -5,6 +5,7 @@ import styles from './index.scss';
 import CorrectScoreDishLayout from '../../DishLayout/correntScoreDishLayout';
 import Accordion from '@/components/Accordion';
 import AsianWrapper from '../AsianWarpper/wrapper1';
+import moment from 'moment';
 
 @connect(({ asianGG, chsDB }) => ({
   asianGG,
@@ -49,12 +50,7 @@ class CorrectScore extends PureComponent {
 
                               </Col>
                               <Col span={6} className={styles['match-time']}>
-                                      <span>
-                                        {v.time.substring(0, 4)}-{v.time.substring(4, 6)}-{v.time.substring(6, 8)}
-                                      </span>
-                                <span className={styles.right}>
-                                        {v.time.substring(8, 10)}:{v.time.substring(10, 12)}
-                                      </span>
+                                {moment.utc(v.time).local().format('YYYY-MM-DD HH:mm')}
                               </Col>
                             </Row>
                             <Row className={styles['match-odds']}>

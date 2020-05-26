@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import { connect } from 'dva';
+import moment from 'moment'
 import styles from './myOrder.scss';
 import { dishNameMap } from '@/utils/util';
 
@@ -145,7 +146,7 @@ class MyOrder extends PureComponent {
                       <div className={styles.left}>
                         <span className={styles.text}>下注时间：</span>
                         <span className={styles.time}>
-                          {val.betTime && val.betTime.substring(0, 19)}
+                          {moment(val.betTime).local().format('YYYY-MM-DD HH:mm:ss')}
                         </span>
                       </div>
                     </div>

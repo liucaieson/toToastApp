@@ -26,7 +26,8 @@ export default class Accordion extends Component {
                 isShow ?
                   <div className={styles.arrow} >
                     <Icon type="down"/>
-                  </div> :
+                  </div>
+                  :
                   <div className={styles.arrow}>
                     <Icon type="up"/>
                   </div>

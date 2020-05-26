@@ -55,6 +55,11 @@ class GameResultTable extends Component {
     {
       title: '时间',
       dataIndex: 'matchTime',
+      render: (val) => {
+        return (
+          moment.utc(val).local().format('YYYY-MM-DD HH:mm')
+        )
+      },
       width: 100,
     },
     {

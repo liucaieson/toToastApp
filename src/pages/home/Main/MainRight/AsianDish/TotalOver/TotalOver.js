@@ -25,9 +25,9 @@ class TotalOver extends PureComponent {
         gg="3"
       >
         <Row className={styles.table}>
-          <Col className={styles['big-tb']} span={2}>时间</Col>
-          <Col className={styles['big-tb']} span={4}>赛事</Col>
-          <Col className={styles['middle-tb']} span={10}>
+          <Col className={styles['big-tb']} span={3}>时间</Col>
+          <Col className={styles['big-tb']} span={5}>赛事</Col>
+          <Col className={styles['middle-tb']} span={9}>
             <Row className={styles['cell-th']}>
               全场进球总数
             </Row>
@@ -42,7 +42,7 @@ class TotalOver extends PureComponent {
               <Col span={3} className={styles.cell}>7+</Col>
             </Row>
           </Col>
-          <Col className={styles['middle-tb']} span={8}>
+          <Col className={styles['middle-tb']} span={7}>
             <Row className={styles['cell-th']}>
               上半场进球总数
             </Row>
@@ -71,15 +71,15 @@ class TotalOver extends PureComponent {
                             matchListObj[val] && matchListObj[val].map((v) => (
                               <Row className={styles['match-line-box']} key={v.matchId}>
                                 <Row className={styles['match-line']}>
-                                  <Col span={2} className={styles['match-time']}>
+                                  <Col span={3} className={styles['match-time']}>
                                     {calcDateToMonthAndDay(v.time)}
                                   </Col>
-                                  <Col span={4} className={styles['match-team']}>
+                                  <Col span={5} className={styles['match-team']}>
                                     <div>{v.homeName}</div>
                                     <div>{v.awayName}</div>
                                   </Col>
                                   {/* 全场投注区 */}
-                                  <Col span={10} className={styles['match-odds']}>
+                                  <Col span={9} className={styles['match-odds']}>
                                     {
                                       v.odds[0].chs.map((item) => (
                                         <Col key={item.dishId} span={3} className={styles['odds-item']}>
@@ -99,7 +99,7 @@ class TotalOver extends PureComponent {
                                     }
                                   </Col>
                                   {/* 上半场投注区 */}
-                                  <Col span={8} className={styles['match-odds']}>
+                                  <Col span={7} className={styles['match-odds']}>
                                     {
                                       v.odds[1] ? v.odds[1].chs.map((item) => (
                                         <Col key={item.dishId} span={4} className={styles['odds-item']}>

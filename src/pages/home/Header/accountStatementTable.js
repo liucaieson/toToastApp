@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import ETable from '@/components/Etable';
 import styles from './header2.scss'
+import moment from 'moment';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -17,6 +18,9 @@ class AccountStatementTable extends Component {
     {
       title: '日期',
       dataIndex: 'date',
+      render: (val) => (
+          moment.utc(val).local().format('YYYY-MM-DD HH:mm')
+        )
     },
     {
       title: '注单',

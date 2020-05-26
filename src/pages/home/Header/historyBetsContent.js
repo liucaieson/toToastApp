@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Pagination, Form, Row, Col, Button, Select } from 'antd';
 import styles from './header2.scss';
 import { dishNameMap } from '@/utils/util';
@@ -129,7 +130,7 @@ class HistoryBetsContent extends Component {
             <div key={val.betId} className={styles.historyBets}>
               <div className={styles['bet-time-line']}>
                 <div className={styles.status}>{val.betStatus}</div>
-                <div className={styles.time}>{val.betTime.substring(0, 19)}</div>
+                <div className={styles.time}>{ moment.utc(val.betTime).local().format('lll')}</div>
                 <div className={styles.text1}>订单号：</div>
                 <div className={styles.time}>{val.betId}</div>
               </div>
@@ -137,7 +138,7 @@ class HistoryBetsContent extends Component {
                 {
                   val.detailed.map((v) => (
                     <div className={styles['bet-detail-line']} key={v.matchTime}>
-                      <div>{v.matchTime && v.matchTime.substring(0, 19)}</div>
+                      <div>{ moment.utc(v.matchTime).local().format('YYYY-MM-DD HH:mm')}</div>
                       <div>{v.hostName}<br/>{v.awayName}</div>
                       <div>{v.oddName}</div>
                       <div>{dishNameMap[v.choiceContent]}{v.choiceHandicap}</div>

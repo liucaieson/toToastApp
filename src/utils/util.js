@@ -1,4 +1,5 @@
 import moment from 'moment';
+import React from 'react';
 
 moment.locale('zh-cn');
 
@@ -161,7 +162,6 @@ export const dishNameMap = {
   '17-0': '17-0',
   '18-0': '18-0',
   '19-0': '19-0',
-
 };
 
 export const calcDate2 = (date) => {
@@ -172,8 +172,5 @@ export const calcDate2 = (date) => {
 };
 
 export const calcDateToMonthAndDay = (date) => {
-  const str1 = `${date.substring(4, 6)}-${date.substring(6, 8)}`
-  const str2 = `${date.substring(8, 10)}:${date.substring(10, 12)}`
-  const str3 = `${str1}<br/>${str2}`;
-  return <div dangerouslySetInnerHTML={{ __html: str3 }} />
+  return moment.utc(date).local().format('YYYY-MM-DD HH:mm')
 };
