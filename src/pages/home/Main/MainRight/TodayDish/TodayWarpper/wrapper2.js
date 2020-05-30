@@ -34,7 +34,8 @@ class Main extends PureComponent {
   /* 存储全局的参数 */
   defaultParams = {
     sport: '1',
-    date: moment().format('YYYY-MM-DD'),
+    date: moment().format(),
+    isOver: 0,
     page: 1
   };
 

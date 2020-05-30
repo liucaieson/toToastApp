@@ -174,3 +174,31 @@ export const calcDate2 = (date) => {
 export const calcDateToMonthAndDay = (date) => {
   return moment.utc(date).local().format('YYYY-MM-DD HH:mm')
 };
+
+export const dateList = () => {
+  const timeList = [];
+  let date1 = '';
+
+  const weekMap = new Map();
+  weekMap.set('星期一', '周一');
+  weekMap.set('星期二', '周二');
+  weekMap.set('星期三', '周三');
+  weekMap.set('星期四', '周四');
+  weekMap.set('星期五', '周五');
+  weekMap.set('星期六', '周六');
+  weekMap.set('星期日', '周日');
+
+  for (let i = 1; i < 6; i += 1) {
+    date1 = moment().add(i, 'day');
+    const week = date1.format('dddd');
+    const day = date1.format('DD MMMM');
+    const name = `${day}(${weekMap.get(week)})`;
+    timeList.push({
+      name,
+      value: date1.format(),
+      isOver: 0
+    })
+  }
+
+  return timeList
+};

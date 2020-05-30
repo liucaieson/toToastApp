@@ -37,7 +37,7 @@ const betTypeArr = [
     { name: '2串1', betType: 2, length: 15 },
     { name: '3串1', betType: 3, length: 20 },
     { name: '4串1', betType: 4, length: 15 },
-    { name: '5串1', betType: 5, length: 5 },
+    { name: '5串1', betType: 5, length: 6 },
     { name: '6串1', betType: 6, length: 1 },
   ],
 

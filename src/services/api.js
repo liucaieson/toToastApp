@@ -1,8 +1,7 @@
 import request from '../utils/request';
 
-const baseUrl = process.env.NODE_ENV === 'development' ?
-  'http://27.102.128.76:8090/api/v1' :
-  'http://35.229.133.12:8090/api/v1';
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://27.102.128.76:8090/api/v1' :
+  'http://27.102.128.76:8090/api/v1';
 /* const baseUrl = '' */
 
 /* 获取用户信息接口 */
@@ -11,7 +10,7 @@ export async function loginApp1(params) {
     method: 'POST',
     body: {
       ...params,
-    },
+    }
   });
 }
 

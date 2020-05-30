@@ -19,15 +19,15 @@ const timeList = [{
   name: '近7天',
   value: 'all'
 }];
-let date = '';
+
+let localDate = '';
 
 for (let i = 0; i < 7; i += 1) {
-  date = moment().subtract(i, 'day').format('YYYY-MM-DD');
+  localDate = moment().subtract(i, 'day').format('YYYY-MM-DD');
   timeList.push({
-    name: date,
-    value: date
-  }
-  )
+    name: localDate,
+    value: localDate
+  })
 }
 
 @connect(({ gameResult, loading }) => ({
@@ -39,9 +39,9 @@ class GameResultTable extends Component {
   /* 储存联赛null代表全部  开始 */
   competitions = null;
 
-  start = date = moment().subtract(7, 'day').format('YYYY-MM-DD');
+  start = moment().subtract(7, 'day').format();
 
-  end = date = moment().format('YYYY-MM-DD');
+  end = moment().format();
 
   defaultParams={
     sport: '1'
@@ -159,14 +159,14 @@ class GameResultTable extends Component {
         this.competitions = competitions
       }
       if (time === 'all') {
-        this.start = moment().subtract(7, 'day').format('YYYY-MM-DD');
-        this.end = moment().format('YYYY-MM-DD');
+        this.start = moment().subtract(7, 'day').format();
+        this.end = moment().format();
       } else if (time === undefined) {
-        this.start = moment().subtract(7, 'day').format('YYYY-MM-DD');
-        this.end = moment().format('YYYY-MM-DD');
+        this.start = moment().subtract(7, 'day').format();
+        this.end = moment().format();
       } else {
-        this.start = time;
-        this.end = time
+        this.start = moment(`${time} 00:00:00`).format();
+        this.end = moment(`${time} 23:59:59`).format()
       }
       dispatch({
         type: 'gameResult/fetch',

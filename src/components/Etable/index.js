@@ -14,6 +14,7 @@ export default ({ dataSource = {}, rowKey, onChange, ...rest }) => {
     current,
     total: count,
     pageSize: 10,
+    position: 'bottom'
   };
 
   return (

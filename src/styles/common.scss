@@ -45,10 +45,10 @@
             height: 22px;
             .handicap {
               float: left;
-              margin-left: 4px;
+              margin-left: 2px;
               font-size: 12px;
               color: #686767;
-              word-spacing: -2px;
+              word-spacing: -4px;
             }
             .odds {
               margin-right: 1px;
@@ -79,71 +79,6 @@
         color: $btn-color;
         border-radius: 12px;
         text-align: center;
-      }
-      .all-odds-box {
-        background-color: $bg-color;
-        @include clearfix();
-        .loading {
-          text-align: center;
-          height: 50px;
-          line-height: 50px;
-          width: 100%;
-          color: #fcf7ed;
-          float: left;
-          margin: 4px;
-        }
-        .single-odds {
-          float: left;
-          margin: 4px;
-          @include clearfix();
-          .oddsName {
-            background-color: $bg-color2;
-            height: 30px;
-            line-height: 30px;
-            font-size: 14px;
-            color: white;
-            padding-left: 10px;
-            @include clearfix();
-          }
-          .oddsDish {
-            float: left;
-            background-color: white;
-            @include clearfix();
-            .dish-box {
-              width: 102px;
-              float: left;
-              text-align: center;
-              @include clearfix();
-              .dishName {
-                line-height: 30px;
-                text-align: center;
-                font-size: 13px;
-                border-right: 1px solid $match-cell-border;
-                border-bottom: 1px solid $match-cell-border;
-                font-weight: 700;
-                overflow: hidden;
-                background-color: $bg-color3;
-                .choicehandicap {
-                  padding-left: 2px;
-                }
-              }
-              .dish {
-                line-height: 30px;
-                padding: 0 10px;
-                font-size: 12px;
-                border-right: 1px solid $match-cell-border;
-                border-bottom: 1px solid $match-cell-border;
-                cursor: pointer;
-                &:hover {
-                  background-color: $active-color2;
-                }
-              }
-              .active {
-                background-color: $active-color1;
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -434,7 +369,10 @@
       font-size: 12px;
       height: $height1;
       .match-time{
-        padding-top: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 6px;
         text-align: center;
         height: $height1;
         border-right: 1px solid $match-cell-border;

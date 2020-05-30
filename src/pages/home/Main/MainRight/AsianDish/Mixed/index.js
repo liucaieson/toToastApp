@@ -46,8 +46,8 @@ class Mixed extends PureComponent {
         title="混合过关"
       >
         <Row className={styles.table}>
-          <Col className={styles['big-tb']} span={2}>时间</Col>
-          <Col className={styles['big-tb']} span={6}>赛事</Col>
+          <Col className={styles['big-tb']} span={3}>时间</Col>
+          <Col className={styles['big-tb']} span={5}>赛事</Col>
           <Col className={styles['middle-tb']} span={8}>
             <Row className={styles['cell-th']}>
               全场

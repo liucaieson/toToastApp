@@ -1,16 +1,21 @@
 import React, { PureComponent } from 'react';
 import { Icon, Row, Col } from 'antd';
 import { connect } from 'dva';
+import moment from 'moment'
 import styles from './wrapper1.scss';
 import CountDown from '@/components/CountDown';
 import CompetitionsModal from '../../competitonsModal';
 import PaginationBox from '@/components/PaginationBox';
 import PageLoading from '@/components/MbPageLoading';
+import { dateList } from '@/utils/util';
 
-@connect(({ asianGG6And7, dates, chsDB, showCompetitions, loading }) => ({
+const dateAfterSixDay = moment().add(6, 'day').format();
+
+const timeList = dateList();
+
+@connect(({ asianGG6And7, chsDB, showCompetitions, loading }) => ({
   asianGG6And7,
   showCompetitions,
-  dates,
   chsDB,
   loading: loading.models.asianGG6And7,
   matchAllOddsLoading: loading.models.matchAllOdds,
@@ -125,11 +130,29 @@ class Main extends PureComponent {
   /* 点击日期的请求 */
   fetchMatchOddsWithDate = (date) => {
     const { gg } = this.props;
+    let params = '';
     this.setState({
       isActiveDate: date.date,
       firstLoading: true,
     });
-    this.fetchMatchOdds({ ...this.globalParams, gg, page: 1, date: date.date }, () => {
+    // 如果点击日期为全部则选择全部联赛，讲competitions置为null
+    if (date.date === '') {
+      params = {
+        date: date.date,
+        isOver: 0,
+        competitions: null
+      };
+      this.globalParams = {
+        ...this.globalParams,
+        competitions: null,
+      };
+    } else {
+      params = {
+        date: date.date,
+        isOver: date.isOver
+      }
+    }
+    this.fetchMatchOdds({ ...this.globalParams, gg, page: 1, ...params }, () => {
       this.countRef.reset();
       this.setState({
         firstLoading: false,
@@ -137,7 +160,7 @@ class Main extends PureComponent {
       this.globalParams = {
         ...this.globalParams,
         ...date,
-        page: 1
+        page: 1,
       };
     });
   };
@@ -210,7 +233,6 @@ class Main extends PureComponent {
 
   render() {
     const {
-      dates: { dates },
       title,
       gg,
       asianGG6And7: {
@@ -260,20 +282,27 @@ class Main extends PureComponent {
           <Row className={styles['date-select']}>
             <Col
               className={isActiveDate === '' ? `${styles.item} ${styles.active}` : styles.item} span={3} offset={1}
-              onClick={() => this.fetchMatchOddsWithDate({ date: '' })}
+              onClick={() => this.fetchMatchOddsWithDate({ date: '', isOver: 0 })}
             >全部
             </Col>
             {
-              dates.map((val) => (
+              timeList.map((val) => (
                 <Col
-                  className={isActiveDate === val.id ? `${styles.item} ${styles.active}` : styles.item}
-                  key={val.id}
+                  className={isActiveDate === val.value ? `${styles.item} ${styles.active}` : styles.item}
+                  key={val.value}
                   span={3}
-                  onClick={() => this.fetchMatchOddsWithDate({ date: val.id })}>
-                  {val.text}
-                </Col>),
+                  onClick={() => this.fetchMatchOddsWithDate({ date: val.value, isOver: 0 })}>
+                  {val.name}
+                </Col>
+                ),
               )
             }
+            <Col
+              className={isActiveDate === dateAfterSixDay ? `${styles.item} ${styles.active}` : styles.item} span={3} offset={1}
+              onClick={() => this.fetchMatchOddsWithDate({ date: dateAfterSixDay, isOver: 1 })}
+            >
+              >6
+            </Col>
           </Row>
           {
             <div className={styles['match-box']}>
