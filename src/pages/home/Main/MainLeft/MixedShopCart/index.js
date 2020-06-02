@@ -40,6 +40,25 @@ const betTypeArr = [
     { name: '5串1', betType: 5, length: 6 },
     { name: '6串1', betType: 6, length: 1 },
   ],
+  [
+    { name: '单注', betType: 1, length: 7 },
+    { name: '2串1', betType: 2, length: 21 },
+    { name: '3串1', betType: 3, length: 35 },
+    { name: '4串1', betType: 4, length: 35 },
+    { name: '5串1', betType: 5, length: 21 },
+    { name: '6串1', betType: 6, length: 7 },
+    { name: '7串1', betType: 7, length: 1 },
+  ],
+  [
+    { name: '单注', betType: 1, length: 8 },
+    { name: '2串1', betType: 2, length: 28 },
+    { name: '3串1', betType: 3, length: 56 },
+    { name: '4串1', betType: 4, length: 70 },
+    { name: '5串1', betType: 5, length: 56 },
+    { name: '6串1', betType: 6, length: 28 },
+    { name: '7串1', betType: 7, length: 8 },
+    { name: '8串1', betType: 8, length: 1 },
+  ],
 
 ];
 
@@ -59,6 +78,8 @@ class ShopCart extends PureComponent {
     amount4: 0,
     amount5: 0,
     amount6: 0,
+    amount7: 0,
+    amount8: 0,
     slideIn: false,
     mixedType: [],
     modal: false,
@@ -69,13 +90,14 @@ class ShopCart extends PureComponent {
     const { dispatch,
       betShopCart: { mixedShopCart },
       chsDB: { chsDB },
-      userInfo: { balance
-    } } = this.props;
-    const { amount1, amount2, amount3, amount4, amount5, amount6 } = this.state;
+      userInfo: { balance }
+    } = this.props;
+    const { amount1, amount2, amount3, amount4, amount5, amount6, amount7, amount8 } = this.state;
     const params = [];
     const dishParams = [];
     const dishRate = [];
-    const amountTotal = amount1 + amount2 + amount3 + amount4 + amount5 + amount6;
+    const amountTotal = amount1 + amount2 + amount3
+      + amount4 + amount5 + amount6 + amount7 + amount8;
 
     if (amountTotal >= balance.balance) {
       Modal.info({
@@ -91,10 +113,12 @@ class ShopCart extends PureComponent {
       amount3 >= 1 ||
       amount4 >= 1 ||
       amount5 >= 1 ||
-      amount6 >= 1
+      amount6 >= 1 ||
+      amount7 >= 1 ||
+      amount8 >= 1
     ) {
       mixedShopCart.ids.forEach((item) => {
-        dishParams.push(chsDB[mixedShopCart.list[item].choiceId].dishId)
+        dishParams.push(chsDB[mixedShopCart.list[item].choiceId].dishId);
         dishRate.push(chsDB[mixedShopCart.list[item].choiceId].dish)
       });
       // 根据混合过的ids的长度包含了混合过关的下注方法
@@ -145,7 +169,12 @@ class ShopCart extends PureComponent {
           amount4: 0,
           amount5: 0,
           amount6: 0,
-        })
+          amount7: 0,
+          amount8: 0,
+        });
+        dispatch({
+          type: 'userInfo/fetch',
+        });
       }
     });
   };
@@ -167,6 +196,11 @@ class ShopCart extends PureComponent {
   delItem = () => {
    const { betShopCart: { mixedShopCart } } = this.props;
    const { length } = mixedShopCart.ids;
+   if (length <= 2) {
+     this.setState({
+       amount1: 0
+     });
+   }
     this.setState({
       [`amount${length}`]: 0
     });
@@ -230,6 +264,24 @@ class ShopCart extends PureComponent {
           className={styles.input}
           value={this.state.amount6}
           onChange={e => this.setAmount(e, 6)}
+        />
+      )
+    }
+    if (betType === 7) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount7}
+          onChange={e => this.setAmount(e, 7)}
+        />
+      )
+    }
+    if (betType === 8) {
+      return (
+        <Input
+          className={styles.input}
+          value={this.state.amount8}
+          onChange={e => this.setAmount(e, 8)}
         />
       )
     }

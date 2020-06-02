@@ -38,7 +38,7 @@ export default {
       });
       if (callback) callback()
     },
-    *addFav({ payload, callback }, { call, put, select }) {
+    *addFav({ payload, callback }, { put, select }) {
       const matchIds = yield select(state => state.inPlayFavorite.favMatchIds);
       const matchObj = yield select(state => state.inPlayFavorite.favMatchObj);
       matchIds.push(payload.matchId);

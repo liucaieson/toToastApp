@@ -89,10 +89,13 @@ class ShopCart extends PureComponent {
         });
 
         if (successOrderNum === data.length) {
-          orderText = '下注成功'
+          orderText = '下注成功';
         } else {
           orderText = `成功${successOrderNum}注，失败${data.length - successOrderNum}注`
         }
+        dispatch({
+          type: 'userInfo/fetch',
+        });
 
         this.setState({
           modal: true,

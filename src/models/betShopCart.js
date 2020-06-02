@@ -178,8 +178,8 @@ export default {
       const firstIds = data[0].matchId;
       const firstInfo = data[0];
       const shopCartData = yield select(state => state.betShopCart.mixedShopCart);
-      if (shopCartData.ids.length === 6 && !shopCartData.ids.includes(firstIds)) {
-        message.info('最多选择6场');
+      if (shopCartData.ids.length === 8 && !shopCartData.ids.includes(firstIds)) {
+        message.info('最多选择8场');
         return
       }
       // 判断ids里面是否含有比赛的id，没有就加入购物车，有就进行替换

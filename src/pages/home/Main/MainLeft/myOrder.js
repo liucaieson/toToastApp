@@ -12,6 +12,8 @@ const betTypeMap = {
   4: '四串一',
   5: '五串一',
   6: '六串一',
+  7: '七串一',
+  8: '八串一',
 };
 
 @connect(({ historyBets, loading }) => ({
@@ -228,7 +230,7 @@ class MyOrder extends PureComponent {
                       <div className={styles.left}>
                         <span className={styles.text}>下注时间：</span>
                         <span className={styles.time}>
-                          {val.betTime && val.betTime.substring(0, 19)}
+                          {moment(val.betTime).local().format('YYYY-MM-DD HH:mm:ss')}
                         </span>
                       </div>
                     </div>

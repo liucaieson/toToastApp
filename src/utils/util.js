@@ -165,9 +165,8 @@ export const dishNameMap = {
 };
 
 export const calcDate2 = (date) => {
-  const cacheDate = moment(date.substring(0, 8), 'YYYYMMDD');
-  const time = cacheDate.format('YYYY年MM月DD日  星期dd');
-  const day = `${date.substring(8, 10)}:${date.substring(10, 12)}`;
+  const time = moment(date).format('YYYY年MM月DD日  星期dd');
+  const day = moment(date).format('HH:mm');
   return `${time} ${day}`;
 };
 
