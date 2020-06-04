@@ -172,13 +172,17 @@ class Main extends PureComponent {
     * */
   fetchMatchOddsWithCompetitions = (param) => {
     const { gg } = this.props;
+    let competitions = param;
     if (param === undefined) {
       return;
+    }
+    if (param === '') {
+      competitions = null
     }
     this.setState({
       firstLoading: true,
     });
-    this.fetchMatchOdds({ competitions: param, gg }, () => {
+    this.fetchMatchOdds({ competitions, gg }, () => {
       /* 刷新倒计时的时间 */
       this.countRef.reset();
       this.globalParams = {

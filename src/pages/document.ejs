@@ -103,11 +103,6 @@
     document.getElementById('loader-13').style.display = 'none';
     let  { timing } = performance,
       start = timing.navigationStart,
-      dnsTime = 0,
-      tcpTime = 0,
-      firstPaintTime = 0,
-      domRenderTime = 0,
-      loadTime = 0;
     //根据提供的api和属性，拿到对应的时间
     dnsTime = timing.domainLookupEnd - timing.domainLookupStart;
     tcpTime = timing.connectEnd - timing.connectStart;

@@ -202,8 +202,8 @@ class MyOrder extends PureComponent {
                             </span>
                               @
                               <span className={styles.dish}>
-                              {item.dishRate}
-                            </span>
+                                {item.dishRate}
+                              </span>
                             </div>
                           </div>
                           <div className={styles.right}>
@@ -234,8 +234,6 @@ class MyOrder extends PureComponent {
                         </span>
                       </div>
                     </div>
-
-
                   </li>
                 ))
               }

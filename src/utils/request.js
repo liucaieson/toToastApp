@@ -27,14 +27,7 @@ function checkStatus(response) {
   if (response.status === '401') {
     sessionStorage.clear();
     const errortext = codeMessage[response.status] || response.statusText;
-    /* notification.error({
-      message: 'Token失效',
-      description: '请在平台重新登录',
-      duration: 1.5,
-      onClose: () => {
-        sessionStorage.clear()
-      }
-    }); */
+    window.location.replace('/401');
     console.log('Token失效');
     return false;
   }

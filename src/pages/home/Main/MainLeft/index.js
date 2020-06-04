@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import styles from './index.scss';
 import MenuColumn from './menuColumn';
 import BetShopCart from './BetShopCart'
-import MixedShopCart from './MixedShopCart'
+import MixedShopCart from './ShopCart'
 import MyOrder from './myOrder'
 
 @connect(({ toggleMainLeftTabs }) => ({

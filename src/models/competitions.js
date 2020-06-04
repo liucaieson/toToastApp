@@ -6,7 +6,6 @@ export default {
 
   state: {
     competitions: [],
-    competitionsModalList: [],
     areaId: [],
     competitionsObj: {}
   },
@@ -36,7 +35,6 @@ export default {
       yield put({
         type: 'saveModal',
         payload: {
-          data,
           competitionsObj,
           areaId
         },
@@ -62,7 +60,6 @@ export default {
     saveModal(state, { payload }) {
       return {
         ...state,
-        competitionsModalList: payload.data,
         areaId: payload.areaId,
         competitionsObj: payload.competitionsObj
       };

@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Checkbox, Modal, Row, Form, Icon } from 'antd';
-import styles from './index.scss'
+import { Checkbox, Modal, Row, Form } from 'antd';
+import styles from './index.scss';
+import Collapse from './collapse';
 
 @connect(({ showCompetitions, area, competitions }) => ({
   showCompetitions,
   area,
-  competitions
+  competitions,
 }))
 class CompetitionsModal extends Component {
-  state = {
-    showArea: []
-  };
-
   componentDidMount() {
     const { dispatch, params } = this.props;
     dispatch({
@@ -26,11 +23,11 @@ class CompetitionsModal extends Component {
   onCheck = () => {
     const { fn } = this.props;
     if (this.props.form.getFieldsValue().competitions === undefined) {
-      this.closeShowCompetitionsModal()
+      this.closeShowCompetitionsModal();
     } else {
       const params = this.props.form.getFieldsValue().competitions.join(',');
       fn(params);
-      this.closeShowCompetitionsModal()
+      this.closeShowCompetitionsModal();
     }
   };
 
@@ -38,44 +35,25 @@ class CompetitionsModal extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'showCompetitions/toggle',
-      payload: false
-    })
+      payload: false,
+    });
   };
 
   closeShowCompetitionsModal = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'showCompetitions/toggle',
-      payload: false
-    })
-  };
-
-  toggleArea = (id) => {
-    const { showArea } = this.state;
-    const index = showArea.indexOf(id);
-    if (index < 0) {
-      showArea.push(id);
-      const arr = showArea.concat();
-      this.setState({
-        showArea: arr
-      })
-    } else {
-      showArea.splice(index, 1);
-      const arr = showArea.concat();
-      this.setState({
-        showArea: arr
-      })
-    }
+      payload: false,
+    });
   };
 
   render() {
     const {
       showCompetitions: { isShow },
       competitions: { areaId, competitionsObj },
-      area: { areaObj }
+      area: { areaObj },
     } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { showArea } = this.state;
     return (
       <Modal
         title="选择联赛"
@@ -88,7 +66,7 @@ class CompetitionsModal extends Component {
           minHeight: '400px',
           overflow: 'hidden',
           color: 'white',
-          padding: 0
+          padding: 0,
         }}
       >
         <div className={styles.box}>
@@ -101,41 +79,34 @@ class CompetitionsModal extends Component {
               <Form.Item>
                 {getFieldDecorator('competitions', {})(
                   <Checkbox.Group style={{ width: '100%' }}>
+                    <Collapse area="全部" key={1}>
+                      <div className={styles['list-item']}>
+                        <Checkbox value={null}>
+                          选择全部
+                        </Checkbox>
+                      </div>
+                    </Collapse>
                     {
                       areaId.map((item) => (
-                        <div className={styles['area-box']} key={item} >
-                          <div className={styles['area-name']} onClick={() => this.toggleArea(item)}>
-                            {
-                              showArea.includes(item) ?
-                                <div className={styles.arrow}>
-                                  <Icon type="caret-up" />
-                                </div>
-                                :
-                                <div className={styles.arrow}>
-                                  <Icon type="caret-down" />
-                                </div>
-                            }
-                            <div className={styles.name}>{ areaObj[item] }</div>
-                          </div>
+                        <Collapse area={areaObj[item]} key={item}>
                           {
-                            showArea.includes(item) ?
                             competitionsObj[item].map((val) => (
                               <div className={styles['list-item']} key={val.competitionId}>
                                 <Checkbox value={val.competitionId}>
                                   {val.competitionName}
                                 </Checkbox>
                               </div>
-                            )) : ''
+                            ))
                           }
-                        </div>
+                        </Collapse>
                       ))
                     }
                   </Checkbox.Group>,
                 )}
               </Form.Item>
-        </Form>
-        }
-      </div>
+            </Form>
+          }
+        </div>
       </Modal>
 
     );

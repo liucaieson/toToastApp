@@ -24,7 +24,7 @@ class HomePage extends PureComponent {
     if (!accessCode && !code) {
       return
     } */
-    if (code && code !== 'faeb2ead70b74948ae3b7c4cd73243f1') {
+    if (accessCode) {
       Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',
@@ -32,9 +32,10 @@ class HomePage extends PureComponent {
       this.getUserInfo();
       this.setState({
         isLogin: true
-      })
-    } else if (accessCode) {
-      sessionStorage.setItem('accessCode', accessCode);
+      });
+      return
+    }
+    if (code && code !== 'faeb2ead70b74948ae3b7c4cd73243f1') {
       Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',

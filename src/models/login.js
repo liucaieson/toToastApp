@@ -18,6 +18,14 @@ export default {
       });
       if (callback) callback(data);
     },
+    *logout(_, { put }) {
+      sessionStorage.clear()
+      window.location.replace('/401');
+      yield put({
+        type: 'change',
+        payload: false,
+      });
+    },
     /* 改变登录状态 */
     *changeLoginStatus({ payload }, { put }) {
       const { isLogin } = payload;

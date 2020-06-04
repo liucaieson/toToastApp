@@ -484,4 +484,12 @@ td{
   border-color: #e8a837;
 }
 
-
+.no-auth-page{
+  width: 90px;
+  padding-top:99px;
+  background-image:
+    url('./assets/a401@3x.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 10px;
+}

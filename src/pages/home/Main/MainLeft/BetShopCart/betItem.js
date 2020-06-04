@@ -321,7 +321,7 @@ class BetItem extends PureComponent {
       );
     }
     /* 3001代表盘口关闭， 2111代表比赛结束 */
-    if (data.code === '3001' || data.code === '2111') {
+    if (data.code === '3001' || data.code === '2111' || data.code === '3008') {
       return (
         <Fragment>
           <div className={styles['no-bet']}>

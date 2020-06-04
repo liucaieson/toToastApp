@@ -232,6 +232,16 @@ export default {
         payload: data
       })
     },
+    /* 删除所有混合过关购物车， 删除过程中应该清除盘口列表中的高亮效果 */
+    *delAllMixedShopCart(_, { put }) {
+      yield put({
+        type: 'saveMixed',
+        payload: {
+          ids: [],
+          list: {}
+        }
+      })
+    },
     /* 修改投注金额,只有单注有 */
     *addShopCartItemAmount({ payload }, { put, select }) {
       const data = yield select(state => state.betShopCart.shopCart);

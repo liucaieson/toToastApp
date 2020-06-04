@@ -110,8 +110,10 @@ class TopHeader extends PureComponent {
   };
 
   loginOut = () => {
-    localStorage.clear();
-    window.location.href = '/'
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'login/logout',
+    });
   };
 
   render() {
