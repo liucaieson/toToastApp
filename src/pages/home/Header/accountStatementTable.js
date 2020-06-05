@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {
-  Icon,
-} from 'antd';
+import { Icon, } from 'antd';
+import { formatUTCToLocal } from '@/utils/util'
 import ETable from '@/components/Etable';
-import styles from './header2.scss'
-import moment from 'moment';
+import styles from './header2.scss';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
@@ -19,7 +17,7 @@ class AccountStatementTable extends Component {
       title: '日期',
       dataIndex: 'date',
       render: (val) => (
-          moment.utc(val).local().format('YYYY-MM-DD HH:mm')
+        formatUTCToLocal(val)
         )
     },
     {
@@ -80,7 +78,6 @@ class AccountStatementTable extends Component {
           loading={loading && { indicator: antIcon }}
         />
       </div>
-
     );
   }
 }

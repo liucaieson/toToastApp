@@ -7,7 +7,8 @@ export default {
   state: {
     competitions: [],
     areaId: [],
-    competitionsObj: {}
+    competitionsObj: {},
+    competitionsList: []
   },
 
   effects: {
@@ -36,7 +37,8 @@ export default {
         type: 'saveModal',
         payload: {
           competitionsObj,
-          areaId
+          areaId,
+          competitionsList: data
         },
       });
       if (callback) callback(data)
@@ -61,7 +63,8 @@ export default {
       return {
         ...state,
         areaId: payload.areaId,
-        competitionsObj: payload.competitionsObj
+        competitionsObj: payload.competitionsObj,
+        competitionsList: payload.competitionsList
       };
     },
   },

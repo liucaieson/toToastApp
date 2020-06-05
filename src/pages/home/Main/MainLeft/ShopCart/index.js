@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Icon, Modal, Input } from 'antd';
 import BetItem from './betItem';
 import styles from './index.scss';
-import { groupSplit, dishNameMap } from '@/utils/util';
+import { dishNameMap, betTypeMap } from '@/utils/util';
 
 const betTypeArr = [
   [
@@ -70,12 +70,11 @@ const betTypeArr = [
 }))
 class ShopCart extends PureComponent {
   state = {
-    showSelectOption: false,
-    slideIn: false,
-    mixedType: [],
     modal: false,
     result: [],
     amount: 0,
+    betType: 1,
+    orderText: '',
   };
 
   submitBets = () => {
@@ -99,25 +98,36 @@ class ShopCart extends PureComponent {
       return;
     }
 
-    if (amount <= 1) {
+    if (amount < 1) {
       Modal.info({
         title: '提示',
         content: '最少下注1元',
       });
       return;
     }
+    for (let i = 0; i < mixedShopCart.ids; i += 1) {
+      if (mixedShopCart.list[mixedShopCart.ids[i]].code !== '208' &&
+      mixedShopCart.list[mixedShopCart.ids[i]].code !== '200') {
+        Modal.info({
+          title: '提示',
+          content: '请删除无法下注的比赛',
+        });
+        return;
+      }
+    }
+
     /* 注意mixed是以比赛ID为key的 */
     mixedShopCart.ids.forEach((item) => {
       dishParams.push(chsDB[mixedShopCart.list[item].choiceId].dishId);
       dishRate.push(chsDB[mixedShopCart.list[item].choiceId].dish);
     });
+    const betType = mixedShopCart.ids.length;
     // 根据混合过的ids的长度包含了混合过关的下注方法
     params.push({
-      betType: mixedShopCart.ids.length,
+      betType,
       dishValue: amount,
       dishId: dishParams.join(','),
       dishRate: dishRate.join(','),
-
     });
 
     const param = {
@@ -128,9 +138,25 @@ class ShopCart extends PureComponent {
       type: 'betShopCart/postMixedOrder',
       payload: param,
       callback: (data) => {
+        let successOrderNum = 0;
+        let orderText = '';
+        data.forEach((item) => {
+          if (item.code === '208') {
+            successOrderNum += 1;
+          }
+        });
+
+        if (successOrderNum === data.length) {
+          orderText = 1;
+        } else {
+          orderText = 2;
+        }
         this.setState({
           modal: true,
           result: data,
+          amount: 0,
+          betType,
+          orderText,
         });
         dispatch({
           type: 'userInfo/fetch',
@@ -173,7 +199,18 @@ class ShopCart extends PureComponent {
     });
   };
 
+  delAmount = () => {
+    this.setState({
+      amount: 0,
+    });
+  };
+
   renderInput() {
+    const delBtn = (
+      <div className={styles['del-btn']} onClick={this.delAmount}>
+        x
+      </div>
+    );
     const {
       betShopCart: { mixedShopCart },
       chsDB: { chsDB },
@@ -192,6 +229,7 @@ class ShopCart extends PureComponent {
             className={styles.input}
             value={amount}
             onChange={e => this.changeAmount(e)}
+            addonAfter={delBtn}
           />
           <p className={styles.text}>可赢金额： <span>{maxProfit.toFixed(2)}</span></p>
         </div>
@@ -213,7 +251,7 @@ class ShopCart extends PureComponent {
       addLoading,
       postLoading,
     } = this.props;
-    const { modal, result } = this.state;
+    const { modal, result, betType, orderText } = this.state;
     return (
       <div className={styles.box}>
         {
@@ -281,34 +319,52 @@ class ShopCart extends PureComponent {
           title={null}
           visible={modal}
           onCancel={this.closeModal}
-          width={400}
+          width={410}
           footer={null}
           maskClosable
+          destroyOnClose
         >
           <div className={styles['result-mixed-modal']}>
-            <div className={styles['bet-result']}>
-              <div className={styles.left}>
-                <Icon type="check-circle"/>
-              </div>
-              <div className={styles.right}>
-                混合过关
-              </div>
-            </div>
+            {
+              orderText === 1 ?
+                <div className={styles['bet-result']}>
+                  <div className={styles.left} >
+                    <Icon type="check-circle" className={styles.green}/>
+                    {betTypeMap[betType]}
+                  </div>
+                  <div className={styles.center}>
+                    <span>投注额：{result && result[0] && result[0].money}</span>
+                  </div>
+                  <div className={styles.right}>
+                    <span className={styles.success}>下注成功</span>
+                  </div>
+                </div>
+                :
+                <div className={styles['bet-result']}>
+                  <div className={styles.left}>
+                    <Icon type="close-circle" className={styles.black} />
+                    {betTypeMap[betType]}
+                  </div>
+                  <div className={styles.center} />
+                  <div className={styles.right}>
+                    <span className={styles.fail}> 下注失败</span>
+                  </div>
+                </div>
+            }
+
             {
               result && result.map((val) => (
                 val.code === '208' ? (
                   <div className={styles['result-item']} key={val.choiceId}>
                     <div className={styles['result-item-header']}>
                       <div className={styles.left}>
-                        <div className={styles.title}>
-                          <div className={styles.logo}/>
+                        <div className={styles.logo}/>
+                        <div className={styles.cptName}>
+                          {val.cptName}
                         </div>
                       </div>
                       <div className={styles.text}>
                         {val.homeName}---{val.awayName}
-                      </div>
-                      <div className={styles.flag}>
-                        成功
                       </div>
                     </div>
                     <div className={styles['result-item-content']}>
@@ -316,10 +372,10 @@ class ShopCart extends PureComponent {
                         {val.oddName}
                       </div>
                       <div className={styles.handicap}>
-                        {dishNameMap[val.name]}{val.choiceHandicap}
-                      </div>
-                      <div className={styles.odds}>
-                        {val.dish}
+                        {dishNameMap[val.name]}{val.choiceHandicap}@
+                        <span className={styles.odds}>
+                          {val.dish}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -330,30 +386,26 @@ class ShopCart extends PureComponent {
                   >
                     <div className={styles['result-item-header']}>
                       <div className={styles.left}>
-                        <div className={styles.title}>
-                          <div className={styles.logo}/>
+                        <div className={styles.logo}/>
+                        <div className={styles.cptName}>
+                          {val.cptName}
                         </div>
                       </div>
                       <div className={styles.text}>
                         {val.homeName}---{val.awayName}
                       </div>
-                      <div className={styles.loss}>失败</div>
                     </div>
                     <div className={styles['result-item-content']}>
                       <div className={styles['odds-name']}>
                         {val.oddName}
                       </div>
                       <div className={styles.handicap}>
-                        {dishNameMap[val.name]}{val.choiceHandicap}
+                        {dishNameMap[val.name]}{val.choiceHandicap}@
+                        <span className={styles.odds}>
+                          {val.dish}
+                        </span>
                       </div>
-                      <div className={styles.odds}>
-                        {val.dish}
-                      </div>
-                    </div>
-                    <div className={styles['result-item-message']}>
-                      <div className={styles.mes}>
-                        下注失败：{val.message}
-                      </div>
+                      <div className={styles.loss}>{val.message}</div>
                     </div>
                   </div>
                 )

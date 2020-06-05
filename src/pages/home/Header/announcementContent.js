@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Pagination } from 'antd';
 import Loading from '@/components/MbPageLoading';
-import moment from 'moment';
+import { formatUTCToLocal } from '@/utils/util';
 import styles from './header2.scss'
 
 @connect(({ announcement, loading }) => ({
@@ -42,7 +42,7 @@ class AnnouncementContent extends PureComponent {
           loading ? <Loading /> :
            data && data.map((val) => (
               <div key={val.messageId} className={styles.line}>
-                <div className={styles.time}>{moment.utc(val.date).local().format('YYYY-MM-DD HH:mm')}</div>
+                <div className={styles.time}>{formatUTCToLocal(val.date)}</div>
                 <div className={styles.text}>{val.messageText}</div>
               </div>
             ))

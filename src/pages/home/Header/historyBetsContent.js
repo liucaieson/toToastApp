@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import { Pagination, Form, Row, Col, Button, Select } from 'antd';
 import styles from './header2.scss';
-import { dishNameMap } from '@/utils/util';
+import { dishNameMap, formatUTCToLocal, betTypeMap } from '@/utils/util';
 import Loading from '@/components/MbPageLoading';
 
 const FormItem = Form.Item;
-
-const betTypeMap = {
-  1: '单注',
-  2: '二串一',
-  3: '三串一',
-  4: '四串一',
-  5: '五串一',
-  6: '六串一',
-};
 
 @connect(({ historyBets, userInfo, loading }) => ({
   historyBets,
@@ -37,7 +27,6 @@ class HistoryBetsContent extends Component {
         size: 5,
         betStatus: this.defaultParams
       }
-
     });
   }
 
@@ -130,7 +119,7 @@ class HistoryBetsContent extends Component {
             <div key={val.betId} className={styles.historyBets}>
               <div className={styles['bet-time-line']}>
                 <div className={styles.status}>{val.betStatus}</div>
-                <div className={styles.time}>{ moment.utc(val.betTime).local().format('lll')}</div>
+                <div className={styles.time}>{ formatUTCToLocal(val.betTime)}</div>
                 <div className={styles.text1}>订单号：</div>
                 <div className={styles.time}>{val.betId}</div>
               </div>
@@ -138,7 +127,7 @@ class HistoryBetsContent extends Component {
                 {
                   val.detailed.map((v) => (
                     <div className={styles['bet-detail-line']} key={v.matchTime}>
-                      <div>{ moment.utc(v.matchTime).local().format('YYYY-MM-DD HH:mm')}</div>
+                      <div>{ formatUTCToLocal(v.matchTime)}</div>
                       <div>{v.hostName}<br/>{v.awayName}</div>
                       <div>{v.oddName}</div>
                       <div>{dishNameMap[v.choiceContent]}{v.choiceHandicap}</div>

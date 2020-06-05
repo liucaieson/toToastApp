@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Checkbox, Modal, Row, Form } from 'antd';
+import { Checkbox, Modal, Row, Form, Icon } from 'antd';
 import styles from './index.scss';
 import Collapse from './collapse';
 
@@ -10,6 +10,12 @@ import Collapse from './collapse';
   competitions,
 }))
 class CompetitionsModal extends Component {
+  state = {
+    competitions: [],
+    indeterminate: true,
+    checkAll: false,
+  };
+
   componentDidMount() {
     const { dispatch, params } = this.props;
     dispatch({
@@ -47,6 +53,26 @@ class CompetitionsModal extends Component {
     });
   };
 
+  onChange = checkedList => {
+    this.props.form.setFieldsValue(
+      {
+        competitions: checkedList
+      }
+      )
+  };
+
+  onCheckAllChange = e => {
+    const { competitions: { competitionsList } } = this.props;
+    const plainOptions = [];
+    competitionsList.forEach((val) => {
+      plainOptions.push(val.competitionId)
+    });
+    const competitions = e.target.checked ? plainOptions : [];
+    this.props.form.setFieldsValue({
+      competitions
+    })
+  };
+
   render() {
     const {
       showCompetitions: { isShow },
@@ -54,6 +80,7 @@ class CompetitionsModal extends Component {
       area: { areaObj },
     } = this.props;
     const { getFieldDecorator } = this.props.form;
+
     return (
       <Modal
         title="选择联赛"
@@ -77,15 +104,21 @@ class CompetitionsModal extends Component {
           {
             <Form>
               <Form.Item>
-                {getFieldDecorator('competitions', {})(
-                  <Checkbox.Group style={{ width: '100%' }}>
-                    <Collapse area="全部" key={1}>
-                      <div className={styles['list-item']}>
-                        <Checkbox value={null}>
-                          选择全部
-                        </Checkbox>
-                      </div>
-                    </Collapse>
+                <div className={styles['area-box']} >
+                  <div className={styles['area-name']}>
+                    <Checkbox
+                      onChange={this.onCheckAllChange}
+                    >
+                      选择全部
+                    </Checkbox>
+                  </div>
+                </div>
+                {getFieldDecorator('competitions', {
+                })(
+                  <Checkbox.Group
+                    style={{ width: '100%' }}
+                    onChange={this.onChange}
+                  >
                     {
                       areaId.map((item) => (
                         <Collapse area={areaObj[item]} key={item}>

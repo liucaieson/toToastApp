@@ -170,8 +170,16 @@ export const calcDate2 = (date) => {
   return `${time} ${day}`;
 };
 
+export const formatUTCToLocal = (date) => {
+  return moment(date).local().format('YYYY-MM-DD HH:mm:ss')
+};
+
+export const formatUTCToLocalWithoutYear = (date) => {
+  return moment(date).local().format('MM-DD HH:mm:ss')
+};
+
 export const calcDateToMonthAndDay = (date) => {
-  return moment.utc(date).local().format('YYYY-MM-DD HH:mm')
+  return moment(date).local().format('YYYY-MM-DD HH:mm')
 };
 
 export const dateList = () => {
@@ -200,4 +208,15 @@ export const dateList = () => {
   }
 
   return timeList
+};
+
+export const betTypeMap = {
+  1: '',
+  2: '二串一',
+  3: '三串一',
+  4: '四串一',
+  5: '五串一',
+  6: '六串一',
+  7: '七串一',
+  8: '八串一',
 };

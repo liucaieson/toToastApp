@@ -25,6 +25,7 @@ class HomePage extends PureComponent {
       return
     } */
     if (accessCode) {
+      sessionStorage.setItem('accessCode', accessCode);
       Modal.success({
         title: '亚冠体育',
         content: '欢迎来到亚冠体育',

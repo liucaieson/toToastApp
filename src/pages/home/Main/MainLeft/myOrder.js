@@ -3,18 +3,7 @@ import { Icon } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment'
 import styles from './myOrder.scss';
-import { dishNameMap } from '@/utils/util';
-
-const betTypeMap = {
-  1: '',
-  2: '二串一',
-  3: '三串一',
-  4: '四串一',
-  5: '五串一',
-  6: '六串一',
-  7: '七串一',
-  8: '八串一',
-};
+import { dishNameMap, betTypeMap } from '@/utils/util';
 
 @connect(({ historyBets, loading }) => ({
   historyBets,

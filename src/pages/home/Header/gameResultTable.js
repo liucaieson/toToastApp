@@ -10,6 +10,7 @@ import {
 } from 'antd';
 import ETable from '@/components/Etable';
 import { connect } from 'dva';
+import { calcDateToMonthAndDay } from '@/utils/util';
 import styles from './header2.scss'
 
 const FormItem = Form.Item;
@@ -57,7 +58,7 @@ class GameResultTable extends Component {
       dataIndex: 'matchTime',
       render: (val) => {
         return (
-          moment.utc(val).local().format('YYYY-MM-DD HH:mm')
+          calcDateToMonthAndDay(val)
         )
       },
       width: 100,
