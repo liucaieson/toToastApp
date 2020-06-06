@@ -299,7 +299,7 @@ class Main extends PureComponent {
               offset={1}
               onClick={() => this.fetchMatchOddsWithDate({ date: dateAfterSixDay, isOver: 1 })}
             >
-              >6
+              未来
             </Col>
           </Row>
           {

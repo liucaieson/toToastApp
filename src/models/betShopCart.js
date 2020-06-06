@@ -18,8 +18,8 @@ export default {
   },
 
   effects: {
-    /* 提交购物车投注单 */
-    * postBetOrder({ payload, callback }, { call, put, select }) {
+    // 提交购物车投注单
+    *postBetOrder({ payload, callback }, { call, put, select }) {
       const data = yield call(postBetOrder, payload);
       const shopCartData = yield select(state => state.betShopCart.shopCart);
       /* 200为投注成功 */
@@ -55,7 +55,7 @@ export default {
             list,
           },
         });
-        /* 将返回的数据给视图层处理 */
+        // 将返回的数据给视图层处理
         if (callback) callback(data.data);
       } else if (data.code === 3002) {
         Modal.info({
@@ -70,7 +70,7 @@ export default {
       }
     },
     /* 提交购物车投注单 */
-    * postMixedOrder({ payload, callback }, { call, put, select }) {
+    *postMixedOrder({ payload, callback }, { call, put, select }) {
       const data = yield call(postBetOrder, payload);
       const shopCartData = yield select(state => state.betShopCart.mixedShopCart);
       /* 200为投注成功 */
@@ -134,7 +134,7 @@ export default {
      * 如果ids没有该盘口直接添加到购物车
      * 如果ids有该盘口，说明是一个盘口替换其中的盘口项
       * */
-    * addBetShopCart({ payload, callback }, { call, put, select }) {
+    *addBetShopCart({ payload, callback }, { call, put, select }) {
       const cartData = yield select(state => state.betShopCart.shopCart);
       if (cartData.ids.length > 10) {
         message.info('购物车满了。。。请投注');
@@ -203,7 +203,7 @@ export default {
     /* 添加混合过关到购物车
     *  购物车数据ids为这场比赛的id，list为以比赛id为key的obj。
     * */
-    * addMixedShopCart({ payload, callback }, { call, put, select }) {
+    *addMixedShopCart({ payload, callback }, { call, put, select }) {
       const data = yield call(addShopCart, payload);
       // 如果数据错误就返回清除预先加入的错误投注
       if (data[0] === undefined) {
@@ -243,7 +243,7 @@ export default {
       if (callback) callback();
     },
     /* 删除购物车的其中一项 删除过程中应该清除盘口列表中的高亮效果，这个写在了views层调用的函数中 */
-    * delBetShopCart({ payload }, { put, select }) {
+    *delBetShopCart({ payload }, { put, select }) {
       const data = yield select(state => state.betShopCart.shopCart);
       const index = data.ids.indexOf(payload);
       if (index > -1) {
@@ -256,7 +256,7 @@ export default {
       });
     },
     /* 删除混合过关购物车的其中一项 删除过程中应该清除盘口列表中的高亮效果 */
-    * delMixedShopCart({ payload }, { put, select }) {
+    *delMixedShopCart({ payload }, { put, select }) {
       const data = yield select(state => state.betShopCart.mixedShopCart);
       const index = data.ids.indexOf(payload);
       if (index > -1) {
@@ -269,7 +269,7 @@ export default {
       });
     },
     /* 删除所有混合过关购物车， 删除过程中应该清除盘口列表中的高亮效果 */
-    * delAllMixedShopCart(_, { put }) {
+    *delAllMixedShopCart(_, { put }) {
       yield put({
         type: 'saveMixed',
         payload: {
@@ -279,7 +279,7 @@ export default {
       });
     },
     /* 修改投注金额,只有单注有 */
-    * addShopCartItemAmount({ payload }, { put, select }) {
+    *addShopCartItemAmount({ payload }, { put, select }) {
       const data = yield select(state => state.betShopCart.shopCart);
       data.list[payload.id].amount = payload.amount;
       yield put({

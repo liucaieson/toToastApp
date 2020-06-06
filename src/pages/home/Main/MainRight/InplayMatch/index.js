@@ -103,7 +103,7 @@ class InplayMatch extends PureComponent {
 
     if (cptIds.length === 0) {
       return (
-        <div className="match-loading">暂无滚球</div>
+        <div className="match-loading">暂无滚球赛事</div>
       )
     }
       return (
@@ -165,7 +165,7 @@ class InplayMatch extends PureComponent {
               </Col>
               <Col className={styles['middle-tb']} span={8}>
                 <Row className={styles['cell-th']}>
-                  上半场~
+                  上半场
                 </Row>
                 <Row>
                   <Col span={8} className={styles.cell}>让球</Col>

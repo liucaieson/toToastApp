@@ -305,7 +305,7 @@ class Main extends PureComponent {
               className={isActiveDate === dateAfterSixDay ? `${styles.item} ${styles.active}` : styles.item} span={3} offset={1}
               onClick={() => this.fetchMatchOddsWithDate({ date: dateAfterSixDay, isOver: 1 })}
             >
-              >6
+              未来
             </Col>
           </Row>
           {

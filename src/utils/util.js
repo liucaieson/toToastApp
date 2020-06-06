@@ -198,8 +198,8 @@ export const dateList = () => {
   for (let i = 1; i < 6; i += 1) {
     date1 = moment().add(i, 'day');
     const week = date1.format('dddd');
-    const day = date1.format('DD MMMM');
-    const name = `${day}(${weekMap.get(week)})`;
+    const day = date1.format('MMMDo');
+    const name = `${week} ${day}`;
     timeList.push({
       name,
       value: date1.format(),
