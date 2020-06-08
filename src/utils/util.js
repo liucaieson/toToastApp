@@ -211,7 +211,7 @@ export const dateList = () => {
 };
 
 export const betTypeMap = {
-  1: '',
+  1: '单注',
   2: '二串一',
   3: '三串一',
   4: '四串一',

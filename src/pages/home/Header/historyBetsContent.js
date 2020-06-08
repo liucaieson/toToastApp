@@ -73,8 +73,10 @@ class HistoryBetsContent extends Component {
         <Row className={styles.inputBox}>
           <Col md={8} sm={24}>
             <FormItem label="状态查询">{
-              getFieldDecorator('betStatus')(
-                <Select className={styles['status-result-select']} placeholder="全部">
+              getFieldDecorator('betStatus', {
+                initialValue: ''
+              })(
+                <Select className={styles['status-result-select']}>
                   <Select.Option value="" key="a">
                     全部
                   </Select.Option>
@@ -139,9 +141,8 @@ class HistoryBetsContent extends Component {
               </div>
               <div className={styles['bet-money-line']}>
                 <div className={styles.type}>{betTypeMap[val.betType]}</div>
-                <div className={styles.price}>单注：￥{val.betPrice}</div>
                 <div className={styles.money}>押注金：￥{val.betMoney}</div>
-                <div className={styles.bonus}>返回金额：￥{val.bonusMoney}</div>
+                <div className={styles.bonus}>{val.betStatus !== '等待结算' ? `返回金额：￥${val.bonusMoney}` : null}</div>
               </div>
             </div>
           ))

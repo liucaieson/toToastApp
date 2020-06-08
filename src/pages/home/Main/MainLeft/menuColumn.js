@@ -181,6 +181,7 @@ class MenuColumn extends PureComponent {
              <span className={styles.left}>
                足球
              </span>
+             <span className={styles.right}></span>
           </li>
         </ul>
         <div className={styles['gg-box']}>

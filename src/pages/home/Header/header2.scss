@@ -245,13 +245,15 @@
 /* 赛果的选择框 */
 .game-result-select {
   width: 180px !important;
+  height: 28px;
+  font-size: 14px;
   background-color: $bg-color2 !important;
 }
 
 .status-result-select {
   width: 180px !important;
   font-size: 14px;
-  background-color: $bg-color !important;
+  height: 28px;
 }
 
 .table-header {

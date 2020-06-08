@@ -331,7 +331,6 @@ class Main extends PureComponent {
               />
             </div>
           }
-
         </div>
         <CompetitionsModal
           params={{ ...this.defaultParams, gg }}

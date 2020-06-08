@@ -89,7 +89,6 @@ class ShopCart extends PureComponent {
     const dishParams = [];
     const dishRate = [];
 
-
     if (amount >= balance.balance) {
       Modal.info({
         title: '提示',
@@ -105,7 +104,7 @@ class ShopCart extends PureComponent {
       });
       return;
     }
-    for (let i = 0; i < mixedShopCart.ids; i += 1) {
+    for (let i = 0; i < mixedShopCart.ids.length; i += 1) {
       if (mixedShopCart.list[mixedShopCart.ids[i]].code !== '208' &&
       mixedShopCart.list[mixedShopCart.ids[i]].code !== '200') {
         Modal.info({

@@ -432,13 +432,13 @@ td{
 /* 覆盖antd select样式 */
 
 .ant-form-item-control{
-  line-height: 24px;
+  line-height: 28px;
 }
 .ant-select-selection--single{
-  height: 24px;
+  height: 28px;
 }
 .ant-select-selection__rendered{
-  line-height: 24px;
+  line-height: 28px;
 }
 .ant-form-inline .ant-form-item > .ant-form-item-control-wrapper, .ant-form-inline .ant-form-item > .ant-form-item-label{
   vertical-align: middle;
