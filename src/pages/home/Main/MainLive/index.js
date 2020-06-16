@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import CollapseList from '@/components/CollapseList';
-import QueueAnim from 'rc-queue-anim';
 import styles from './index.scss';
 
 const liveURL = [
@@ -26,7 +25,6 @@ const liveURL = [
     url: 'https://www.youtube.com/embed/Gu0k6IwmjDM'
   },
 ];
-
 
 class MainLeft extends PureComponent {
   state = {
@@ -107,14 +105,14 @@ class MainLeft extends PureComponent {
                   <Icon style={{ marginLeft: '4px' }} type="down"/></span>
             {
              isShowSportsSelect ?
-               <QueueAnim className={styles['select-list']}>
+               <div className={styles['select-list']}>
                  <div key="a" onClick={() => this.toggleLiveSport('所有球类')} className={styles.item}>所有球类</div>
                  <div key="b" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
                  <div key="c" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
                  <div key="d" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
                  <div key="e" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
                  <div key="f" onClick={() => this.toggleLiveSport('足球')} className={styles.item}>足球</div>
-               </QueueAnim>
+               </div>
                : null
             }
           </div>

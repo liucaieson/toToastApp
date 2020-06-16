@@ -41,12 +41,6 @@
     }
     .select-list{
       width: 100px;
-      position: absolute;
-      background-color: #ccb77d;
-      z-index: 10;
-      top: 40px;
-      left: 0;
-      padding: 1px;
       .item{
         display: block;
         background-color: $bg-color2;

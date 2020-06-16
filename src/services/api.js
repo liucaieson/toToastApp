@@ -42,7 +42,7 @@ export async function postBetOrder(params) {
 
 /* 2.1.轮询收藏的比赛 */
 export async function getGg(params) {
-  return request(`${baseUrl}/portal/pre/getGg`, {
+  return request(`${baseUrl}/portal/pre/getGg?accessCode=${sessionStorage.getItem('accessCode')}`, {
     method: 'POST',
     body: {
       ...params,
@@ -113,7 +113,7 @@ export async function getDates(params) {
 
 /* 2.3.获取赛事列表 */
 export async function getCompetitions(params) {
-  return request(`${baseUrl}/portal/pre/getCompetitions`, {
+  return request(`${baseUrl}/portal/pre/getCompetitions?accessCode=${sessionStorage.getItem('accessCode')}`, {
     method: 'POST',
     body: {
       ...params,

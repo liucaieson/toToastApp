@@ -10,7 +10,7 @@ import { dishNameMap } from '@/utils/util';
   userInfo,
   chsDB,
   postLoading: loading.effects['betShopCart/postBetOrder'],
-  addLoading: loading.effects['betShopCart/addBetShopCart']
+  addLoading: loading.effects['betShopCart/addBetShopCart'],
 }))
 class ShopCart extends PureComponent {
   /**
@@ -28,10 +28,13 @@ class ShopCart extends PureComponent {
       dispatch,
       betShopCart: { shopCart },
       chsDB: { chsDB },
-      userInfo: { balance }
+      userInfo: { balance },
+      postLoading
     } = this.props;
     let amount = 0;
-    let params = {};
+    if (postLoading) {
+      return
+    }
     if (shopCart.ids.length <= 0) { return }
     for (let i = 0; i < shopCart.ids.length; i += 1) {
       if (shopCart.list[shopCart.ids[i]].code === '3001' || shopCart.list[shopCart.ids[i]].code === '2111') {
@@ -65,7 +68,7 @@ class ShopCart extends PureComponent {
       paramsDish.push(chsDB[val].dish);
       paramsValue.push(shopCart.list[val].amount)
     });
-    params = {
+    const params = {
       sport: '1',
       result: [{
         betType: '1',

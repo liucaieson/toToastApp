@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import { Col, Icon, Row } from 'antd';
 import Animate from 'rc-animate';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import velocity from 'velocity-animate';
-import styles from './index.scss';
+
+import './assets/index.less';
 
 const Box = props => {
   const style = {
-    width: '100%',
+    width: '200px',
     display: props.visible ? 'block' : 'none',
+    height: '200px',
+    backgroundColor: 'red',
   };
-  return (<div style={style}>{
-    props.children
-  }
-  </div>);
+  return (<div style={style} />);
 };
 
-export default class Accordion extends Component {
+class Demo extends React.Component {
   state = {
+    destroyed: false,
     visible: true,
     exclusive: false,
-  };
+  }
 
   toggleAnimate = () => {
-    const { visible } = this.state;
     this.setState({
-      visible: !visible,
+      visible: !this.state.visible,
     });
-  };
+  }
 
   animateEnter = (node, done) => {
     let ok = false;
@@ -39,8 +39,9 @@ export default class Accordion extends Component {
     }
 
     node.style.display = 'none';
+
     velocity(node, 'slideDown', {
-      duration: 300,
+      duration: 1000,
       complete,
     });
     return {
@@ -50,10 +51,9 @@ export default class Accordion extends Component {
         complete();
       },
     };
-  };
+  }
 
   animateLeave = (node, done) => {
-
     let ok = false;
 
     function complete() {
@@ -66,7 +66,7 @@ export default class Accordion extends Component {
     node.style.display = 'block';
 
     velocity(node, 'slideUp', {
-      duration: 300,
+      duration: 1000,
       complete,
     });
     return {
@@ -76,11 +76,21 @@ export default class Accordion extends Component {
         complete();
       },
     };
-  };
+  }
+
+  toggle = (field) => {
+    this.setState({
+      [field]: !this.state[field],
+    });
+  }
+
+  destroy = () => {
+    this.setState({
+      destroyed: true,
+    });
+  }
 
   render() {
-    const { cptName, children, style } = this.props;
-    const { visible, exclusive } = this.state;
     const anim = {
       enter: this.animateEnter,
       leave: this.animateLeave,
@@ -88,34 +98,33 @@ export default class Accordion extends Component {
 
     return (
       <div>
-        <Row className={styles['competitions-name']} style={style} onClick={this.toggleAnimate}>
-          <Col span={1} className={styles.arrow}>
-            {
-              visible ?
-                <div className={styles.arrow}>
-                  <Icon type="down"/>
-                </div>
-                :
-                <div className={styles.arrow}>
-                  <Icon type="up"/>
-                </div>
-            }
-          </Col>
-          <Col span={20} className={styles.name}>
-            {cptName}
-          </Col>
-        </Row>
+        <label><input
+          type="checkbox"
+          onChange={this.toggle.bind(this, 'visible')}
+          checked={this.state.visible}
+        />
+          show</label>
+        &nbsp;
+        <label><input
+          type="checkbox"
+          onChange={this.toggle.bind(this, 'exclusive')}
+          checked={this.state.exclusive}
+        />
+          exclusive</label>
+        &nbsp;
+        <button onClick={this.destroy}>destroy</button>
+        <br/><br/>
         <Animate
           component=""
-          exclusive={exclusive}
+          exclusive={this.state.exclusive}
           showProp="visible"
           animation={anim}
         >
-          <Box visible={this.state.visible}>
-            {children}
-          </Box>
+          {this.state.destroyed ? null : <Box visible={this.state.visible}/>}
         </Animate>
       </div>
     );
   }
 }
+
+ReactDOM.render(<Demo />, document.getElementById('__react-content'));

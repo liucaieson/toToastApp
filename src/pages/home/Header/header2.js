@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Icon } from 'antd';
-import QueueAnim from 'rc-queue-anim';
 import styles from './header2.scss';
 import AccountStatement from './accountStatement';
 import GameResult from './gameResult';
 import RuleDescription from './ruleDescription';
 import Announcement from './announcement';
 import HistoryBets from './historyBets';
+import CollapseList from '@/components/CollapseList';
+
 
 @connect(({ userInfo, loading }) => ({
   userInfo,
@@ -20,7 +21,6 @@ class TopHeader extends PureComponent {
     gameResultVisible: false,
     announcementVisible: false,
     historyBetsVisible: false,
-    userBoardVisible: false,
     balanceVisible: true
   };
 
@@ -95,13 +95,6 @@ class TopHeader extends PureComponent {
     });
   };
 
-  toggleUserBoard = () => {
-    const { userBoardVisible } = this.state;
-    this.setState({
-      userBoardVisible: !userBoardVisible
-    });
-  };
-
   toggleShowBalance = () => {
     const { balanceVisible } = this.state;
     this.setState({
@@ -123,7 +116,6 @@ class TopHeader extends PureComponent {
       ruleDescriptionVisible,
       announcementVisible,
       historyBetsVisible,
-      userBoardVisible,
       balanceVisible
     } = this.state;
 
@@ -133,20 +125,28 @@ class TopHeader extends PureComponent {
     return (
       <header className={styles.header}>
         <div className={styles['user-box']}>
-          <div className={styles['user-icon']} onClick={this.toggleUserBoard} />
-              <QueueAnim
-                type="bottom"
-                duration={200}
-              >
-                {
-                  userBoardVisible ?
-                  <ul key="a" className={styles['select-list']}>
-                    <div onClick={this.toggleShowBalance} className={styles.item}>{balanceVisible ? '隐藏余额' : '显示余额'}</div>
-                    <div onClick={this.loginOut} className={styles.item}>退出登录</div>
-                  </ul>
-                  : null
-                }
-              </QueueAnim>
+          <CollapseList
+            defaultShow={false}
+            contentStyles={{
+              width: '100px',
+              position: 'absolute',
+              backgroundColor: '#ccb77d',
+              zIndex: 10,
+              top: '40px',
+              left: 0,
+              padding: '1px',
+          }}>
+            <div className={styles['user-icon']}/>
+            <ul className={styles['select-list']}>
+              <div
+                onClick={this.toggleShowBalance}
+                className={styles.item}>{balanceVisible ? '隐藏余额' : '显示余额'}
+              </div>
+              <div onClick={this.loginOut} className={styles.item}>
+                退出登录
+              </div>
+            </ul>
+          </CollapseList>
           <div className={styles.user}>
             <div className={styles.name}>{userName}</div>
             <div className={styles.balance}>

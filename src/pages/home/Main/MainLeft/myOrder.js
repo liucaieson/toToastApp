@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import { connect } from 'dva';
-import moment from 'moment'
+import moment from 'moment';
 import styles from './myOrder.scss';
-import { dishNameMap, betTypeMap } from '@/utils/util';
+import { dishNameMap, betTypeMap, betStatusMap, betResultMap } from '@/utils/util';
 
 @connect(({ historyBets, loading }) => ({
   historyBets,
@@ -12,7 +12,7 @@ import { dishNameMap, betTypeMap } from '@/utils/util';
 class MyOrder extends PureComponent {
   state = {
     open1: false,
-    open2: false
+    open2: false,
   };
 
   /* 请求投注记录 betStatus1未结算，2为未结算 */
@@ -45,21 +45,21 @@ class MyOrder extends PureComponent {
   toggleSettlement = () => {
     const { open2 } = this.state;
     this.setState({
-      open2: !open2
-    })
+      open2: !open2,
+    });
   };
 
   toggleUnSettlement = () => {
     const { open1 } = this.state;
     this.setState({
-      open1: !open1
-    })
+      open1: !open1,
+    });
   };
 
   render() {
     const { historyBets: { settlementData, unSettlementData } } = this.props;
     const {
-      open1, open2
+      open1, open2,
     } = this.state;
     return (
       <div className={styles.myOrder}>
@@ -67,8 +67,8 @@ class MyOrder extends PureComponent {
           <div className={styles.title} onClick={this.toggleUnSettlement}>
             <div className={styles.left}>
               {
-                open1 ? <Icon type="caret-up" /> :
-                  <Icon type="caret-down" />
+                open1 ? <Icon type="caret-up"/> :
+                  <Icon type="caret-down"/>
               }
             </div>
             <div className={styles.right}>
@@ -83,24 +83,23 @@ class MyOrder extends PureComponent {
                   <li
                     className={styles.item}
                     key={val.betId}
-                    onClick={() => this.toggle(val.betId)}
                   >
                     {
-                      val.detailed && val.detailed.map((item) => (
+                      val.bizBetDetailVOList && val.bizBetDetailVOList.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
                           <div className={styles.left}>
                             <div className={styles['odds-name']}>
                               <span className={styles.type}>
                                 {betTypeMap[val.betType]}
                               </span>
-                              {item.oddName}
-                              </div>
+                              {item.typeName}
+                            </div>
                             <div className={styles.match}>
                               {item.cptName}
-                              </div>
+                            </div>
                             <div className={styles.match}>
-                              {item.hostName}---{item.awayName}
-                              </div>
+                              {item.hostTeam}---{item.awayTeam}
+                            </div>
                             <div
                               className={styles['dish-name']}>
                             <span className={styles.name}>
@@ -113,14 +112,21 @@ class MyOrder extends PureComponent {
                             </span>
                             </div>
                           </div>
-                          <div className={styles.right}>
-                            <div className={styles.win}>
-                              {item.resultFlag === '胜' ?
-                                <span className={styles.red}>{item.resultFlag}</span> :
-                                <span className={styles.green}> {item.resultFlag}</span>
-                              }
-                            </div>
-                          </div>
+                          {
+                            item.resultFlag !== 0 ?
+                              <div className={styles.right}>
+                                <div className={styles.win}>
+                                  {item.resultFlag === 1 ?
+                                    <span className={styles.red}>
+                                      {betResultMap[item.resultFlag]}
+                                      </span> :
+                                    <span className={styles.green}>
+                                      {betResultMap[item.resultFlag]}
+                                    </span>
+                                  }
+                                </div>
+                              </div> : ''
+                          }
                         </div>
                       ))
                     }
@@ -132,7 +138,7 @@ class MyOrder extends PureComponent {
                       </div>
                       <div className={styles.left}>
                         <span className={styles.text}>状态：</span>
-                        <span className={styles.time}>{val.betStatus}</span>
+                        <span className={styles.time}>{betStatusMap[val.betStatus]}</span>
                       </div>
                       <div className={styles.left}>
                         <span className={styles.text}>下注时间：</span>
@@ -155,8 +161,8 @@ class MyOrder extends PureComponent {
           >
             <div className={styles.left}>
               {
-                open2 ? <Icon type="caret-up" /> :
-                  <Icon type="caret-down" />
+                open2 ? <Icon type="caret-up"/> :
+                  <Icon type="caret-down"/>
               }
             </div>
             <div className={styles.right}>
@@ -171,20 +177,19 @@ class MyOrder extends PureComponent {
                   <li
                     className={styles.item}
                     key={val.betId}
-                    onClick={() => this.toggle(val.betId)}
                   >
                     {
-                      val.detailed && val.detailed.map((item) => (
+                      val.bizBetDetailVOList && val.bizBetDetailVOList.map((item) => (
                         <div className={styles.info} key={item.betDetailId}>
                           <div className={styles.left}>
                             <div className={styles['odds-name']}>
                               <span className={styles.type}>
                                 {betTypeMap[val.betType]}
                               </span>
-                              {item.oddName}
+                              {item.typeName}
                             </div>
                             <div className={styles.match}>{item.cptName}</div>
-                            <div className={styles.match}>{item.hostName}---{item.awayName}</div>
+                            <div className={styles.match}>{item.hostTeam}---{item.awayTeam}</div>
                             <div className={styles['dish-name']}>
                             <span className={styles.name}>
                               {dishNameMap[item.choiceContent]}{item.choiceHandicap}
@@ -198,9 +203,13 @@ class MyOrder extends PureComponent {
                           <div className={styles.right}>
 
                             <div className={styles.win}>
-                              {item.resultFlag === '胜' ?
-                                <span className={styles.red}>{item.resultFlag}</span> :
-                                <span className={styles.green}> {item.resultFlag}</span>
+                              {item.resultFlag === 1 ?
+                                <span className={styles.red}>
+                                  {betResultMap[item.resultFlag]}
+                                </span> :
+                                <span className={styles.green}>
+                                  {betResultMap[item.resultFlag]}
+                                </span>
                               }
                             </div>
                           </div>
@@ -213,7 +222,7 @@ class MyOrder extends PureComponent {
                         <span className={styles.num}>￥{val.betMoney}</span>
                       </div>
                       <div className={styles.left}>
-                        <span className={styles.text}>返还：</span>
+                        <span className={styles.text}>返奖：</span>
                         <span className={styles.num}>￥{val.bonusMoney}</span>
                       </div>
                       <div className={styles.left}>

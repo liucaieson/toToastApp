@@ -90,8 +90,12 @@ class ShopCart extends PureComponent {
     const { dispatch,
       betShopCart: { mixedShopCart },
       chsDB: { chsDB },
-      userInfo: { balance }
+      userInfo: { balance },
+      postLoading
     } = this.props;
+    if (postLoading) {
+      return
+    }
     const { amount1, amount2, amount3, amount4, amount5, amount6, amount7, amount8 } = this.state;
     const params = [];
     const dishParams = [];

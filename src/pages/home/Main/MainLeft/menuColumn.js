@@ -100,13 +100,13 @@ class MenuColumn extends PureComponent {
             <li
               className={pageId === '8' ? `${styles.item} ${styles.active}` : styles.item}
               key="command"
-              onClick={() => this.getMatchOdds('mixed')}
+              onClick={() => this.getMatchOdds('8')}
             >
               <span className={styles.left}>
                 混合过关
               </span>
               <span className={styles.right}>
-                {asianDish[7].matchCount}
+                {asianDish && asianDish[7].matchCount}
               </span>
             </li>
           </ul>
@@ -115,7 +115,7 @@ class MenuColumn extends PureComponent {
         return (
           <ul className={styles['dish-list']}>
             {
-              asianDish.map((val) => (
+              asianDish && asianDish.map((val) => (
                 <li
                   className={pageId === val.ggId ? `${styles.item} ${styles.active}` : styles.item}
                   key={val.ggId}
@@ -136,7 +136,7 @@ class MenuColumn extends PureComponent {
         return (
           <ul className={styles['dish-list']}>
             {
-              todayDish.map((val) => (
+              todayDish && todayDish.map((val) => (
                 <li
                   className={pageId === (`t${val.ggId}`) ? `${styles.item} ${styles.active}` : styles.item}
                   key={val.ggId}
@@ -181,7 +181,7 @@ class MenuColumn extends PureComponent {
              <span className={styles.left}>
                足球
              </span>
-             <span className={styles.right}></span>
+             <span className={styles.right} />
           </li>
         </ul>
         <div className={styles['gg-box']}>

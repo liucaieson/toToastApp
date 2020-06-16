@@ -220,3 +220,17 @@ export const betTypeMap = {
   7: '七串一',
   8: '八串一',
 };
+
+export const betStatusMap = {
+  0: '未结算',
+  1: '已结算'
+};
+
+export const betResultMap = {
+  0: '未结算',
+  1: '赢',
+  2: '输',
+  3: '退款',
+  11: '赢一半',
+  12: '输一半'
+};

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Pagination, Form, Row, Col, Button, Select } from 'antd';
 import styles from './header2.scss';
-import { dishNameMap, formatUTCToLocal, betTypeMap } from '@/utils/util';
+import { dishNameMap, formatUTCToLocal, betTypeMap, betStatusMap, betResultMap } from '@/utils/util';
 import Loading from '@/components/MbPageLoading';
 
 const FormItem = Form.Item;
@@ -120,21 +120,21 @@ class HistoryBetsContent extends Component {
             data.map((val) => (
             <div key={val.betId} className={styles.historyBets}>
               <div className={styles['bet-time-line']}>
-                <div className={styles.status}>{val.betStatus}</div>
+                <div className={styles.status}>{ betStatusMap[val.betStatus] }</div>
                 <div className={styles.time}>{ formatUTCToLocal(val.betTime)}</div>
                 <div className={styles.text1}>订单号：</div>
                 <div className={styles.time}>{val.betId}</div>
               </div>
-              <div>
+             <div>
                 {
-                  val.detailed.map((v) => (
+                  val.bizBetDetailVOList.map((v) => (
                     <div className={styles['bet-detail-line']} key={v.matchTime}>
                       <div>{ formatUTCToLocal(v.matchTime)}</div>
-                      <div>{v.hostName}<br/>{v.awayName}</div>
-                      <div>{v.oddName}</div>
+                      <div>{v.hostTeam}<br/>{v.awayTeam}</div>
+                      <div>{v.typeName}</div>
                       <div>{dishNameMap[v.choiceContent]}{v.choiceHandicap}</div>
                       <div>{v.dishRate}</div>
-                      <div>{v.resultFlag === null ? '未结算' : (v.resultFlag === '胜' ? <span style={{ color: '#ec0c0c' }}>{v.resultFlag}</span> : v.resultFlag)}</div>
+                      <div>{v.resultFlag === 1 ? <span style={{ color: '#ec0c0c' }}>{betResultMap[v.resultFlag]}</span> : betResultMap[v.resultFlag]}</div>
                     </div>
                   ))
                 }
@@ -142,7 +142,7 @@ class HistoryBetsContent extends Component {
               <div className={styles['bet-money-line']}>
                 <div className={styles.type}>{betTypeMap[val.betType]}</div>
                 <div className={styles.money}>押注金：￥{val.betMoney}</div>
-                <div className={styles.bonus}>{val.betStatus !== '等待结算' ? `返回金额：￥${val.bonusMoney}` : null}</div>
+                <div className={styles.bonus}>{val.betStatus !== 0 ? `返奖金额：￥${val.bonusMoney}` : null}</div>
               </div>
             </div>
           ))
