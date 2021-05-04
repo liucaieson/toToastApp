@@ -95,8 +95,7 @@ export default class Accordion extends Component {
                 <div className={styles.arrow}>
                   <Icon type="down"/>
                 </div>
-                :
-                <div className={styles.arrow}>
+                : <div className={styles.arrow}>
                   <Icon type="up"/>
                 </div>
             }

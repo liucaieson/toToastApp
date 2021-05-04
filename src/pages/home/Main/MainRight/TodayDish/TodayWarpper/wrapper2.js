@@ -8,11 +8,11 @@ import PaginationBox from '@/components/PaginationBox';
 import PageLoading from '@/components/MbPageLoading';
 import moment from 'moment';
 
-@connect(({ asianGG6And7, chsDB, showCompetitions, loading }) => ({
-  asianGG6And7,
+@connect(({ asianTodayGG6And7, chsDB, showCompetitions, loading }) => ({
+  asianTodayGG6And7,
   showCompetitions,
   chsDB,
-  loading: loading.models.asianGG6And7,
+  loading: loading.models.asianTodayGG6And7,
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
@@ -75,7 +75,7 @@ class Main extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'asianGG6And7/fetchMatchOdds',
+      type: 'asianTodayGG6And7/fetchMatchOdds',
       payload: params,
       callback: fn,
     });
@@ -102,7 +102,7 @@ class Main extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'asianGG6And7/fetchMatchOdds',
+      type: 'asianTodayGG6And7/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();
@@ -182,7 +182,7 @@ class Main extends PureComponent {
     const {
       title,
       gg,
-      asianGG6And7: {
+      asianTodayGG6And7: {
         count, current
       },
     } = this.props;
@@ -201,7 +201,8 @@ class Main extends PureComponent {
                 onCountDownRef={this.onCountDownRef}
                 time="60"
                 onEnd={this.setTimeFetchMatchList}/>
-              s</span>
+              s
+            </span>
           </div>
           <div className={styles['competitions-select']} onClick={this.showCompetitionsModal}>选择联赛</div>
           <div className={styles.mixed} onClick={this.turnToAsianMixed}>混合过关</div>
@@ -224,7 +225,7 @@ class Main extends PureComponent {
                     </div>
                 }
               </div>
-              <div className={styles['to-top']} onClick={this.gotoTop}/>
+              <div className={styles['to-top']} onClick={this.gotoTop} />
             </div>
           }
         </div>
@@ -233,7 +234,6 @@ class Main extends PureComponent {
           fn={this.fetchMatchOddsWithCompetitions}
         />
       </div>
-
     );
   }
 }

@@ -256,7 +256,8 @@ class Main extends PureComponent {
                 onCountDownRef={this.onCountDownRef}
                 time="60"
                 onEnd={this.setTimeFetchMatchList}/>
-              s</span>
+              s
+            </span>
           </div>
           <div
             className={styles['competitions-select']}

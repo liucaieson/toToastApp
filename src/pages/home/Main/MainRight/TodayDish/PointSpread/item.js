@@ -48,10 +48,10 @@ class PointSpreadItem extends PureComponent {
               matchData.map((v) => (
                 <Row className={styles['match-line-box']} key={v.matchId}>
                   <Row className={styles['match-line']}>
-                    <Col span={2} className={styles['match-time']}>
+                    <Col span={3} className={styles['match-time']}>
                       {calcDateToMonthAndDay(v.time)}
                     </Col>
-                    <Col span={6} className={styles['match-team']}>
+                    <Col span={5} className={styles['match-team']}>
                       <div>{v.homeName}</div>
                       <div>{v.awayName}</div>
                       <div>和局</div>

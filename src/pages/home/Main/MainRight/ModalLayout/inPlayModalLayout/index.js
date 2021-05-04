@@ -45,7 +45,7 @@ class ModalLayout extends PureComponent {
       },
     });
 
-    this.timer = setInterval(() => {
+   /* this.timer = setInterval(() => {
       const { prevPeriod } = this.state;
       let minute = prevPeriod.split(':')[0];
       let second = prevPeriod.split(':')[1];
@@ -68,10 +68,10 @@ class ModalLayout extends PureComponent {
           prevPeriod: newPeriod
         })
       }
-    }, 1000)
+    }, 1000) */
   }
 
-  static getDerivedStateFromProps (props, state) {
+/*  static getDerivedStateFromProps (props, state) {
     if (props.inPlay.inPlayAllOdds &&
       props.inPlay.inPlayAllOdds[0] &&
       props.inPlay.inPlayAllOdds[0].period !== state.calcPeriod
@@ -82,7 +82,7 @@ class ModalLayout extends PureComponent {
       }
     }
     return null
-  }
+  } */
 
   componentWillUnmount() {
     window.clearInterval(this.timer);
@@ -164,14 +164,14 @@ class ModalLayout extends PureComponent {
                       </div>
                       <div className={styles.team}>
                         <div className={styles['home-name']}>{inPlayAllOdds[0].homeName}</div>
-                        <div className={styles.vs}>vs</div>
+                        <div className={styles.vs}>{inPlayAllOdds[0].soccer}</div>
                         <div className={styles['away-name']}>{inPlayAllOdds[0].awayName}</div>
                       </div>
                       <div className={styles.period}>
                         <div className={styles.interval}>
                           <Icon type="clock-circle" className={styles.icon} />
                         {
-                          inPlayAllOdds[0].goOnFlag === 0 ? inPlayAllOdds[0].period : prevPeriod
+                         inPlayAllOdds[0].period
                         }
                         </div>
                       </div>

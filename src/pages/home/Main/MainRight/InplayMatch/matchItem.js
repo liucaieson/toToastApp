@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import styles from './index.scss';
 import IndexDishItem from './indexDishItem';
 import ModalLayout from '../ModalLayout/inPlayModalLayout';
+import { formatUTCToLocalWithoutYearSecond } from '@/utils/util';
 
 @connect(({ chsDB, inPlayFavorite, inPlay, betShopCart, loading }) => ({
   chsDB,
@@ -18,7 +19,7 @@ class InplayMatchItem extends PureComponent {
     isShow: false,
   };
 
-  componentDidMount() {
+ /* componentDidMount() {
     this.timer = window.setInterval(() => {
       const { prevPeriod } = this.state;
 
@@ -40,9 +41,9 @@ class InplayMatchItem extends PureComponent {
         prevPeriod: newPeriod
       });
     }, 1000);
-  }
+  } */
 
-  static getDerivedStateFromProps(props, state) {
+ /* static getDerivedStateFromProps(props, state) {
     if (state.prevPeriod === 0) {
       return {
         prevPeriod: props.period,
@@ -55,7 +56,7 @@ class InplayMatchItem extends PureComponent {
     }
     return null;
   }
-
+*/
   componentWillUnmount() {
     window.clearInterval(this.timer);
   }
@@ -105,19 +106,18 @@ class InplayMatchItem extends PureComponent {
         <Row className={styles['match-line']}>
           <Col span={2} className={styles['match-time']}>
             {
-              isInPlay === 0 ?
+              /* isInPlay === 0 ?
                 <div>
-                  {time.substring(4, 6)}-{time.substring(6, 8)}
-                  <br/>
-                  {time.substring(8, 10)}:{time.substring(10, 12)}
+                  {formatUTCToLocalWithoutYearSecond(time)}
                 </div>
                 :
+                 */
                 <div>
                   <div className={styles.soccer}>
                     {soccer}
                   </div>
                   <div className={styles.period}>
-                    {prevPeriod}
+                    {period}
                   </div>
                 </div>
             }

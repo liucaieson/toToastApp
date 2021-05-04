@@ -5,13 +5,13 @@ import styles from './index.scss';
 import Item from './item';
 import TodayWrapper from '../TodayWarpper/wrapper1';
 
-@connect(({ asianGG }) => ({
-  asianGG,
+@connect(({ asianTodayGG }) => ({
+  asianTodayGG,
 }))
 class Mixed extends PureComponent {
   render() {
     const {
-      asianGG: {
+      asianTodayGG: {
         cptIds, matchListObj,
       },
     } = this.props;

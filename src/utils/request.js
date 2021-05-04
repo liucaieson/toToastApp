@@ -88,7 +88,7 @@ function proxyRequest(url, options) {
     if (response.code === '200') {
       return response.result;
     }
-      return false
+      return { data: [] }
   }).catch((e) => {
      console.log(e)
      return false

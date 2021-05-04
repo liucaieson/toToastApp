@@ -26,7 +26,7 @@ export async function loginApp(params) {
 
 /* 获取用户信息接口 */
 export async function getUserInfo() {
-  return request(`${baseUrl}/client/getUserInfo?accessCode=${sessionStorage.getItem('accessCode')}`);
+  return request(`${baseUrl}/?accessCode=${sessionStorage.getItem('accessCode')}`);
 }
 
 

@@ -1,5 +1,4 @@
 import moment from 'moment';
-import React from 'react';
 
 moment.locale('zh-cn');
 
@@ -176,6 +175,9 @@ export const formatUTCToLocal = (date) => {
 
 export const formatUTCToLocalWithoutYear = (date) => {
   return moment(date).local().format('MM-DD HH:mm:ss')
+};
+export const formatUTCToLocalWithoutYearSecond = (date) => {
+  return moment(date).local().format('MM-DD HH:mm')
 };
 
 export const calcDateToMonthAndDay = (date) => {

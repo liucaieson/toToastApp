@@ -66,9 +66,12 @@
             height: $height7;
             .match-time {
               height: $height7;
-              padding-top: 15px;
               text-align: center;
+              display: flex;
+              align-items: center;
+              justify-content: center;
               border-right: 1px solid $border-color2;
+              padding: 0 6px;
               .soccer{
                 font-weight: 600;
               }
@@ -80,7 +83,7 @@
                   content: '';
                   width: 14px;
                   height: 14px;
-                  left: 8px;
+                  left: 3px;
                   top: 9px;
                   position: absolute;
                   background-image: url("../../../../../assets/liebiao-anniu.png");

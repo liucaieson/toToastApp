@@ -25,8 +25,8 @@ class HistoryBetsContent extends Component {
         userId,
         page: 1,
         size: 5,
-        betStatus: this.defaultParams
-      }
+        betStatus: this.defaultParams,
+      },
     });
   }
 
@@ -39,8 +39,8 @@ class HistoryBetsContent extends Component {
         sport: '1',
         page,
         size: 5,
-        betStatus: this.defaultParams
-      }
+        betStatus: this.defaultParams,
+      },
     });
   };
 
@@ -58,7 +58,7 @@ class HistoryBetsContent extends Component {
           userId,
           page: 1,
           size: 5,
-          betStatus
+          betStatus,
         },
       });
     });
@@ -74,7 +74,7 @@ class HistoryBetsContent extends Component {
           <Col md={8} sm={24}>
             <FormItem label="状态查询">{
               getFieldDecorator('betStatus', {
-                initialValue: ''
+                initialValue: '',
               })(
                 <Select className={styles['status-result-select']}>
                   <Select.Option value="" key="a">
@@ -86,7 +86,7 @@ class HistoryBetsContent extends Component {
                   <Select.Option value="1" key="1">
                     已结算
                   </Select.Option>
-                </Select>
+                </Select>,
               )
             }
             </FormItem>
@@ -116,46 +116,51 @@ class HistoryBetsContent extends Component {
         </div>
         {
           loading ?
-            <Loading /> :
-            data.map((val) => (
-            <div key={val.betId} className={styles.historyBets}>
-              <div className={styles['bet-time-line']}>
-                <div className={styles.status}>{ betStatusMap[val.betStatus] }</div>
-                <div className={styles.time}>{ formatUTCToLocal(val.betTime)}</div>
-                <div className={styles.text1}>订单号：</div>
-                <div className={styles.time}>{val.betId}</div>
-              </div>
-             <div>
-                {
-                  val.bizBetDetailVOList.map((v) => (
-                    <div className={styles['bet-detail-line']} key={v.matchTime}>
-                      <div>{ formatUTCToLocal(v.matchTime)}</div>
-                      <div>{v.hostTeam}<br/>{v.awayTeam}</div>
-                      <div>{v.typeName}</div>
-                      <div>{dishNameMap[v.choiceContent]}{v.choiceHandicap}</div>
-                      <div>{v.dishRate}</div>
-                      <div>{v.resultFlag === 1 ? <span style={{ color: '#ec0c0c' }}>{betResultMap[v.resultFlag]}</span> : betResultMap[v.resultFlag]}</div>
-                    </div>
-                  ))
-                }
-              </div>
-              <div className={styles['bet-money-line']}>
-                <div className={styles.type}>{betTypeMap[val.betType]}</div>
-                <div className={styles.money}>押注金：￥{val.betMoney}</div>
-                <div className={styles.bonus}>{val.betStatus !== 0 ? `返奖金额：￥${val.bonusMoney}` : null}</div>
-              </div>
-            </div>
-          ))
+            <Loading/> :
+            data.length > 0 ?
+              data.map((val) => (
+                <div key={val.betId} className={styles.historyBets}>
+                  <div className={styles['bet-time-line']}>
+                    <div className={styles.status}>{betStatusMap[val.betStatus]}</div>
+                    <div className={styles.time}>{formatUTCToLocal(val.betTime)}</div>
+                    <div className={styles.text1}>订单号：</div>
+                    <div className={styles.time}>{val.betId}</div>
+                  </div>
+                  <div>
+                    {
+                      val.bizBetDetailVOList.map((v) => (
+                        <div className={styles['bet-detail-line']} key={v.matchTime}>
+                          <div>{formatUTCToLocal(v.matchTime)}</div>
+                          <div>{v.hostTeam}<br/>{v.awayTeam}</div>
+                          <div>{v.typeName}</div>
+                          <div>{dishNameMap[v.choiceContent]}{v.choiceHandicap}</div>
+                          <div>{v.dishRate}</div>
+                          <div>{v.resultFlag === 1 ? <span
+                            style={{ color: '#ec0c0c' }}>{betResultMap[v.resultFlag]}</span> : betResultMap[v.resultFlag]}</div>
+                        </div>
+                      ))
+                    }
+                  </div>
+                  <div className={styles['bet-money-line']}>
+                    <div className={styles.type}>{betTypeMap[val.betType]}</div>
+                    <div className={styles.money}>押注金：￥{val.betMoney}</div>
+                    <div className={styles.bonus}>{val.betStatus !== 0 ? `返奖金额：￥${val.bonusMoney}` : null}</div>
+                  </div>
+                </div>
+              )) : <div className="match-loading">暂无数据</div>
         }
-        <div className={styles['pagination-box']}>
-          <Pagination
-            total={count}
-            current={current}
-            defaultCurrent={1}
-            pageSize={5}
-            onChange={this.handleTableChange}
-          />
-        </div>
+        {
+          count > 9 && <div className={styles['pagination-box']}>
+            <Pagination
+              total={count}
+              current={current}
+              defaultCurrent={1}
+              pageSize={5}
+              onChange={this.handleTableChange}
+            />
+          </div>
+        }
+
       </div>
     );
   }

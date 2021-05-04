@@ -8,12 +8,12 @@ import CompetitionsModal from '../../competitonsModal/index';
 import PaginationBox from '@/components/PaginationBox';
 import PageLoading from '@/components/MbPageLoading';
 
-@connect(({ asianGG, dates, chsDB, showCompetitions, loading }) => ({
-  asianGG,
+@connect(({ asianTodayGG, dates, chsDB, showCompetitions, loading }) => ({
+  asianTodayGG,
   showCompetitions,
   dates,
   chsDB,
-  loading: loading.models.asianGG,
+  loading: loading.models.asianTodayGG,
   matchAllOddsLoading: loading.models.matchAllOdds,
 }))
 class Main extends PureComponent {
@@ -68,7 +68,7 @@ class Main extends PureComponent {
     }
     const { dispatch } = this.props;
     dispatch({
-      type: 'asianGG/fetchMatchOdds',
+      type: 'asianTodayGG/fetchMatchOdds',
       payload: params,
       callback: fn,
     });
@@ -95,7 +95,7 @@ class Main extends PureComponent {
     };
     const { dispatch } = this.props;
     dispatch({
-      type: 'asianGG/fetchMatchOdds',
+      type: 'asianTodayGG/fetchMatchOdds',
       payload: params,
       callback: () => {
         this.countRef.reset();
@@ -175,7 +175,7 @@ class Main extends PureComponent {
     const {
       title,
       gg,
-      asianGG: {
+      asianTodayGG: {
         count, current
       },
     } = this.props;

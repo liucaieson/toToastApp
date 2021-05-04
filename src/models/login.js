@@ -6,11 +6,10 @@ export default {
 
   state: {
     isLogin: false,
-    token: {
-    },
+    token: {},
   },
   effects: {
-    *login({ payload, callback }, { call, put }) {
+    * login({ payload, callback }, { call, put }) {
       const data = yield call(loginApp, payload);
       yield put({
         type: 'save',
@@ -18,8 +17,8 @@ export default {
       });
       if (callback) callback(data);
     },
-    *logout(_, { put }) {
-      sessionStorage.clear()
+    * logout(_, { put }) {
+      sessionStorage.clear();
       window.location.replace('/401');
       yield put({
         type: 'change',
@@ -27,7 +26,7 @@ export default {
       });
     },
     /* 改变登录状态 */
-    *changeLoginStatus({ payload }, { put }) {
+    * changeLoginStatus({ payload }, { put }) {
       const { isLogin } = payload;
       yield put({
         type: 'change',

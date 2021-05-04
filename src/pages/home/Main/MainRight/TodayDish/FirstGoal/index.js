@@ -5,13 +5,13 @@ import styles from './index.scss';
 import Item from './item';
 import TodayWrapper from '../TodayWarpper/wrapper2';
 
-@connect(({ asianGG6And7 }) => ({
-  asianGG6And7,
+@connect(({ asianTodayGG6And7 }) => ({
+  asianTodayGG6And7,
 }))
 class FirstGoal extends PureComponent {
   render() {
     const {
-      asianGG6And7: {
+      asianTodayGG6And7: {
         cptIds, matchListObj
       },
     } = this.props;
